@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import api from '@/axios';
+
+// #region Rotas
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,17 +20,34 @@ const router = createRouter({
       path: '/ias',
       name: 'IAs',
       component: () => import('@/views/IAs/IAs.vue'),
+      meta: {requiresAuth: true}
     },
   ],
 })
+// #endregion
 
-router.beforeEach((to, from, next) => {
+// #region Bloqueio de Rotas
+
+router.beforeEach(async(to, from, next) => {
   const token = localStorage.getItem('token');
-  if (to.meta.requiresAuth && !token) {
-    next('/cadastrar');
-  } else {
-    next();
+
+  if( to.meta.requiresAuth && !token){
+    alert("faça login/cadastro primeiramente")
+    return next("/cadastrar")
   }
+
+  if (token) {
+    try {
+      await api.get('/validate')
+      return next()
+    } catch {
+      localStorage.removeItem('token')
+      return next('/cadastrar')
+    }
+  }
+
+  next()
 });
+// #endregion
 
 export default router

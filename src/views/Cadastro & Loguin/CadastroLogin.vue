@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import api from '@/axios'
 import { useRouter } from 'vue-router'
+import header1 from '@/components/Componentes Globais/AppHeader.vue'
+
+// #region Cadastro & Loguin
 // tela ativa (cadastro / login)
 const tela = ref('cadastro')
 const router = useRouter()
@@ -106,9 +109,11 @@ async function login() {
     return
   }
 
+  // Envia os dados eaparece nas logs
   console.log('Tentando login com email:', emailLogin.value)
   console.log('Dados enviados:', { email: emailLogin.value, password: senhaLogin.value })
 
+  // Validar o loguin
   try {
     const res = await api.post('/login', {
       email: emailLogin.value,
@@ -117,6 +122,7 @@ async function login() {
     console.log('Resposta do login:', res)
     console.log('Token recebido:', res.data.token)
     localStorage.setItem('token', res.data.token)
+    console.log('Token armazenado no localStorage:', localStorage.getItem('token'))
     alert('Logado com sucesso!')
     router.push('/')
   } catch (err) {
@@ -135,8 +141,12 @@ function toggleSenhaCadastro() {
 function toggleSenhaLogin() {
   mostrarSenhaLogin.value = !mostrarSenhaLogin.value
 }
+// #endregion
+
+
 </script>
 <template>
+  <header1 />
   <main class="container ativo">
     <!-- CADASTRO -->
     <div class="card" v-show="tela === 'cadastro'">
@@ -151,7 +161,7 @@ function toggleSenhaLogin() {
       <div class="senha-container">
         <input v-model="senhaCadastro" :type="mostrarSenhaCadastro ? 'text' : 'password'" placeholder="Senha"
           class="input-senha" />
-        <div class="toggle-senha" >
+        <div class="toggle-senha">
           <span @click="toggleSenhaCadastro">{{ mostrarSenhaCadastro ? '😎' : '👀' }}</span>
         </div>
       </div>

@@ -1,4 +1,10 @@
 <script setup>
+// Footer 1
+import footer1 from "@/components/Componentes Globais/AppFooter.vue"
+
+// Header 1
+import header1 from "@/components/Componentes Globais/AppHeader.vue"
+
 // Cards dos Objetivos
 import CardsObjetivos from '@/components/Home/S2Cards.vue'
 
@@ -13,6 +19,7 @@ import CardFinal from '@/components/Home/S5Cards.vue'
 
 </script>
 <template>
+  <header1 />
   <main>
     <section class="s1">
       <div>
@@ -34,6 +41,7 @@ import CardFinal from '@/components/Home/S5Cards.vue'
 
     <card-final />
   </main>
+  <footer1 />
 </template>
 <style scoped>
 main {

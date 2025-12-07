@@ -1,45 +1,86 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 
-function handleScroll() {
-  const percent = window.scrollY / (document.body.scrollHeight - window.innerHeight)
+// #region Configs Menu
+  // #region Header sumindo
 
-  if (percent > 0.1) {
-    // 0.1 = 10%
-    document.querySelector('header').classList.add('hidden')
-  } else {
-    document.querySelector('header').classList.remove('hidden')
+  function handleScroll() {
+    const percent = window.scrollY / (document.body.scrollHeight - window.innerHeight)
+
+    if (percent > 0.1) {
+      // 0.1 = 10%
+      document.querySelector('header').classList.add('hidden')
+    } else {
+      document.querySelector('header').classList.remove('hidden')
+    }
+  }
+// #endregion
+  // #region Sair do Menu Lateral
+    function handleKeydown(e) {
+      if (e.key === 'Escape') {
+        menuOpen.value = false
+      }
+    }
+
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll)
+      document.addEventListener('keydown', handleKeydown)
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('keydown', handleKeydown)
+    })
+
+    const menuOpen = ref(false)
+    watch(menuOpen, (open) => {
+      document.body.style.overflow = open ? 'hidden' : ''
+      document.documentElement.style.overflow = open ? 'hidden' : ''
+      document.body.style.touchAction = open ? 'none' : ''
+    })
+  // #endregion
+// #endregion
+// #region Gerador header
+
+const headerData = {
+  logo: {
+    src: '/if-design-svgrepo-com.svg',
+    alt: 'Logo IF'
+  },
+  menu: [
+    { label: 'Home', to: '/' },
+    { label: 'Cadastrar', to: '/cadastrar' },
+  ]
+}
+
+// #endregion
+
+const token = localStorage.getItem('token')
+
+// #region Routes links
+let newLinks = [
+  { label: 'Ias', to: '/ias' }
+]
+// #endregion
+
+async function applyTokenLinks() {
+  const tokenTest = token
+
+  if (!tokenTest) return
+
+  for (let item of newLinks) {
+    headerData[1].menu.push(item)
   }
 }
 
-function handleKeydown(e) {
-  if (e.key === 'Escape') {
-    menuOpen.value = false
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-  document.addEventListener('keydown', handleKeydown)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', handleScroll)
-  document.removeEventListener('keydown', handleKeydown)
-})
-
-const menuOpen = ref(false)
-watch(menuOpen, (open) => {
-  document.body.style.overflow = open ? 'hidden' : ''
-  document.documentElement.style.overflow = open ? 'hidden' : ''
-  document.body.style.touchAction = open ? 'none' : ''
-})
+applyTokenLinks()
 </script>
 <template>
   <header>
     <div>
-      <img src="/if-design-svgrepo-com.svg" alt="Logo IF" />
+      <img :src="headerData.logo.src" :alt="headerData.logo.alt" />
     </div>
+
     <div class="links" :class="{ open: menuOpen }">
       <button
         class="menu-toggle"
@@ -51,18 +92,18 @@ watch(menuOpen, (open) => {
       >
         <span></span><span></span><span></span>
       </button>
+
       <ul id="menu">
-        <li>
-          <router-link to="/" @click="menuOpen = false">Home</router-link>
-        </li>
-        <li>
-          <router-link to="/cadastrar" @click="menuOpen = false">Cadastrar</router-link>
+        <li v-for="item in headerData.menu" :key="item.to">
+          <router-link :to="item.to" @click="menuOpen = false">
+            {{ item.label }}
+          </router-link>
         </li>
       </ul>
     </div>
   </header>
   <teleport to="body">
-    <div class="menu-backdrop" v-if="menuOpen" @click="menuOpen = false"></div>
+    <div class="menu-backdrop" :class="{ show: menuOpen }" v-show="menuOpen" @click="menuOpen = false"></div>
   </teleport>
 </template>
 <style scoped>
@@ -117,12 +158,12 @@ header .links {
   position: relative;
 }
 
-  header .links ul {
-    display: flex;
-    gap: 4vw;
-    margin-right: 2vw;
-    cursor: pointer;
-  }
+header .links ul {
+  display: flex;
+  gap: 4vw;
+  margin-right: 2vw;
+  cursor: pointer;
+}
 
 header .links ul li a {
   font-size: large;
@@ -148,6 +189,7 @@ header .links ul li a {
   background: rgba(0, 0, 0, 0.6);
   color: white;
 }
+
 .menu-toggle span {
   display: block;
   width: 22px;
@@ -161,9 +203,10 @@ header .links ul li a {
   header {
     padding: 12px 16px;
   }
+
   header .links ul {
     position: fixed;
-    top: 0;
+    top: -11%;
     right: 0;
     height: 100vh;
     width: min(75vw, 320px);
@@ -175,7 +218,7 @@ header .links ul li a {
     align-items: flex-start;
     justify-content: flex-start;
     padding: 5rem 1.5rem 2rem;
-    gap: 1rem;
+    gap: 2rem;
     margin-right: 0;
     transform: translateX(120%);
     transition: transform 0.3s ease;
@@ -185,7 +228,7 @@ header .links ul li a {
   }
 
   header .links.open ul {
-    transform: translateX(12%);
+    transform: translateX(20%);
   }
 
   .menu-toggle {
@@ -196,29 +239,45 @@ header .links ul li a {
   header .links ul li a {
     font-size: 1.1rem;
     color: #fff;
-    padding: 12px 14px;
+    padding: 9px 10px;
     border-radius: 10px;
     transition: background 0.2s ease;
+    background: rgba(40, 40, 40, 0);
   }
+
   header .links ul li a:hover {
     background: rgba(255, 255, 255, 0.08);
+    color: #fff;
   }
 
   .links.open .menu-toggle span:nth-child(1) {
     transform: translateY(5px) rotate(45deg);
   }
+
   .links.open .menu-toggle span:nth-child(2) {
     opacity: 0;
   }
+
   .links.open .menu-toggle span:nth-child(3) {
     transform: translateY(-6px) rotate(-45deg);
   }
 
   .menu-backdrop {
+    position: fixed;
     inset: 0;
-    background: rgba(255, 0, 0, 0.35);
+    background: rgba(63, 63, 63, 0.35);
     backdrop-filter: blur(1px);
     z-index: 100000;
+
+    transform: translateX(-120%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
   }
+
+  .menu-backdrop.show {
+    transform: translateX(-30.5%);
+    opacity: 1;
+  }
+
 }
 </style>
