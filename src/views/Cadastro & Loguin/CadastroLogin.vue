@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import api from '@/axios'
 import { useRouter } from 'vue-router'
-import header1 from '@/components/Componentes Globais/AppHeader.vue'
 
 // #region Cadastro & Loguin
 // tela ativa (cadastro / login)
@@ -146,10 +145,9 @@ function toggleSenhaLogin() {
 
 </script>
 <template>
-  <header1 />
   <main class="container ativo">
     <!-- CADASTRO -->
-    <div class="card" v-show="tela === 'cadastro'">
+    <form class="card" v-show="tela === 'cadastro'" @submit.prevent="cadastrar">
       <h2>Cadastro</h2>
 
       <input v-model="nomeCadastro" placeholder="Nome" />
@@ -167,16 +165,16 @@ function toggleSenhaLogin() {
       </div>
       <span class="erro">{{ erroSenha }}</span>
 
-      <button @click="cadastrar">Cadastrar</button>
+      <button type="submit">Cadastrar</button>
 
       <p class="switch">
         Já tem conta?
         <a @click="tela = 'login'">Entrar</a>
       </p>
-    </div>
+    </form>
 
     <!-- LOGIN -->
-    <div class="card" v-show="tela === 'login'">
+    <form class="card" v-show="tela === 'login'" @submit.prevent="login">
       <h2>Login</h2>
 
       <input v-model="emailLogin" placeholder="Email" />
@@ -191,13 +189,13 @@ function toggleSenhaLogin() {
       </div>
       <span class="erro">{{ erroLoginSenha }}</span>
 
-      <button @click="login">Entrar</button>
+      <button type="submit">Entrar</button>
 
       <p class="switch">
         Ainda não tem conta?
         <a @click="tela = 'cadastro'">Cadastrar</a>
       </p>
-    </div>
+    </form>
   </main>
 </template>
 

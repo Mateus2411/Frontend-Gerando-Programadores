@@ -15,6 +15,7 @@ const router = createRouter({
       path: '/cadastrar',
       name: 'cadastrar',
       component: () => import('@/views/Cadastro & Loguin/CadastroLogin.vue'),
+      meta: { hideFooter: true},
     },
     {
       path: '/ias',

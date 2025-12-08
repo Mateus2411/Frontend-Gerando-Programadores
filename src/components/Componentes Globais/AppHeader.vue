@@ -55,13 +55,18 @@ const headerData = {
 
 // #endregion
 
+//token
 const token = localStorage.getItem('token')
 
-// #region Routes links
+// #region Rotas a serem colocadas
+
 let newLinks = [
   { label: 'Ias', to: '/ias' }
 ]
+
 // #endregion
+
+// #region Validador de Token e Ativador de rotas protegidas
 
 async function applyTokenLinks() {
   const tokenTest = token
@@ -69,11 +74,13 @@ async function applyTokenLinks() {
   if (!tokenTest) return
 
   for (let item of newLinks) {
-    headerData[1].menu.push(item)
+    headerData.menu.push(item)
   }
 }
 
 applyTokenLinks()
+// #endregion
+
 </script>
 <template>
   <header>
@@ -107,7 +114,6 @@ applyTokenLinks()
   </teleport>
 </template>
 <style scoped>
-/* CSS */
 * {
   margin: 0;
   padding: 0;

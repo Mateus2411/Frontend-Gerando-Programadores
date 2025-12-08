@@ -33,7 +33,6 @@ section {
   padding: 3rem 2rem;
   background: #ffffff;
   border: 1px solid #e0e0e0;
-  border-radius: 20px;
   box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.6s ease;
 }

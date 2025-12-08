@@ -1,11 +1,15 @@
 <script setup>
+  import AppHeader from './components/Componentes Globais/AppHeader.vue';
+  import AppFooter from './components/Componentes Globais/AppFooter.vue';
 </script>
 <template>
+  <app-header/>
   <div id="layout">
     <main>
       <router-view />
     </main>
   </div>
+  <app-footer v-if="!$route.meta.hideFooter" />
 </template>
 
 <style>

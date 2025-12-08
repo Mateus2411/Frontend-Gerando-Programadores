@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import AppIAs from '@/components/IAs/AppIAs.vue'
-import header1 from '@/components/Componentes Globais/AppHeader.vue'
 
 const title = ref(null)
 
@@ -31,7 +30,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <header1/>
   <section class="s1">
     <div>
       <h1>Inteligências Artificiais</h1>
@@ -53,7 +51,6 @@ onMounted(() => {
     </div>
     <AppIAs />
   </section>
-
 </template>
 <style>
 section.s1 {
