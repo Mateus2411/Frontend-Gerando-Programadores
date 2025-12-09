@@ -7,8 +7,8 @@ import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 function handleScroll() {
   const percent = window.scrollY / (document.body.scrollHeight - window.innerHeight)
 
-  if (percent > 0.1) {
-    // 0.1 = 10%
+  if (percent > 0.05) {
+    // 0.05 = 5%
     document.querySelector('header').classList.add('hidden')
   } else {
     document.querySelector('header').classList.remove('hidden')

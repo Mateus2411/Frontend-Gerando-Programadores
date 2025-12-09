@@ -21,7 +21,13 @@ const comoFunciona = {
     <h2>{{ comoFunciona.titulo }}</h2>
     <ul>
       <li v-for="p in comoFunciona.paragrafos" :key="p.id">
-        <p v-html="p.texto"></p>
+        <p v-if="p.id === 1">
+          O processo é dividido em três etapas claras: <router-link
+            to="/cadastrar"><strong id="link">Cadastre-se</strong></router-link> para ter seu acesso, <strong>Explore os
+            Módulos</strong> com conteúdo de programação e, o mais importante, <strong>Faça Nossos Desafios</strong>
+          práticos.
+        </p>
+        <p v-else v-html="p.texto"></p>
       </li>
     </ul>
   </section>
@@ -37,7 +43,7 @@ section {
   padding: 3rem 2rem;
   background: #fff;
   border: 1px solid #e0e0e0;
-  box-shadow: 0 8px 35px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.6s ease;
 }
 
@@ -66,7 +72,6 @@ section ul li p {
   font-weight: 700;
   color: #4a73ff;
 }
-
 /* ======================
    RESPONSIVIDADE REAL
    ====================== */

@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import AppIAs from '@/components/IAs/AppIAs.vue'
+import AppIAs from '@/components/IAs/CardsS2.vue'
+import AppEducaCard from '@/components/IAs/S3A.vue'
+import AppIasS4 from '@/components/IAs/IasCadsS4.vue'
 
 const title = ref(null)
 
@@ -10,7 +12,7 @@ onMounted(() => {
       if (entry.isIntersecting) {
         title.value.style.animation =
           "typing 3s steps(45) forwards, blink .7s infinite";
-        observer.unobserve(title.value) // só anima uma vez
+        observer.unobserve(title.value)
       }
     })
   })
@@ -51,6 +53,8 @@ onMounted(() => {
     </div>
     <AppIAs />
   </section>
+  <AppEducaCard/>
+  <AppIasS4/>
 </template>
 <style>
 section.s1 {
@@ -113,7 +117,7 @@ section.s1 a {
   section.s1 {
     flex-direction: column;
     text-align: center;
-    margin-top: 20vw;
+    margin-top: 30vw;
   }
 
   section.s1>div {

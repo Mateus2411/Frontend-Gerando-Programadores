@@ -13,26 +13,30 @@ const cards = [
       'IAs modernas aprendem com o estilo e o comportamento de cada pessoa. Elas moldam a linguagem, as sugestões e a forma de responder conforme o uso. Isso torna a experiência mais natural e personalizada a cada interação.',
   },
 ]
-
-{
-  cards
-}
 </script>
 <template>
-  <div class="cards-container">
-    <div v-for="card in cards" :key="card.title" class="card">
-      <h3>{{ card.title }}</h3>
-      <p>{{ card.description }}</p>
+  <section class="s2">
+    <div class="cards-container">
+      <div v-for="card in cards" :key="card.title" class="card">
+        <h3>{{ card.title }}</h3>
+        <p>{{ card.description }}</p>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 <style scoped>
+
+section.s2 {
+  margin: 1.2rem 0;
+}
+
 .cards-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   max-width: clamp(55%, 60%, 100%);
 }
+
 @media (min-width: 300px) {
   .cards-container {
     max-width: 100%;
