@@ -6,7 +6,8 @@ Este README é para quem quiser **rodar e testar o frontend** desenvolvido em **
 
 ## 🚀 Sobre o Projeto
 
-Template simples em **Vue 3** utilizando **Vite**, ideal para rodar localmente e testar rapidamente.
+- Projeto Frontend em Vue.js, criado com o objetivo de entender o framework na prática, integrado a um backend em Node.js para desenvolver a aplicação completa.
+- O site tem como propósito orientar novos alunos do IFC, oferecendo desafios, conteúdos, sites para estudo e materiais que auxiliem na compreensão das matérias. Além disso, busca ajudar o estudante a evoluir como programador, mesmo que ainda tenha pouca experiência.
 
 ---
 
@@ -24,7 +25,7 @@ Certifique-se de ter instalado:
 
 - **[VS Code](https://code.visualstudio.com/)**
 - Extensão **[Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)**  
-  *(lembrar de desabilitar o Vetur)*
+  _(lembrar de desabilitar o Vetur)_
 
 ---
 
@@ -40,7 +41,7 @@ Certifique-se de ter instalado:
 
 - **[Vue.js Devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)**
 - Ativar **Custom Object Formatter**:  
-[https://fxdx.dev/firefox-devtools-custom-object-formatters/](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+  [https://fxdx.dev/firefox-devtools-custom-object-formatters/](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
 ---
 
@@ -50,3 +51,4 @@ Para instalar todas as dependências:
 
 ```sh
 npm install
+```
