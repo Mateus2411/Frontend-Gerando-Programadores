@@ -54,7 +54,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 2rem 3.1rem 2rem;
+  padding: 2rem 2rem 5rem 2rem;
 
   position: relative;
   overflow: hidden;
@@ -62,7 +62,7 @@ main {
   background-image: url("https://media.istockphoto.com/id/1939609977/pt/foto/wooded-park.jpg?s=612x612&w=0&k=20&c=MgwZmKLzLovhZh-ekaP1iFIzJGiDfHUhrL7KZFpIlPs=");
   background-size: cover;
   background-position: center;
-  margin-bottom: 3rem;
+  margin-bottom: 5rem;
 }
 
 .s1::before {
@@ -124,6 +124,7 @@ main {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -135,7 +136,7 @@ main {
 @media (max-width: 768px) {
   .s1 {
     height: auto;
-    padding: 6rem 1.5rem 4rem 1.5rem;
+    padding: 12.5rem 1.5rem 12.5rem 1.5rem;
     text-align: center;
   }
 

@@ -23,6 +23,15 @@ const router = createRouter({
       component: () => import('@/views/IAs/IAs.vue'),
       meta: {requiresAuth: true}
     },
+    {
+      path: '/testecl',
+      name: 'TesteCL',
+      component: () => import('@/views/Cadastro & Loguin/TesteCL.vue'),
+      meta: {
+        requiresAuth: false,
+        hideFooter: true,
+      },
+    }
   ],
 })
 // #endregion

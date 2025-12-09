@@ -44,8 +44,7 @@ const conteudoS4 = [
   </section>
 </template>
 
-<style scoped>
-section {
+<style scoped>section {
   max-width: 1200px;
   margin: 5rem auto;
   padding: 2.5rem 1.5rem;
@@ -59,17 +58,18 @@ section h2 {
   text-align: center;
 }
 
-/* GRID base — funciona bem em qualquer tela */
 section ul {
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  display: flex;
+  flex-wrap: wrap;        /* quebra de linha */
   gap: 1.4rem;
   padding: 0;
+  margin: 0;
 }
 
-/* CARDS */
+/* -------- 3 por linha no DESKTOP -------- */
 section ul li {
+  flex: 1 1 calc(33.333% - 1.4rem);
   background: #ffffff;
   padding: 1.7rem;
   border-radius: 15px;
@@ -83,6 +83,7 @@ section ul li {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
+/* BARRA LATERAL */
 section ul li::before {
   content: '';
   position: absolute;
@@ -95,6 +96,7 @@ section ul li::before {
   transition: opacity 0.3s ease;
 }
 
+/* HOVER */
 section ul li:hover {
   transform: translateY(-4px);
   border-color: #4a73ff;
@@ -114,54 +116,38 @@ section ul li strong {
   display: block;
 }
 
-/* ------------ RESPONSIVIDADE REAL ------------ */
+/* ----------- RESPONSIVIDADE FLEX REAL ----------- */
 
-/* Tablets */
+/* Tablets — 2 por linha */
 @media (max-width: 900px) {
-  section {
-    margin: 4rem auto;
-    padding: 2rem 1.3rem;
-  }
-
-  section h2 {
-    font-size: 1.8rem;
-  }
-
-  section ul {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  section ul li {
+    flex: 1 1 calc(50% - 1.4rem);
   }
 }
 
-/* Celulares médios */
+/* Celulares — 1 por linha */
 @media (max-width: 600px) {
-  section {
-    margin: 3.5rem auto;
-    padding: 1.7rem 1rem;
+  section ul li {
+    flex: 1 1 100%;
+    padding: 1.4rem;
+    font-size: 0.95rem;
   }
 
   section h2 {
     font-size: 1.6rem;
   }
-
-  section ul li {
-    padding: 1.4rem;
-    font-size: 0.95rem;
-  }
 }
 
 /* Celulares pequenos */
 @media (max-width: 400px) {
-  section h2 {
-    font-size: 1.45rem;
-  }
-
-  section ul {
-    grid-template-columns: 1fr;
-  }
-
   section ul li {
     padding: 1.2rem;
     font-size: 0.9rem;
   }
+
+  section h2 {
+    font-size: 1.45rem;
+  }
 }
+
 </style>

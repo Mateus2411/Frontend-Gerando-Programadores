@@ -2,43 +2,43 @@
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 
 // #region Configs Menu
-  // #region Header sumindo
+// #region Header sumindo
 
-  function handleScroll() {
-    const percent = window.scrollY / (document.body.scrollHeight - window.innerHeight)
+function handleScroll() {
+  const percent = window.scrollY / (document.body.scrollHeight - window.innerHeight)
 
-    if (percent > 0.1) {
-      // 0.1 = 10%
-      document.querySelector('header').classList.add('hidden')
-    } else {
-      document.querySelector('header').classList.remove('hidden')
-    }
+  if (percent > 0.1) {
+    // 0.1 = 10%
+    document.querySelector('header').classList.add('hidden')
+  } else {
+    document.querySelector('header').classList.remove('hidden')
   }
+}
 // #endregion
-  // #region Sair do Menu Lateral
-    function handleKeydown(e) {
-      if (e.key === 'Escape') {
-        menuOpen.value = false
-      }
-    }
+// #region Sair do Menu Lateral
+function handleKeydown(e) {
+  if (e.key === 'Escape') {
+    menuOpen.value = false
+  }
+}
 
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll)
-      document.addEventListener('keydown', handleKeydown)
-    })
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  document.addEventListener('keydown', handleKeydown)
+})
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('scroll', handleScroll)
-      document.removeEventListener('keydown', handleKeydown)
-    })
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+  document.removeEventListener('keydown', handleKeydown)
+})
 
-    const menuOpen = ref(false)
-    watch(menuOpen, (open) => {
-      document.body.style.overflow = open ? 'hidden' : ''
-      document.documentElement.style.overflow = open ? 'hidden' : ''
-      document.body.style.touchAction = open ? 'none' : ''
-    })
-  // #endregion
+const menuOpen = ref(false)
+watch(menuOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : ''
+  document.documentElement.style.overflow = open ? 'hidden' : ''
+  document.body.style.touchAction = open ? 'none' : ''
+})
+// #endregion
 // #endregion
 // #region Gerador header
 
@@ -89,14 +89,8 @@ applyTokenLinks()
     </div>
 
     <div class="links" :class="{ open: menuOpen }">
-      <button
-        class="menu-toggle"
-        type="button"
-        :aria-expanded="menuOpen"
-        aria-controls="menu"
-        aria-label="Abrir menu"
-        @click="menuOpen = !menuOpen"
-      >
+      <button class="menu-toggle" type="button" :aria-expanded="menuOpen" aria-controls="menu" aria-label="Abrir menu"
+        @click="menuOpen = !menuOpen">
         <span></span><span></span><span></span>
       </button>
 
@@ -269,21 +263,27 @@ header .links ul li a {
   }
 
   .menu-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(63, 63, 63, 0.35);
-    backdrop-filter: blur(1px);
-    z-index: 100000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
 
-    transform: translateX(-120%);
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
-  }
+  /* ocupa tudo EXCETO o menu */
+  width: calc(100vw - min(85vw, 290px));
 
-  .menu-backdrop.show {
-    transform: translateX(-30.5%);
-    opacity: 1;
-  }
+  background: rgba(63, 63, 63, 0.35);
+  backdrop-filter: blur(1px);
+  z-index: 100000;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.menu-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 }
 </style>
