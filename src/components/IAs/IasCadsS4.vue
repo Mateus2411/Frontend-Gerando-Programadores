@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { ref } from 'vue'
 
 const IA_programacao = {
   aprendizagem: [
@@ -459,26 +459,28 @@ const IA_programacao = {
     },
   ],
 }
-const allItems = computed(() => [...IA_programacao.aprendizagem, ...IA_programacao.uso_dia_a_dia])
+
+let tipo = ref('uso_dia_a_dia')
 </script>
 
 <template>
-  <section class="s4">
+  <section class="ia-section">
+    <div class="btn-container">
+      <button @click="tipo = tipo === 'aprendizagem' ? 'uso_dia_a_dia' : 'aprendizagem'">
+        Alternar para {{ tipo === 'aprendizagem' ? 'Uso Diário' : 'Aprendizagem' }}
+      </button>
+    </div>
+
     <div
       class="item"
-      v-for="(item, index) in allItems"
+      v-for="(item, index) in IA_programacao[tipo]"
       :key="index"
       role="listitem"
       aria-label="ia-card"
     >
-      <!-- inner wrapper: animações aplicadas aqui (não altera layout) -->
       <div class="inner">
         <a :href="item.site" target="_blank" rel="noopener noreferrer">{{ item.nome }}</a>
-        <!-- resumo curto visível sempre (opcional) -->
-        <p class="title-short">{{ item.nome }}</p>
       </div>
-
-      <!-- descrição absoluta: não modifica o fluxo, apenas aparece sobre o card -->
       <div class="desc-wrap">
         <p class="desc">{{ item.desc }}</p>
       </div>
@@ -488,74 +490,77 @@ const allItems = computed(() => [...IA_programacao.aprendizagem, ...IA_programac
 
 <style scoped>
 /* ======================== BASE ======================== */
-section.s4 {
-  width: 100%;
+.ia-section {
   max-width: 1350px;
   margin: 0 auto;
-  padding: 2.5rem 1.4rem;
-
+  padding: 2.5rem 1.5rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.4rem;
-
   background: radial-gradient(circle at top left, #eef2ff, #f7f9ff 40%, #ffffff);
-  /* garante que elementos transformados não sejam cortados */
-  overflow: visible;
+  border-radius: 20px;
 }
 
-/* ======================== ITEM (CARD FIXO) ======================== */
-section.s4 > div {
-  background: #ffffff;
-  padding: 1.2rem 1.2rem;
+/* ======================== BOTÃO ======================== */
+.btn-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.btn-container button {
+  border: none;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #3d5afe, #7b98ff);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-container button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* ======================== CARD ======================== */
+.item {
+  background: #fff;
+  padding: 1.4rem;
   border-radius: 18px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 0.6rem;
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border 0.25s ease;
+  gap: 0.8rem;
   position: relative;
-  overflow: hidden;
-
-  /* 🔥 SOLUÇÃO: altura mínima controlada */
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
   min-height: 80px;
-  height: auto;
 }
 
-/* ======================== INNER (ANIMAÇÃO INTERNA) ======================== */
 .item .inner {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  transition:
-    transform 0.22s cubic-bezier(0.2, 0.9, 0.2, 1),
-    filter 0.22s ease;
+  gap: 0.5rem;
   transform-origin: center;
-  will-change: transform;
-  /* força camada de composição para evitar repaints no vizinho */
-  transform: translateZ(0);
+  transition: transform 0.22s cubic-bezier(0.2,0.9,0.2,1), filter 0.22s ease;
 }
 
-/* só o conteúdo interno escala — card em si não muda de box */
 .item:hover .inner {
   transform: scale(1.03);
   filter: brightness(1.03);
-  z-index: 3;
+  z-index: 2;
 }
 
-/* visual do card ao hover (sem alterar layout) */
 .item:hover {
   border-color: #9bb0ff;
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.12);
 }
 
-/* ======================== LINHA ANIMADA (baixo) ======================== */
+/* ======================== LINHA ANIMADA ======================== */
 .item::after {
   content: '';
   position: absolute;
@@ -566,108 +571,78 @@ section.s4 > div {
   background: linear-gradient(90deg, #3d5afe, #7b98ff);
   border-radius: 100px;
   transition: width 0.28s ease;
-  pointer-events: none;
 }
 
 .item:hover::after {
   width: 100%;
 }
 
-/* ======================== LINKS / TITULO ======================== */
+/* ======================== LINK ======================== */
 .item a {
   font-weight: 700;
   color: #1f3bff;
-  font-size: 0.95rem;
-  word-break: break-word;
+  font-size: 1rem;
   text-decoration: none;
+  word-break: break-word;
 }
 
 .item a:hover {
   color: #0028e6;
 }
 
-.item .title-short {
-  margin: 0;
-  font-size: 1.02rem;
-  color: #111827;
-  font-weight: 600;
-  line-height: 1.25;
-  display: none;
-  /* escondo duplicata curta; opcional */
-}
-
-/* ======================== DESC (ABSOLUTA) ======================== */
-/* descrição posicionada sem afetar fluxo — aparece sobre o card */
-.item .desc-wrap {
+/* ======================== DESCRIÇÃO ======================== */
+.desc-wrap {
   position: absolute;
   left: 1.2rem;
-  /* encaixa dentro do padding do card */
   right: 1.2rem;
   bottom: 1.2rem;
-  /* sobe a partir da base */
-  pointer-events: none;
-  /* evita que o overlay capture mouse por padrão */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
+  pointer-events: none;
   transform: translateY(10px);
-  transition:
-    transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1),
-    opacity 0.28s ease;
   opacity: 0;
-  z-index: 4;
-  /* acima do inner */
+  transition: transform 0.28s cubic-bezier(0.2,0.9,0.2,1), opacity 0.28s ease;
+  z-index: 3;
 }
 
-/* o parágrafo real */
-.item .desc {
-  pointer-events: auto;
-  /* quando visível, permite seleção/links se necessário */
-  margin: 0;
-  background: linear-gradient(180deg, rgba(234, 240, 255, 0.95), rgba(238, 242, 255, 0.95));
-  padding: 0.6rem 0.85rem;
-  border-radius: 10px;
-  color: #222;
-  font-size: 0.9rem;
-  box-shadow: 0 6px 18px rgba(18, 33, 88, 0.08);
-  border-left: 4px solid #345dff;
-}
-
-/* ativa a descrição no hover apenas do card corrente */
 .item:hover .desc-wrap {
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
 
-/* ======================== MOBILE: mostra sempre e adapta ======================== */
+.desc {
+  margin: 0;
+  padding: 0.6rem 0.85rem;
+  border-radius: 10px;
+  color: #222;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 18px rgba(18,33,88,0.08);
+}
+
+/* ======================== RESPONSIVO ======================== */
 @media (max-width: 650px) {
+  .ia-section {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
   .item {
     min-height: auto;
     padding-bottom: 3.2rem;
-    /* garante espaço para desc absoluta */
   }
 
-  .item .title-short {
-    display: block;
-  }
-
-  .item .desc-wrap {
+  .desc-wrap {
     position: static;
     transform: none;
     opacity: 1;
     pointer-events: auto;
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
   }
 
-  .item .desc {
+  .desc {
     width: 100%;
-  }
-
-  section.s4 {
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 }
 </style>

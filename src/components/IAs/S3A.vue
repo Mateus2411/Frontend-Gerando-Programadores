@@ -154,7 +154,7 @@ section.s3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(1.6rem, 3vw, 3.2rem);
-  width: 100%;
+  /* width: 100%; */
   max-width: 1200px;
   margin-inline: auto;
 }
