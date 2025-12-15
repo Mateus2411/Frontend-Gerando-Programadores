@@ -42,7 +42,7 @@ watch(menuOpen, (open) => {
 // #endregion
 // #region Gerador header
 
-const headerData = {
+const headerData = ref({
   logo: {
     src: '/if-design-svgrepo-com.svg',
     alt: 'Logo IF'
@@ -51,7 +51,7 @@ const headerData = {
     { label: 'Home', to: '/' },
     { label: 'Cadastrar', to: '/cadastrar' },
   ]
-}
+})
 
 // #endregion
 
@@ -74,7 +74,7 @@ async function applyTokenLinks() {
   if (!tokenTest) return
 
   for (let item of newLinks) {
-    headerData.menu.push(item)
+    headerData.value.menu.push(item)
   }
 }
 
