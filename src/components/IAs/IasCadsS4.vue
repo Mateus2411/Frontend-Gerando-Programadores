@@ -461,6 +461,8 @@ const IA_programacao = {
 }
 
 let tipo = ref('uso_dia_a_dia')
+
+const mostrarDesc = ref(false)
 </script>
 
 <template>
@@ -469,14 +471,18 @@ let tipo = ref('uso_dia_a_dia')
       <button @click="tipo = tipo === 'aprendizagem' ? 'uso_dia_a_dia' : 'aprendizagem'">
         Alternar para {{ tipo === 'aprendizagem' ? 'Uso Diário' : 'Aprendizagem' }}
       </button>
+      <label class="checkbox-ui">
+        <input type="checkbox" v-model="mostrarDesc" />
+        <span class="check"></span>
+        <span class="label-text">Deseja que apareça normalmente as descrições?</span>
+      </label>
     </div>
 
     <div
       class="item"
+      :class="{ 'show-desc': mostrarDesc }"
       v-for="(item, index) in IA_programacao[tipo]"
       :key="index"
-      role="listitem"
-      aria-label="ia-card"
     >
       <div class="inner">
         <a :href="item.site" target="_blank" rel="noopener noreferrer">{{ item.nome }}</a>
@@ -494,35 +500,113 @@ let tipo = ref('uso_dia_a_dia')
   max-width: 1350px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem;
+
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.4rem;
+
   background: radial-gradient(circle at top left, #eef2ff, #f7f9ff 40%, #ffffff);
   border-radius: 20px;
+
+  /* ISOLA A GRID */
+  isolation: isolate;
 }
 
 /* ======================== BOTÃO ======================== */
 .btn-container {
+  align-items: center;
   grid-column: 1 / -1;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   margin-bottom: 1rem;
+}
+
+/* ======================== CHECKBOX BONITO ======================== */
+.checkbox-ui {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* esconde o checkbox original */
+.checkbox-ui input {
+  display: none;
+}
+
+/* caixa customizada */
+.checkbox-ui .check {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+
+  border: 2px solid #7b98ff;
+  background: #fff;
+
+  display: grid;
+  place-items: center;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* efeito hover */
+.checkbox-ui:hover .check {
+  box-shadow: 0 0 0 4px rgba(123, 152, 255, 0.15);
+}
+
+/* check interno */
+.checkbox-ui .check::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+
+  background: #fff;
+  transform: scale(0);
+
+  transition: transform 0.15s ease;
+}
+
+/* quando marcado */
+.checkbox-ui input:checked + .check {
+  background: linear-gradient(90deg, #3d5afe, #7b98ff);
+  border-color: transparent;
+}
+
+.checkbox-ui input:checked + .check::after {
+  transform: scale(1);
+}
+
+/* texto */
+.checkbox-ui .label-text {
+  line-height: 1.2;
 }
 
 .btn-container button {
   border: none;
-  padding: 0.9rem 1.5rem;
+  padding: 0.9rem 1.6rem;
   font-size: 1rem;
   border-radius: 25px;
   background: linear-gradient(90deg, #3d5afe, #7b98ff);
   color: #fff;
   cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
 .btn-container button:hover {
   transform: scale(1.05);
-  filter: brightness(1.1);
+  filter: brightness(1.08);
 }
 
 /* ======================== CARD ======================== */
@@ -530,60 +614,48 @@ let tipo = ref('uso_dia_a_dia')
   background: #fff;
   padding: 1.4rem;
   border-radius: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+
+  box-sizing: border-box;
+  border: 2px solid transparent;
+
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   gap: 0.8rem;
+
   position: relative;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
-  min-height: 80px;
+  overflow: visible;
+
+  /* 🔥 AQUI ESTÁ A CHAVE */
+  transform: translateZ(0);
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+
+  z-index: 1;
 }
 
+.item:not(.show-desc):hover {
+  transform: scale(1.08);
+  z-index: 10;
+}
+
+
+/* ======================== CONTEÚDO ======================== */
 .item .inner {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  transform-origin: center;
-  transition: transform 0.22s cubic-bezier(0.2,0.9,0.2,1), filter 0.22s ease;
-}
-
-.item:hover .inner {
-  transform: scale(1.03);
-  filter: brightness(1.03);
-  z-index: 2;
-}
-
-.item:hover {
-  border-color: #9bb0ff;
-  box-shadow: 0 18px 38px rgba(0,0,0,0.12);
-}
-
-/* ======================== LINHA ANIMADA ======================== */
-.item::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  width: 0%;
-  background: linear-gradient(90deg, #3d5afe, #7b98ff);
-  border-radius: 100px;
-  transition: width 0.28s ease;
-}
-
-.item:hover::after {
-  width: 100%;
 }
 
 /* ======================== LINK ======================== */
 .item a {
   font-weight: 700;
-  color: #1f3bff;
   font-size: 1rem;
+  color: #1f3bff;
   text-decoration: none;
-  word-break: break-word;
 }
 
 .item a:hover {
@@ -592,57 +664,107 @@ let tipo = ref('uso_dia_a_dia')
 
 /* ======================== DESCRIÇÃO ======================== */
 .desc-wrap {
-  position: absolute;
-  left: 1.2rem;
-  right: 1.2rem;
-  bottom: 1.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  transform: translateY(10px);
+  margin-top: auto;
   opacity: 0;
-  transition: transform 0.28s cubic-bezier(0.2,0.9,0.2,1), opacity 0.28s ease;
-  z-index: 3;
+  transform: translateY(6px);
+
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
 }
 
-.item:hover .desc-wrap {
-  transform: translateY(0);
+.item:not(.show-desc):hover .desc-wrap {
   opacity: 1;
-  pointer-events: auto;
+  transform: translateY(0);
 }
+
 
 .desc {
   margin: 0;
   padding: 0.6rem 0.85rem;
   border-radius: 10px;
-  color: #222;
+
+  background: #fff;
   font-size: 0.9rem;
-  box-shadow: 0 6px 18px rgba(18,33,88,0.08);
+  color: #222;
+
+  box-shadow: 0 6px 18px rgba(18, 33, 88, 0.08);
+}
+
+/* ======================== LINHA ======================== */
+.item::after {
+  content: '';
+  position: absolute;
+
+  left: 0px;
+  right: 0px;
+  bottom: -0.1px;
+
+  height: 10px;
+  border-bottom: 3px solid transparent;
+
+  /* raio só embaixo, igual ao card */
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+
+  pointer-events: none;
+  transition: border-color 0.22s ease;
+}
+
+.item:not(.show-desc):hover::after {
+  border-bottom-color: #5b74ff;
+}
+
+/* ======================== MODO DESCRIÇÃO FIXA ======================== */
+.item.show-desc {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* descrição sempre visível */
+.item.show-desc .desc-wrap {
+  opacity: 1;
+  transform: none;
+}
+
+/* mantém efeito de hover */
+.item.show-desc:hover {
+  transform: scale(1.08);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.18);
 }
 
 /* ======================== RESPONSIVO ======================== */
 @media (max-width: 650px) {
   .ia-section {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
   }
 
+  /* card neutro */
   .item {
-    min-height: auto;
-    padding-bottom: 3.2rem;
+    transform: none !important;
+    cursor: default;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
   }
 
+  /* mata hover */
+  .item:hover {
+    transform: none !important;
+  }
+
+  /* descrição sempre visível */
   .desc-wrap {
-    position: static;
-    transform: none;
-    opacity: 1;
-    pointer-events: auto;
-    margin-top: 0.5rem;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
-  .desc {
-    width: 100%;
+  /* remove qualquer linha azul */
+  .item::after {
+    border-bottom-color: transparent !important;
+  }
+
+  /* some com o checkbox (não faz sentido no mobile) */
+  .checkbox-ui {
+    display: none;
   }
 }
+
 </style>

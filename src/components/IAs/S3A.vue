@@ -1,94 +1,94 @@
 <script setup>
 const ia_educacao = [
-  "Ias na Educação",
+  'Ias na Educação',
   {
-    topico: "Políticas e Governança",
+    topico: 'Políticas e Governança',
     conteudo: [
-      "Adoção de políticas nacionais para uso de IA na educação.",
-      "Criação de diretrizes focadas em privacidade, equidade e ética.",
-      "Participação conjunta de governo, escolas e especialistas."
-    ]
+      'Adoção de políticas nacionais para uso de IA na educação.',
+      'Criação de diretrizes focadas em privacidade, equidade e ética.',
+      'Participação conjunta de governo, escolas e especialistas.',
+    ],
   },
   {
-    topico: "Práticas Pedagógicas",
+    topico: 'Práticas Pedagógicas',
     conteudo: [
-      "IA como assistente do professor, não substituto.",
-      "Apoio em feedback automatizado e tutoria assistida.",
-      "Aumento do tempo de interação pedagógica real."
-    ]
+      'IA como assistente do professor, não substituto.',
+      'Apoio em feedback automatizado e tutoria assistida.',
+      'Aumento do tempo de interação pedagógica real.',
+    ],
   },
   {
-    topico: "Personalização e Avaliação",
+    topico: 'Personalização e Avaliação',
     conteudo: [
-      "Aprendizagem adaptativa baseada no progresso do aluno.",
-      "Uso de dados educacionais para detectar dificuldades.",
-      "Melhor acompanhamento da evolução individual."
-    ]
+      'Aprendizagem adaptativa baseada no progresso do aluno.',
+      'Uso de dados educacionais para detectar dificuldades.',
+      'Melhor acompanhamento da evolução individual.',
+    ],
   },
   {
-    topico: "Equidade e Inclusão",
+    topico: 'Equidade e Inclusão',
     conteudo: [
-      "Garantir acesso a dispositivos e internet.",
-      "Evitar ampliação das desigualdades digitais.",
-      "Foco especial em alunos vulneráveis e regiões remotas."
-    ]
+      'Garantir acesso a dispositivos e internet.',
+      'Evitar ampliação das desigualdades digitais.',
+      'Foco especial em alunos vulneráveis e regiões remotas.',
+    ],
   },
   {
-    topico: "Competências e Currículo",
+    topico: 'Competências e Currículo',
     conteudo: [
-      "Ensino de alfabetização em IA e pensamento de máquina.",
-      "Desenvolvimento de consciência crítica sobre algoritmos.",
-      "Preparação para o mercado tecnológico."
-    ]
+      'Ensino de alfabetização em IA e pensamento de máquina.',
+      'Desenvolvimento de consciência crítica sobre algoritmos.',
+      'Preparação para o mercado tecnológico.',
+    ],
   },
   {
-    topico: "Riscos e Ética",
+    topico: 'Riscos e Ética',
     conteudo: [
-      "Cuidado com vieses e decisões automatizadas opacas.",
-      "Proteção rigorosa de dados estudantis.",
-      "Preferência por modelos auditáveis e transparentes."
-    ]
+      'Cuidado com vieses e decisões automatizadas opacas.',
+      'Proteção rigorosa de dados estudantis.',
+      'Preferência por modelos auditáveis e transparentes.',
+    ],
   },
   {
-    topico: "Estudos de Caso",
+    topico: 'Estudos de Caso',
     conteudo: [
-      "Projetos nacionais de integração de IA nas escolas.",
-      "Parcerias para capacitação de professores.",
-      "Sistemas adaptativos aplicados em larga escala."
-    ]
-  }
+      'Projetos nacionais de integração de IA nas escolas.',
+      'Parcerias para capacitação de professores.',
+      'Sistemas adaptativos aplicados em larga escala.',
+    ],
+  },
 ]
 
 const fontes_confiaveis = [
-  "Fontes Confiaveis",
+  'Fontes Confiaveis',
   {
-    site: "UNESCO",
-    motivo: "Órgão global especializado em educação e regulamentação de IA."
+    site: 'UNESCO',
+    motivo: 'Órgão global especializado em educação e regulamentação de IA.',
   },
   {
-    site: "OECD",
-    motivo: "Relatórios internacionais comparativos sobre IA e educação."
+    site: 'OECD',
+    motivo: 'Relatórios internacionais comparativos sobre IA e educação.',
   },
   {
-    site: "World Economic Forum (WEF)",
-    motivo: "Estudos e tendências sobre tecnologias emergentes no ensino."
+    site: 'World Economic Forum (WEF)',
+    motivo: 'Estudos e tendências sobre tecnologias emergentes no ensino.',
   },
   {
-    site: "EDUCAUSE / EdSurge",
-    motivo: "Casos reais, análises de ferramentas e práticas modernas."
+    site: 'EDUCAUSE / EdSurge',
+    motivo: 'Casos reais, análises de ferramentas e práticas modernas.',
   },
   {
-    site: "Financial Times",
-    motivo: "Cobertura confiável de iniciativas e políticas educacionais."
-  }
+    site: 'Financial Times',
+    motivo: 'Cobertura confiável de iniciativas e políticas educacionais.',
+  },
 ]
 
 const resumo_final = {
-  title: "Transformando Seu Potencial com IA",
+  title: 'Transformando Seu Potencial com IA',
   motivacional:
-    "Estamos vivendo um dos momentos mais importantes da tecnologia: a IA deixou de ser apenas uma ferramenta e se tornou uma extensão da nossa capacidade de aprender, criar e evoluir. Estudar com apoio da inteligência artificial não torna o estudante dependente — torna ele mais preparado, mais rápido e mais estratégico. Quanto mais você dominar essas ferramentas agora, mais forte estará no futuro, tanto no mercado quanto na vida acadêmica.",
+    'Estamos vivendo um dos momentos mais importantes da tecnologia: a IA deixou de ser apenas uma ferramenta e se tornou uma extensão da nossa capacidade de aprender, criar e evoluir. Estudar com apoio da inteligência artificial não torna o estudante dependente — torna ele mais preparado, mais rápido e mais estratégico. Quanto mais você dominar essas ferramentas agora, mais forte estará no futuro, tanto no mercado quanto na vida acadêmica.',
   frase_final:
-    "Separei alguns sites essenciais para estudo, com dinâmicas e ferramentas que vão impulsionar seu desenvolvimento e tornar sua evolução ainda mais sólida."
+    'Separei alguns sites essenciais para estudo, com dinâmicas e ferramentas que vão impulsionar seu desenvolvimento e tornar sua evolução ainda mais sólida.',
 }
 </script>
 
@@ -140,7 +140,43 @@ const resumo_final = {
   </section>
 </template>
 <style scoped>
+/* ---------------------------------------------------- */
+/* AJUSTES PARA O EFEITO DE ZOOM */
+/* ---------------------------------------------------- */
+
+/* 1. Definir o item do educacao com z-index e transição */
+.educacao-card-item {
+  /* O seu estilo original para .educacao > div é aplicado aqui */
+  position: relative; /* Essencial para o z-index funcionar */
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 2. Classe de zoom (aplicada via Vue) */
+.educacao-card-item.card-zoomed {
+  /* A chave: scale não altera o layout, e z-index coloca por cima */
+  transform: scale(1.05); /* Zoom de 5% */
+  z-index: 10; /* Fica por cima dos vizinhos */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Sombra para destacar a elevação */
+  border-color: var(--accent);
+}
+
+/* 3. Estilo para o texto extra que aparece */
+.extra-info {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(52, 93, 255, 0.3);
+  color: var(--text-strong);
+  font-weight: 600;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Estilos existentes */
 section.s3 {
+  /* ... (seus estilos existentes) ... */
   --bg: radial-gradient(1200px 800px at 15% -10%, #eef2ff 0%, #f7f9ff 35%, #ffffff 100%);
   --card-bg: #ffffff;
   --accent: #345dff;
@@ -182,16 +218,18 @@ section.s3 {
   border: 1px solid var(--border);
   position: relative;
   overflow: hidden;
-  transition: transform 0.28s ease, box-shadow 0.28s ease, border 0.28s ease, background 0.28s ease;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border 0.28s ease,
+    background 0.28s ease;
   grid-column: 1 / -1;
 }
-
-
 
 .educacao::before,
 .fontes::before,
 .finalizacao::before {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0;
   left: 0;
@@ -223,18 +261,18 @@ section.s3 {
   flex-direction: column;
   gap: 1.2rem;
 }
-.educacao h2{
+.educacao h2 {
   align-items: center;
   margin-top: 4rem;
 }
-/* cada bloco interno */
-.educacao > div {
+/* cada bloco interno - RENOMEADO PARA educacao-card-item no template */
+.educacao-card-item {
   display: block;
   padding: 1rem 0;
   border-bottom: 1px solid rgba(2, 6, 23, 0.06);
 }
 
-.educacao > div:last-child {
+.educacao-card-item:last-child {
   border-bottom: none;
 }
 
@@ -272,7 +310,8 @@ section.s3 {
     gap: 1.6rem 2rem;
   }
 
-  .educacao > div {
+  /* Aplica o estilo de card no grid */
+  .educacao-card-item {
     border-bottom: none;
     padding: 1rem;
     border-radius: 14px;
@@ -280,10 +319,13 @@ section.s3 {
     transition: 0.25s ease;
   }
 
-  .educacao > div:hover {
-    background: rgba(52, 93, 255, 0.08);
+  /* Remove o hover que estava aqui e prioriza o .card-zoomed */
+  .educacao-card-item:hover {
+    background: rgba(52, 93, 255, 0.08); /* Mantém um leve efeito de hover de fundo */
   }
 }
+
+/* O resto do seu CSS */
 
 #motivacional {
   margin-bottom: 1.6rem;

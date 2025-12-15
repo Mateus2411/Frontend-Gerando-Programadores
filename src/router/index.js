@@ -24,11 +24,15 @@ const router = createRouter({
       // meta: { requiresAuth: true }
     },
     {
-      path: '/testecl',
-      name: 'TesteCL',
-      component: () => import('@/views/Cadastro & Loguin/TesteCL.vue'),
-      meta: { hideFooter: true },
+    path: '/testeCadastro',
+    name: 'testeCadastro',
+    component: () => import('@/views/Cadastro & Loguin/TesteCadastro.vue'),
+    meta: {
+      hideHeader: true,
+      hideFooter: true,
+      // requiresAuth: true
     },
+    }
   ],
 })
 // #endregion

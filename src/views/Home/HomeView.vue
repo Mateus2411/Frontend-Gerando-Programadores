@@ -6,28 +6,23 @@ import CardsObjetivos from '@/components/Home/S2Cards.vue'
 import CardFunciona from '@/components/Home/S3Cards.vue'
 
 // Cads do que vai aprender
-import CardsAprender from "@/components/Home/S4Cards.vue"
+import CardsAprender from '@/components/Home/S4Cards.vue'
 
 // Card Final
 import CardFinal from '@/components/Home/S5Cards.vue'
-
 </script>
 <template>
   <main>
     <section class="s1">
       <div class="hero-content">
-        <h1>
-          Bem-vindos ao Estudo Direcionado De Programação
-        </h1>
+        <h1>Bem-vindos ao Estudo Direcionado De Programação</h1>
 
         <p>
           Aqui cada um poderá se desenvolver individualmente no mundo da programação, testando seus
           conhecimentos e aprimorando raciocínio lógico e prático.
         </p>
 
-        <router-link class="btn-start" to="/cadastrar">
-          Começar
-        </router-link>
+        <router-link class="btn-start" to="/cadastrar"> Começar </router-link>
       </div>
     </section>
 
@@ -50,7 +45,7 @@ main {
 
 .s1 {
   width: 100%;
-  height: 85vh;
+  min-height: 95vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,14 +54,14 @@ main {
   position: relative;
   overflow: hidden;
 
-  background-image: url("https://media.istockphoto.com/id/1939609977/pt/foto/wooded-park.jpg?s=612x612&w=0&k=20&c=MgwZmKLzLovhZh-ekaP1iFIzJGiDfHUhrL7KZFpIlPs=");
+  background-image: url('https://media.istockphoto.com/id/1939609977/pt/foto/wooded-park.jpg?s=612x612&w=0&k=20&c=MgwZmKLzLovhZh-ekaP1iFIzJGiDfHUhrL7KZFpIlPs=');
   background-size: cover;
   background-position: center;
   margin-bottom: 5rem;
 }
 
 .s1::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.627);
@@ -80,19 +75,21 @@ main {
   color: #fff;
   padding: 1rem;
   animation: fadeIn 0.6s ease;
-
 }
 
 .s1 h1 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.15;
   margin-bottom: 1.2rem;
-  color: #5A7BFF;
+  color: #5a7bff;
+
+  max-width: 100%;
+  white-space: normal;
 }
 
 .s1 p {
-  font-size: clamp(1.3rem, 1.6vw, 1.50rem);
+  font-size: clamp(1.3rem, 1.6vw, 1.5rem);
   line-height: 1.7;
   color: #eaeaea;
   margin-bottom: 2rem;
@@ -133,21 +130,87 @@ main {
 
 /* ------------- MOBILE ------------- */
 
-@media (max-width: 768px) {
+/* ---------- TABLET ---------- */
+@media (max-width: 1024px) {
   .s1 {
     height: auto;
-    padding: 12.5rem 1.5rem 12.5rem 1.5rem;
+    padding: 3rem 2rem 7rem 2rem;
+  }
+
+  .hero-content {
+    max-width: 680px;
+  }
+
+  .s1 h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-right: 2rem;
+  }
+
+  .s1 p {
+    margin-right: 2rem;
+    font-size: 1.2rem;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 768px) {
+  .s1 {
+    padding: 6rem 1.5rem 6rem 1.5rem;
     text-align: center;
   }
 
   .hero-content {
     max-width: 100%;
-    margin-right: 2.5rem;
+    margin: 0;
+    padding: 0;
   }
 
   .btn-start {
-    padding: 0.9rem 1.8rem;
+    padding: 0.85rem 1.8rem;
     font-size: 1rem;
+  }
+  .hero-content h1 {
+    margin-inline: 12vw;
+  }
+  .hero-content p {
+    margin-inline: 12vw;
+  }
+}
+
+/* ---------- MOBILE PEQUENO ---------- */
+@media (max-width: 480px) {
+  .s1 {
+    padding: 5rem 1rem 5rem 1rem;
+  }
+
+  .s1 h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+  }
+
+  .s1 p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .btn-start {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* ---------- TELAS GRANDES ---------- */
+@media (min-width: 1400px) {
+  .hero-content {
+    max-width: 900px;
+  }
+
+  .s1 h1 {
+    font-size: 3.8rem;
+  }
+
+  .s1 p {
+    font-size: 1.6rem;
   }
 }
 </style>
