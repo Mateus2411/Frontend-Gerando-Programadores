@@ -24,15 +24,37 @@ const router = createRouter({
       // meta: { requiresAuth: true }
     },
     {
-    path: '/testeCadastro',
-    name: 'testeCadastro',
-    component: () => import('@/views/Cadastro & Loguin/TesteCadastro.vue'),
-    meta: {
-      hideHeader: true,
-      hideFooter: true,
-      // requiresAuth: true
+      path: '/testeCadastro',
+      name: 'testeCadastro',
+      component: () => import('@/views/Cadastro & Loguin/TesteCadastro.vue'),
+      meta: {
+        hideHeader: true,
+        hideFooter: true,
+        // requiresAuth: true
+      },
     },
-    }
+    {
+      path: '/trilhas',
+      name: 'trilhas',
+      component: () => import('@/views/Trilhas/HomeTrilhas.vue'),
+      children: [
+        {
+          path: 'javascript/:topic/:file',
+          name: 'javascript-lesson',
+          component: () => import('@/views/Trilhas/Cursos/JavaScript/Lesson.vue'),
+          meta: {
+            hideHeader: true,
+            hideFooter: true,
+            // requiresAuth: true
+          },
+        },
+      ],
+      meta: {
+        hideHeader: true,
+        hideFooter: true,
+        // requiresAuth: true
+      },
+    },
   ],
 })
 // #endregion

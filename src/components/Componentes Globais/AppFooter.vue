@@ -15,13 +15,6 @@
             <span>Mateus Henrique</span>
           </a>
         </div>
-
-        <!-- <div class="developer">
-          <a href="https://github.com/Davi-Prussek" target="_blank" class="developer-link">
-            <img src="/github-svgrepo-com.svg" alt="GitHub Logo" class="github-icon" />
-            <span>Davi Prussek</span>
-          </a>
-        </div> -->
       </div>
     </div>
   </footer>
