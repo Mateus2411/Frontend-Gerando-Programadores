@@ -140,9 +140,8 @@ const cursos = [
 }
 
 .barra {
-  width: 16px;
-  height: 8px;
-  border-radius: 4px;
+  width: 8px;
+  height: 16px;
   background: rgba(255, 255, 255, 0.25);
 }
 

@@ -1,5 +1,5 @@
 <script setup>
-  import CursoCards from '/Users/keila/OneDrive/Área de Trabalho/Mateus/frontend vue/src/components/Mini Mimo/home/cards trilha/CursosCards.vue'
+  import CursoCards from '@/components/Mini Mimo/home/cards trilha/CursosCards.vue'
 </script>
 
 <template>
