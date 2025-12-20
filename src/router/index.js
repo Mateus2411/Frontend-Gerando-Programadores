@@ -50,8 +50,8 @@ const router = createRouter({
         },
       ],
       meta: {
-        hideHeader: true,
-        hideFooter: true,
+        // hideHeader: true,
+        // hideFooter: true,
         // requiresAuth: true
       },
     },
