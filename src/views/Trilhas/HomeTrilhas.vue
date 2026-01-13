@@ -1,19 +1,20 @@
 <script setup>
-  import CursoCards from '@/components/Mini Mimo/home/cards trilha/CursosCards.vue'
+import { useRoute } from 'vue-router'
+import CursoCards from '@/components/Mini Mimo/home/cards trilha/CursosCards.vue'
+
+const route = useRoute()
 </script>
 
 <template>
   <main>
-    <curso-cards/>
-    <section>
-      <router-view />
-    </section>
+    <curso-cards v-if="route.path === '/trilhas'" />
+    <router-view v-else />
   </main>
 </template>
 
 <style scoped>
 main {
-  background: #dbe4ff;
+  background: #001450;
   padding-top: 8.5rem;
 }
 </style>

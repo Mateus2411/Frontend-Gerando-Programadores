@@ -39,12 +39,12 @@ const router = createRouter({
       component: () => import('@/views/Trilhas/HomeTrilhas.vue'),
       children: [
         {
-          path: 'javascript/:topic/:file',
-          name: 'javascript-lesson',
-          component: () => import('@/views/Trilhas/Cursos/JavaScript/Lesson.vue'),
+          path: 'javascript/:topic?/:file?',
+          name: 'javascript',
+          component: () => import('@/views/Trilhas/Cursos/JavaScript/HomeJS.vue'),
           meta: {
             hideHeader: true,
-            hideFooter: true,
+            // hideFooter: true,
             // requiresAuth: true
           },
         },
