@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/auth',
+  baseURL: 'https://backend-gerando-programadores.onrender.com/api/auth',
 })
 
 //#region Token Validation
@@ -24,7 +24,7 @@ api.interceptors.request.use((config) => {
 // #region Erro Coffee
 
 axios
-  .get('http://localhost:5000/api/auth/coffee')
+  .get('https://backend-gerando-programadores.onrender.com/api/auth/coffee')
   .then((res) => console.log('Resposta 418:', res.data))
   .catch((err) => console.log(err))
 
