@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
+import { useAuth } from '@/composables/AuthUser'
 
 // #region Configs Menu
 // #region Header sumindo
@@ -57,7 +58,7 @@ const headerData = ref({
 // #endregion
 
 //token
-const token = localStorage.getItem('token')
+const { logado, loadAuth } = useAuth()
 
 // #region Rotas a serem colocadas
 
@@ -67,17 +68,20 @@ let newLinks = [{ label: 'Ias', to: '/ias' }, { label: 'Aprendizagem', to: '/tri
 
 // #region Validador de Token e Ativador de rotas protegidas
 
-async function applyTokenLinks() {
-  const tokenTest = token
+async function applyLinks() {
+  try {
+    await loadAuth()
+    if (!logado.value) return
 
-  if (!tokenTest) return
-
-  for (let item of newLinks) {
-    headerData.value.menu.push(item)
+    for (let item of newLinks) {
+      headerData.value.menu.push(item)
+    }
+  } catch {
+    // usuário não autenticado — não adiciona links
   }
 }
 
-applyTokenLinks()
+applyLinks()
 // #endregion
 </script>
 <template>

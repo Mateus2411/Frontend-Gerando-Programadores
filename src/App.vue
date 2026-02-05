@@ -2,19 +2,14 @@
 import AppHeader from './components/Componentes Globais/AppHeader.vue'
 import AppFooter from './components/Componentes Globais/AppFooter.vue'
 
-import { ref, onMounted } from "vue";
-import api from "@/axios";
+import {onMounted } from "vue";
+import { useAuth } from './composables/AuthUser';
 
-const logado = ref(false);
+const { loadAuth } = useAuth()
 
-onMounted(async () => {
-  try {
-    await api.get("/auth/me");
-    logado.value = true;
-  } catch {
-    logado.value = false;
-  }
-});
+onMounted(() =>{
+  loadAuth()
+})
 
 </script>
 <template>

@@ -49,13 +49,21 @@ const router = createRouter({
     path: '/testes',
     name: 'testes',
     component: () => import('@/views/AppTHeader.vue'),
-    // meta: { hideFooter: true, requiresAuth: true},
+    meta: {
+    hideHeader: true,
+    hideFooter: true,
+    // requiresAuth: true
+    },
     },
     {
     path: '/devs',
     name: 'Developers',
     component: () => import('@/views/Devs/DevsApp.vue'),
-    // meta: { hideFooter: true, requiresAuth: true},
+    // meta: {
+    // hideHeader: true
+    // hideFooter: true,
+    // requiresAuth: true
+    // },
     },
   ],
 })
@@ -64,25 +72,19 @@ const router = createRouter({
 // #region Bloqueio de Rotas
 
 router.beforeEach(async (to, from, next) => {
-  const token = localStorage.getItem('token')
+  if (!to.meta.requiresAuth) {
+    return next()
+  }
 
-  if (to.meta.requiresAuth && !token) {
-    alert('faça login/cadastro primeiramente')
+  try {
+    await api.get('/auth/me')
+    return next()
+  } catch {
+    alert('Faça login/cadastro primeiramente')
     return next('/cadastrar')
   }
-
-  if (token) {
-    try {
-      await api.get('/validate')
-      return next()
-    } catch {
-      localStorage.removeItem('token')
-      return next('/cadastrar')
-    }
-  }
-
-  next()
 })
+
 // #endregion
 
 export default router

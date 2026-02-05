@@ -1,8 +1,12 @@
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { useAuth } from '@/composables/AuthUser'
+
+const logado = useAuth()
+
+// #region Menu Configs
 
 const menuAberto = ref(false)
-
 function toggleMenu() {
   menuAberto.value = !menuAberto.value
 }
@@ -37,6 +41,9 @@ watch(menuOpen, (open) => {
   document.documentElement.style.overflow = open ? 'hidden' : ''
   document.body.style.touchAction = open ? 'none' : ''
 })
+
+// #endregion
+
 </script>
 
 <template>
