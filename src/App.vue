@@ -1,6 +1,6 @@
 <script setup>
-// import AppHeader from './components/Componentes Globais/AppHeader.vue'
-// import AppFooter from './components/Componentes Globais/AppFooter.vue'
+import AppHeader from './components/Componentes Globais/AppHeader.vue'
+import AppFooter from './components/Componentes Globais/AppFooter.vue'
 
 import { ref, onMounted } from "vue";
 import api from "@/axios";
@@ -18,9 +18,9 @@ onMounted(async () => {
 
 </script>
 <template>
-  <!-- <app-header v-if="!$route.meta.hideHeader" /> -->
+  <app-header v-if="!$route.meta.hideHeader" />
   <router-view />
-  <!-- <app-footer v-if="!$route.meta.hideFooter" /> -->
+  <app-footer v-if="!$route.meta.hideFooter" />
 </template>
 
 <style>
