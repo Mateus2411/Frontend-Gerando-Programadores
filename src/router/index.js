@@ -21,17 +21,7 @@ const router = createRouter({
       path: '/ias',
       name: 'IAs',
       component: () => import('@/views/IAs/IAs.vue'),
-      // meta: { requiresAuth: true }
-    },
-    {
-      path: '/testeCadastro',
-      name: 'testeCadastro',
-      component: () => import('@/views/Cadastro & Loguin/TesteCadastro.vue'),
-      meta: {
-        hideHeader: true,
-        hideFooter: true,
-        // requiresAuth: true
-      },
+      meta: { requiresAuth: true }
     },
     {
       path: '/trilhas',
@@ -54,6 +44,18 @@ const router = createRouter({
         // hideFooter: true,
         // requiresAuth: true
       },
+    },
+    {
+    path: '/testes',
+    name: 'testes',
+    component: () => import('@/views/AppTHeader.vue'),
+    // meta: { hideFooter: true, requiresAuth: true},
+    },
+    {
+    path: '/devs',
+    name: 'Developers',
+    component: () => import('@/views/Devs/DevsApp.vue'),
+    // meta: { hideFooter: true, requiresAuth: true},
     },
   ],
 })
