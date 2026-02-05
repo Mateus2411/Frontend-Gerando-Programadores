@@ -10,6 +10,8 @@ import CardsAprender from '@/components/Home/S4Cards.vue'
 
 // Card Final
 import CardFinal from '@/components/Home/S5Cards.vue'
+
+
 </script>
 <template>
   <main>
@@ -134,7 +136,7 @@ main {
 @media (max-width: 1024px) {
   .s1 {
     height: auto;
-    padding: 3rem 2rem 7rem 2rem;
+    padding: 3rem 0rem;
   }
 
   .hero-content {
@@ -155,7 +157,7 @@ main {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
   .s1 {
-    padding: 6rem 1.5rem 6rem 1.5rem;
+    padding: 6rem 0rem;
     text-align: center;
   }
 
@@ -180,7 +182,7 @@ main {
 /* ---------- MOBILE PEQUENO ---------- */
 @media (max-width: 480px) {
   .s1 {
-    padding: 5rem 1rem 5rem 1rem;
+    padding: 5rem 0rem;
   }
 
   .s1 h1 {

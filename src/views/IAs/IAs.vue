@@ -1,8 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+
 import AppIAs from '@/components/IAs/CardsS2.vue'
 import AppEducaCard from '@/components/IAs/S3A.vue'
 import AppIasS4 from '@/components/IAs/IasCadsS4.vue'
+
+//  #region Maquina de escrita
 
 const title = ref(null)
 
@@ -27,6 +30,8 @@ onMounted(() => {
     }
   })
 })
+
+// #endregion
 </script>
 
 <template>
@@ -131,13 +136,13 @@ section.s1 a:hover {
   width: 0;
 }
 /* RESPONSIVO */
-@media (max-width: 1260px){
-  section.s1{
+@media (max-width: 1260px) {
+  section.s1 {
     padding: 12vw 1.4vw;
   }
 }
 @media (max-width: 1000px) {
-  section.s1{
+  section.s1 {
     padding: 11vw 1.1vw;
   }
   .s2 {
