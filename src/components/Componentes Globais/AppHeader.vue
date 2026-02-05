@@ -44,13 +44,14 @@ watch(menuOpen, (open) => {
 
 const headerData = ref({
   logo: {
-    src: '/if-design-svgrepo-com.svg',
-    alt: 'Logo IF'
+    src: '/if-logo-s-fundo.png',
+    alt: 'Logo IF',
   },
   menu: [
     { label: 'Home', to: '/' },
     { label: 'Cadastrar', to: '/cadastrar' },
-  ]
+    { label: 'Developers', to: '/devs' },
+  ],
 })
 
 // #endregion
@@ -60,9 +61,7 @@ const token = localStorage.getItem('token')
 
 // #region Rotas a serem colocadas
 
-let newLinks = [
-  { label: 'Ias', to: '/ias' }
-]
+let newLinks = [{ label: 'Ias', to: '/ias' }, { label: 'Aprendizagem', to: '/trilhas'}]
 
 // #endregion
 
@@ -80,17 +79,22 @@ async function applyTokenLinks() {
 
 applyTokenLinks()
 // #endregion
-
 </script>
 <template>
   <header>
-    <div>
+    <div class="img">
       <img :src="headerData.logo.src" :alt="headerData.logo.alt" />
     </div>
 
     <div class="links" :class="{ open: menuOpen }">
-      <button class="menu-toggle" type="button" :aria-expanded="menuOpen" aria-controls="menu" aria-label="Abrir menu"
-        @click="menuOpen = !menuOpen">
+      <button
+        class="menu-toggle"
+        type="button"
+        :aria-expanded="menuOpen"
+        aria-controls="menu"
+        aria-label="Abrir menu"
+        @click="menuOpen = !menuOpen"
+      >
         <span></span><span></span><span></span>
       </button>
 
@@ -104,7 +108,12 @@ applyTokenLinks()
     </div>
   </header>
   <teleport to="body">
-    <div class="menu-backdrop" :class="{ show: menuOpen }" v-show="menuOpen" @click="menuOpen = false"></div>
+    <div
+      class="menu-backdrop"
+      :class="{ show: menuOpen }"
+      v-show="menuOpen"
+      @click="menuOpen = false"
+    ></div>
   </teleport>
 </template>
 <style scoped>
@@ -143,6 +152,11 @@ header {
     opacity 0.3s ease,
     transform 0.3s ease;
   z-index: 99999;
+  .img {
+    img {
+      width: 120px;
+    }
+  }
 }
 
 header.hidden {
@@ -196,7 +210,9 @@ header .links ul li a {
   height: 2px;
   background: #fff;
   margin: 3px 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 @media (max-width: 1000px) {
@@ -263,27 +279,26 @@ header .links ul li a {
   }
 
   .menu-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
 
-  /* ocupa tudo EXCETO o menu */
-  width: calc(100vw - min(85vw, 290px));
+    /* ocupa tudo EXCETO o menu */
+    width: calc(100vw - min(85vw, 290px));
 
-  background: rgba(63, 63, 63, 0.35);
-  backdrop-filter: blur(1px);
-  z-index: 100000;
+    background: rgba(63, 63, 63, 0.35);
+    backdrop-filter: blur(1px);
+    z-index: 100000;
 
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
 
-.menu-backdrop.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
+  .menu-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 </style>
