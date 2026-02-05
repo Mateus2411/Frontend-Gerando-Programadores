@@ -1,11 +1,26 @@
 <script setup>
-import AppHeader from './components/Componentes Globais/AppHeader.vue'
-import AppFooter from './components/Componentes Globais/AppFooter.vue'
+// import AppHeader from './components/Componentes Globais/AppHeader.vue'
+// import AppFooter from './components/Componentes Globais/AppFooter.vue'
+
+import { ref, onMounted } from "vue";
+import api from "@/axios";
+
+const logado = ref(false);
+
+onMounted(async () => {
+  try {
+    await api.get("/auth/me");
+    logado.value = true;
+  } catch {
+    logado.value = false;
+  }
+});
+
 </script>
 <template>
-  <app-header v-if="!$route.meta.hideHeader" />
+  <!-- <app-header v-if="!$route.meta.hideHeader" /> -->
   <router-view />
-  <app-footer v-if="!$route.meta.hideFooter" />
+  <!-- <app-footer v-if="!$route.meta.hideFooter" /> -->
 </template>
 
 <style>
