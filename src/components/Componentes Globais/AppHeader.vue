@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import { useNavigationStore } from '@/stores/navigation'
@@ -14,6 +14,21 @@ const navStore = useNavigationStore()
 const menuAberto = ref(false)
 const headerVisible = ref(true)
 const lastScrollY = ref(0)
+
+// Computed para o avatar do usuário
+const avatarUrl = computed(() => {
+  if (authStore.userProfile?.foto) {
+    const fotoNome = authStore.userProfile.foto
+
+    if (fotoNome.startsWith('masc-')) {
+      return `/perfil_avatar/masculino/${fotoNome}`
+    } else if (fotoNome.startsWith('fem-')) {
+      return `/perfil_avatar/feminino/${fotoNome}`
+    }
+  }
+
+  return authStore.logado ? '/favicon.ico' : '/no-img.png'
+})
 
 // Funções
 function toggleMenu() {
@@ -121,7 +136,7 @@ watch(menuAberto, (isOpen) => {
       <router-link to="/perfil" class="usuario" aria-label="Ir para perfil">
         <span class="nome">{{ authStore.username }}</span>
         <img
-          :src="authStore.logado ? '/favicon.ico' : '/no-img.png'"
+          :src="avatarUrl"
           :alt="authStore.logado ? 'Avatar do usuário' : 'Avatar visitante'"
           class="avatar"
         />
@@ -148,7 +163,7 @@ watch(menuAberto, (isOpen) => {
         <router-link to="/perfil" class="usuario-link" aria-label="Ir para perfil" @click="closeMenu">
           <span class="nome">{{ authStore.username }}</span>
           <img
-            :src="authStore.logado ? '/favicon.ico' : '/no-img.png'"
+            :src="avatarUrl"
             :alt="authStore.logado ? 'Avatar do usuário' : 'Avatar visitante'"
             class="avatar"
           />
