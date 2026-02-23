@@ -10,8 +10,6 @@ import CardsAprender from '@/components/Home/S4Cards.vue'
 
 // Card Final
 import CardFinal from '@/components/Home/S5Cards.vue'
-
-
 </script>
 <template>
   <main>
@@ -36,11 +34,12 @@ import CardFinal from '@/components/Home/S5Cards.vue'
 </template>
 <style scoped>
 main {
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
-  color: #2d2d2d;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ---------------- HERO ---------------- */

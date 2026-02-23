@@ -505,8 +505,9 @@ const mostrarDesc = ref(false)
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.4rem;
 
-  background: radial-gradient(circle at top left, #eef2ff, #f7f9ff 40%, #ffffff);
+  background: var(--bg-primary);
   border-radius: 20px;
+  transition: background-color 0.3s ease;
 
   /* ISOLA A GRID */
   isolation: isolate;
@@ -532,7 +533,8 @@ const mostrarDesc = ref(false)
   cursor: pointer;
   user-select: none;
   font-size: 0.95rem;
-  color: #333;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 }
 
 /* esconde o checkbox original */
@@ -547,7 +549,7 @@ const mostrarDesc = ref(false)
   border-radius: 5px;
 
   border: 2px solid #7b98ff;
-  background: #fff;
+  background: var(--card-bg);
 
   display: grid;
   place-items: center;
@@ -611,14 +613,14 @@ const mostrarDesc = ref(false)
 
 /* ======================== CARD ======================== */
 .item {
-  background: #fff;
+  background: var(--card-bg);
   padding: 1.4rem;
   border-radius: 18px;
 
   box-sizing: border-box;
-  border: 2px solid transparent;
+  border: 2px solid var(--card-border);
 
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 20px var(--shadow-color);
 
   display: flex;
   flex-direction: column;
@@ -632,7 +634,8 @@ const mostrarDesc = ref(false)
   transition:
     transform 0.25s cubic-bezier(0.2, 0.9, 0.2, 1),
     box-shadow 0.25s ease,
-    border-color 0.25s ease;
+    border-color 0.25s ease,
+    background-color 0.3s ease;
 
   z-index: 1;
 }
@@ -641,7 +644,6 @@ const mostrarDesc = ref(false)
   transform: scale(1.08);
   z-index: 10;
 }
-
 
 /* ======================== CONTEÚDO ======================== */
 .item .inner {
@@ -678,17 +680,17 @@ const mostrarDesc = ref(false)
   transform: translateY(0);
 }
 
-
 .desc {
   margin: 0;
   padding: 0.6rem 0.85rem;
   border-radius: 10px;
 
-  background: #fff;
+  background: var(--bg-secondary);
   font-size: 0.9rem;
-  color: #222;
+  color: var(--text-primary);
 
-  box-shadow: 0 6px 18px rgba(18, 33, 88, 0.08);
+  box-shadow: 0 6px 18px var(--shadow-color);
+  transition: all 0.3s ease;
 }
 
 /* ======================== LINHA ======================== */
@@ -717,7 +719,7 @@ const mostrarDesc = ref(false)
 
 /* ======================== MODO DESCRIÇÃO FIXA ======================== */
 .item.show-desc {
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 28px var(--shadow-color);
 }
 
 /* descrição sempre visível */
@@ -729,7 +731,7 @@ const mostrarDesc = ref(false)
 /* mantém efeito de hover */
 .item.show-desc:hover {
   transform: scale(1.08);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 24px 50px var(--shadow-color);
 }
 
 /* ======================== RESPONSIVO ======================== */
@@ -742,7 +744,7 @@ const mostrarDesc = ref(false)
   .item {
     transform: none !important;
     cursor: default;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 28px var(--shadow-color);
   }
 
   /* mata hover */
@@ -766,5 +768,4 @@ const mostrarDesc = ref(false)
     display: none;
   }
 }
-
 </style>

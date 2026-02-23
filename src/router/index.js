@@ -35,35 +35,55 @@ const router = createRouter({
           meta: {
             hideHeader: true,
             // hideFooter: true,
-            // requiresAuth: true
+            requiresAuth: true
           },
         },
       ],
       meta: {
         // hideHeader: true,
         // hideFooter: true,
-        // requiresAuth: true
+        requiresAuth: true
+      },
+    },
+    // {
+    //   path: '/testes',
+    //   name: 'testes',
+    //   component: () => import('@/views/AppTHeader.vue'),
+    //   meta: {
+    //     hideHeader: true,
+    //     hideFooter: true,
+    //     // requiresAuth: true
+    //   },
+    // },
+    {
+      path: '/devs',
+      name: 'Developers',
+      component: () => import('@/views/Devs/DevsApp.vue'),
+      meta: {
+      // hideHeader: true
+      // hideFooter: true,
+      requiresAuth: true
       },
     },
     {
-    path: '/testes',
-    name: 'testes',
-    component: () => import('@/views/AppTHeader.vue'),
-    meta: {
-    hideHeader: true,
-    hideFooter: true,
-    // requiresAuth: true
-    },
+      path: '/perfil',
+      name: 'perfil',
+      component: () => import('@/views/Perfil/AppPerfil.vue'),
+      meta: {
+        // hideHeader: true,
+        // hideFooter: true,
+        requiresAuth: true,
+      },
     },
     {
-    path: '/devs',
-    name: 'Developers',
-    component: () => import('@/views/Devs/DevsApp.vue'),
-    // meta: {
-    // hideHeader: true
-    // hideFooter: true,
-    // requiresAuth: true
-    // },
+      path: '/perfil/editar',
+      name: 'editarPerfil',
+      component: () => import('@/views/Perfil/editPerfil.vue'),
+      meta: {
+        // hideHeader: true,
+        // hideFooter: true,
+        requiresAuth: true,
+      },
     },
   ],
 })

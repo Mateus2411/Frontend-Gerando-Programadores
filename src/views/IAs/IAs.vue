@@ -59,6 +59,11 @@ onMounted(() => {
   </main>
 </template>
 <style>
+main {
+  background: var(--bg-primary);
+  transition: background-color 0.3s ease;
+}
+
 section.s1 {
   display: flex;
   align-items: center;
@@ -70,7 +75,7 @@ section.s1 {
   /* imagem de fundo com overlay escuro e efeito cover */
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url('https://queromaistecnologia.com/wp-content/uploads/2022/11/Robo-Xiaomi-1024x768.jpg');
+    url(/image.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -119,21 +124,23 @@ section.s1 a:hover {
   width: 100%;
   padding: 3vw 5vw;
   box-sizing: border-box;
-  background-color: #f9f9f9;
+  background: var(--bg-primary);
   align-items: center;
   justify-content: space-around;
+  transition: background-color 0.3s ease;
 }
 #escrita-animada h2 {
   font-family: 'Open Sans', sans-serif;
   font-size: 2rem;
   max-width: 100%;
   font-weight: 500;
-  color: #333333;
+  color: var(--text-primary);
   margin-right: 2rem;
   overflow: hidden;
   white-space: nowrap;
-  border-right: 2px solid #333;
+  border-right: 2px solid var(--text-primary);
   width: 0;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 /* RESPONSIVO */
 @media (max-width: 1260px) {

@@ -14,7 +14,9 @@ const route = useRoute()
 
 <style scoped>
 main {
-  background: #001450;
+  background: var(--bg-primary);
+  min-height: 100vh;
   padding-top: 8.5rem;
+  transition: background-color 0.3s ease;
 }
 </style>

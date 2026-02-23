@@ -1,13 +1,12 @@
 <script setup>
-
+var estado = true
 </script>
 
 <template>
-  <section>
-    <h1>
-      Ainda não hà nada aqui mas logo logo estará completo
-    </h1>
+  <section v-if="estado">
+    <h1>Ainda não hà nada aqui mas logo logo estará completo</h1>
   </section>
+  <section v-else></section>
 </template>
 
 <style scoped>

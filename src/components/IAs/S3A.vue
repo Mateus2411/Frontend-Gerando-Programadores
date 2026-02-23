@@ -177,14 +177,14 @@ const resumo_final = {
 /* Estilos existentes */
 section.s3 {
   /* ... (seus estilos existentes) ... */
-  --bg: radial-gradient(1200px 800px at 15% -10%, #eef2ff 0%, #f7f9ff 35%, #ffffff 100%);
-  --card-bg: #ffffff;
+  --bg: var(--bg-primary);
+  --card-bg: var(--card-bg);
   --accent: #345dff;
   --accent-2: #87a6ff;
-  --text-strong: #0f172a;
-  --text-muted: #475569;
-  --border: rgba(2, 6, 23, 0.06);
-  --shadow: 0 10px 32px rgba(2, 6, 23, 0.08);
+  --text-strong: var(--text-primary);
+  --text-muted: var(--text-secondary);
+  --border: var(--card-border);
+  --shadow: var(--shadow-color);
   background: var(--bg);
   padding: clamp(2rem, 4vw, 3.5rem) clamp(1rem, 3vw, 1.8rem);
   display: grid;
@@ -193,6 +193,7 @@ section.s3 {
   /* width: 100%; */
   max-width: 1200px;
   margin-inline: auto;
+  transition: background-color 0.3s ease;
 }
 
 .titulo {
@@ -336,7 +337,7 @@ section.s3 {
 }
 
 #fraseFinal {
-  background: linear-gradient(180deg, #eaf0ff 0%, #eef2ff 100%);
+  background: rgba(74, 115, 255, 0.1);
   padding: clamp(1.1rem, 2.2vw, 1.5rem);
   border-radius: 18px;
   font-size: clamp(0.98rem, 1.6vw, 1.08rem);
@@ -345,6 +346,7 @@ section.s3 {
   color: var(--text-strong);
   text-align: center;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .finalizacao {

@@ -1,5 +1,5 @@
 <template>
-  <main class="container" v-if="larguraAtual > 600">
+  <main class="container" v-if="larguraAtual > 800">
     <!-- CADASTRO -->
     <form
       class="card transicao"
@@ -12,7 +12,7 @@
         <img src="/if-logo-s-fundo.png" alt="" />
       </div>
 
-      <div class="triangulo"></div>
+      <div class="triangulo-direita"></div>
 
       <div class="lado-direito">
         <input v-model="nomeCadastro" placeholder="Nome" />
@@ -50,6 +50,9 @@
         <h2 class="log">Login</h2>
         <img src="/if-logo-s-fundo.png" alt="" />
       </div>
+
+      <div class="triangulo-esquerda"></div>
+
       <div class="lado-direito">
         <input v-model="emailLogin" placeholder="Email" />
         <span class="erro">{{ erroLoginEmail }}</span>
@@ -78,6 +81,7 @@
     </form>
   </main>
   <main class="container ativo" v-else>
+    <div data-v-b2ae051a class="triangulo-direita"></div>
     <!-- CADASTRO -->
     <form class="card" v-show="tela === 'cadastro'" @submit.prevent="cadastrar">
       <h2 style="margin-bottom: 1.5rem">Cadastro</h2>
@@ -131,6 +135,7 @@
 
       <button type="submit">Entrar</button>
 
+
       <p class="switch">
         Ainda não tem conta?
         <a @click="tela = 'cadastro'">Cadastrar</a>
@@ -141,7 +146,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/axios'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const authStore = useAuthStore()
 
 const tela = ref('login')
 
@@ -187,6 +196,15 @@ function validarSenha(senha) {
 
   return erros
 }
+
+function normalizarTexto(texto) {
+  return texto.toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Remove acentos
+    .replace(/[0-9]/g, '') // Remove números
+    .replace(/\s+/g, '') // Remove espaços
+    .replace(/[^a-z]/g, '') // Remove caracteres especiais, mantém só letras
+}
 // #endregion
 
 // Cadastro
@@ -195,16 +213,58 @@ async function cadastrar() {
   erroEmail.value = ''
   erroSenha.value = ''
 
+  // Validação de nome vazio
   if (!nomeCadastro.value) {
     erroNome.value = 'O nome não pode ser vazio'
     return
   }
 
+  // Validação de tamanho mínimo
+  if (nomeCadastro.value.length < 3) {
+    erroNome.value = 'O nome deve ter pelo menos 3 caracteres'
+    return
+  }
+
+  // Bloqueio de admin (easter egg)
+  const admBlock = ['admin', 'administrator', 'adm', 'careca']
+  if (admBlock.includes(nomeCadastro.value.toLowerCase())) {
+    erroNome.value = 'O careca é o único adm'
+    return
+  }
+
+  // Validação de palavrões
+  const palavroes = [
+    'porra', 'caralho', 'merda', 'puta', 'fdp', 'filhodaputa',
+    'buceta', 'cu', 'cuzao', 'puto', 'viado', 'bicha',
+    'arrombado', 'desgraca', 'cacete', 'carai', 'krl',
+    'pqp', 'vsf', 'vaisefoder', 'fodase',
+    'bosta', 'corno', 'otario', 'babaca',
+    'imbecil', 'idiota', 'burro', 'retardado', 'mongoloide',
+    'piranha', 'vagabunda', 'vadia', 'safada', 'pinto', 'pau',
+    'rola', 'penis', 'vagina', 'ppk', 'xoxota',
+    'punheta', 'broxa', 'brochar', 'foder', 'fuder', 'trepar'
+  ]
+
+  // Normaliza o nome removendo números, espaços e acentos
+  const nomeNormalizado = normalizarTexto(nomeCadastro.value)
+
+  const contemPalavrao = palavroes.some(palavrao => {
+    const palavraoNormalizado = normalizarTexto(palavrao)
+    return nomeNormalizado.includes(palavraoNormalizado)
+  })
+
+  if (contemPalavrao) {
+    erroNome.value = 'Nome de usuário contém linguagem inapropriada'
+    return
+  }
+
+  // Validação de email
   if (!emailCadastro.value || !ValidarEmail(emailCadastro.value)) {
     erroEmail.value = 'Email inválido'
     return
   }
 
+  // Validação de senha
   const erros = validarSenha(senhaCadastro.value)
 
   if (erros.length > 0) {
@@ -213,13 +273,8 @@ async function cadastrar() {
   }
 
   try {
-    const response = await api.post('/register', {
-      username: nomeCadastro.value,
-      email: emailCadastro.value,
-      password: senhaCadastro.value,
-    })
+    await authStore.register(nomeCadastro.value, emailCadastro.value, senhaCadastro.value)
 
-    console.log('Cadastro realizado com sucesso:', response.data)
     alert('Cadastro realizado com sucesso!')
 
     nomeCadastro.value = ''
@@ -228,8 +283,7 @@ async function cadastrar() {
     tela.value = 'login'
   } catch (error) {
     console.error('Erro ao cadastrar usuário:', error)
-    const msg = error.response?.data?.msg || error.message || 'Erro ao cadastrar'
-    erroEmail.value = msg
+    erroEmail.value = authStore.error || 'Erro ao cadastrar'
   }
 }
 
@@ -251,24 +305,19 @@ async function login() {
     return
   }
 
-  console.log('Tentando login com email:', emailLogin.value)
-  console.log('Dados enviados:', { email: emailLogin.value, password: senhaLogin.value })
-
   try {
-    const res = await api.post('/login', {
-      email: emailLogin.value,
-      password: senhaLogin.value,
-    })
+    await authStore.login(emailLogin.value, senhaLogin.value)
 
-    console.log('Resposta do login:', res.data)
     alert('Logado com sucesso!')
 
     emailLogin.value = ''
     senhaLogin.value = ''
+
+    // Redireciona para a home
+    router.push('/')
   } catch (error) {
     console.error('Erro no login:', error)
-    const msg = error.res?.data?.msg || error.message || 'Email ou senha incorretos'
-    erroLoginSenha.value = msg
+    erroLoginSenha.value = authStore.error || 'Email ou senha incorretos'
   }
 }
 
@@ -286,7 +335,6 @@ function toggleSenhaLogin() {
 const larguraAtual = ref(window.innerWidth)
 function alterarLarg() {
   larguraAtual.value = window.innerWidth
-  console.log(larguraAtual.value)
 }
 onMounted(() => {
   window.addEventListener('resize', alterarLarg)
@@ -324,7 +372,7 @@ function irParaLogin() {
 </script>
 
 <style scoped>
-@media (min-width: 700px) {
+@media (min-width: 801px) {
   * {
     margin: 0;
     padding: 0;
@@ -337,47 +385,39 @@ function irParaLogin() {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: rgb(255, 255, 255);
+    background: var(--bg-primary);
+    transition: background-color 0.3s ease;
   }
+
   .card {
-    box-shadow: 0.0000000001px 5px 10px 1px #007bff4d;
+    box-shadow: 0 5px 20px var(--shadow-color);
     border-radius: 50px;
     position: relative;
     display: flex;
     width: 800px;
     height: 400px;
     overflow: hidden;
+    border: 1px solid var(--card-border);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
-  /* LADO ESQUERDO */
+  /* LADO ESQUERDO - CADASTRO */
   .lado-esquerdo {
-    width: 50%;
-    background: #007bff;
-    clip-path: polygon(0 0, 100% 0, 60% 100%, 0% 100%);
+    width: 45%;
+    background: var(--accent-primary);
     padding: 3rem 3rem 3rem 4rem;
     color: white;
-    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    clip-path: polygon(100% 0, 0 0, 0 190%);
     align-items: start;
-    img {
-      margin-left: -4rem;
-      width: 200px;
-    }
+    z-index: 2;
   }
 
-  /* TRIÂNGULO COMPLEMENTAR */
-  .triangulo {
-    position: absolute;
-    left: 29.9%;
-    top: 0;
-    width: 20.1%;
-    height: 100%;
-    background: #ffffff;
-    clip-path: polygon(0 0, 100% 100%, 0 100%);
-    z-index: 1; /* atrás do trapézio, mas NA FRENTE do fundo */
-    transform: rotateY(180deg);
+  .lado-esquerdo img {
+    margin-left: -4rem;
+    width: 200px;
   }
 
   .card .lado-esquerdo .cad {
@@ -386,22 +426,56 @@ function irParaLogin() {
     font-weight: 600;
   }
 
-  /* LADO DIREITO (FORMULÁRIO) */
+  /* TRIÂNGULO DIREITA (CADASTRO) */
+  .triangulo-direita {
+    position: absolute;
+    left: 19.98%;
+    top: 0;
+    width: 200px;
+    height: 400px;
+    background: var(--card-bg);
+    clip-path: polygon(100% 0, 0 100%, 100% 100%);
+    z-index: 1;
+    transition: background-color 0.3s ease;
+  }
+
+  /* LADO DIREITO - FORMULÁRIO */
   .card .lado-direito {
-    width: 50%;
-    background: white;
-    padding: 2.5rem 2rem 2rem 2rem;
+    width: 55%;
+    background: var(--card-bg);
+    padding: 2.5rem 3rem 2.5rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding-top: 3.5rem !important;
+    justify-content: center;
+    z-index: 2;
+    transition: background-color 0.3s ease;
   }
 
   input {
     padding: 0.8rem;
-    border: 1px solid #ccc;
+    border: 2px solid var(--border-color);
     border-radius: 6px;
     width: 100%;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px var(--shadow-color);
+  }
+
+  input::placeholder {
+    color: var(--text-tertiary);
+    font-weight: 400;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.1), 0 4px 8px var(--shadow-color);
+    transform: translateY(-1px);
   }
 
   .senha-container {
@@ -417,75 +491,83 @@ function irParaLogin() {
     right: 10px;
     top: 14px;
     cursor: pointer;
+    color: var(--text-secondary);
   }
 
   button {
-    background-color: #007bff;
+    background-color: var(--accent-primary);
     color: white;
     padding: 0.8rem;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
 
   button:hover {
-    background-color: #0056b3;
+    background-color: var(--accent-hover);
   }
 
   .erro {
-    color: red;
+    color: #ff4444;
     font-size: 0.8rem;
   }
 
   .switch {
     margin-top: 2rem;
     text-align: center;
+    color: var(--text-secondary);
     & a {
-      color: #007bff;
+      color: var(--accent-primary);
       font-weight: bold;
       cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    & a:hover {
+      color: var(--accent-hover);
     }
   }
 
-  /* LADO DIREITO AZUL (LOGIN) */
+  /* LADO ESQUERDO - LOGIN */
   .lado-esquerdo-login {
-    width: 50%;
-    background: #007bff;
-    clip-path: polygon(0% 0, 60% 0%, 100% 100%, 0 100%);
-    padding: 3rem 5rem 3rem 3rem;
-    color: rgb(0, 0, 0);
-    z-index: 2;
+    width: 45%;
+    background: var(--accent-primary);
+    padding: 3rem 4rem 3rem 3rem;
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: start;
     flex-direction: column;
-    img {
-      margin-left: -4rem !important;
-      width: 200px !important;
-    }
+    clip-path: polygon(0 -80%, 0 100%, 100% 100%);
+    z-index: 2;
   }
 
-  /* TRIÂNGULO COMPLEMENTAR (LOGIN) */
-  .triangulo-login {
+  .lado-esquerdo-login img {
+    margin-left: -4rem !important;
+    width: 200px !important;
+  }
+
+  /* TRIÂNGULO ESQUERDA (LOGIN) */
+  .triangulo-esquerda {
     position: absolute;
-    right: 29.9%;
+    left: 20%;
     top: 0;
-    width: 20.1%;
-    height: 100%;
-    background: #ffffff;
-    clip-path: polygon(0 0, 100% 0, 0 100%);
+    width: 199.9px;
+    height: 400px;
+    background: var(--card-bg);
+    clip-path: polygon(100% 0, 100% 100%, 0 0%);
+    transform: translateX(0);
     z-index: 1;
+    transition: background-color 0.3s ease;
   }
 
   .log {
     font-weight: 600;
   }
 
-  .lado-esquerdo-login {
-    h2 {
-      color: white;
-      font-size: 3rem;
-    }
+  .lado-esquerdo-login h2 {
+    color: white;
+    font-size: 3rem;
   }
 
   /* Transição suave */
@@ -522,7 +604,7 @@ function irParaLogin() {
     }
   }
 }
-@media (max-width: 699px) {
+@media (max-width: 800px) {
   * {
     margin: 0;
     padding: 0;
@@ -543,10 +625,11 @@ function irParaLogin() {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
-    color: #2d2d2d;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease;
   }
 
   /* ---------- CARD DE CADASTRO E LOGIN ---------- */
@@ -556,19 +639,20 @@ function irParaLogin() {
     gap: 0;
     justify-content: center;
     align-items: center;
-    background: #ffffff;
+    background: var(--card-bg);
     padding: 2.7rem 3rem;
     border-radius: 18px;
     width: 380px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 8px 35px var(--shadow-color);
     animation: fadeIn 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .card h2 {
     text-align: center;
     font-size: 1.8rem;
-    color: #1a1a1a;
+    color: var(--text-primary);
     width: 100%;
     margin-bottom: 2rem;
   }
@@ -579,21 +663,26 @@ function irParaLogin() {
     padding: 1rem 1rem;
     border-radius: 10px;
     outline: none;
-    border: 1.5px solid #e0e0e0;
-    background: #f8f9fa;
-    color: #1a1a1a;
-    transition: 0.2s;
+    border: 2px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
     margin-bottom: 1rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
   }
 
   .card input::placeholder {
-    color: #999;
+    color: var(--text-tertiary);
+    font-weight: 400;
   }
 
   .card input:focus {
-    border-color: #4a73ff;
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(74, 115, 255, 0.1);
+    border-color: var(--accent-primary);
+    background: var(--bg-primary);
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.1), 0 4px 8px var(--shadow-color);
+    transform: translateY(-1px);
   }
 
   /* ---------- CONTAINER DE SENHA ---------- */
@@ -611,7 +700,7 @@ function irParaLogin() {
     background: transparent;
     outline: none;
     padding-right: 0.25rem;
-    color: #1a1a1a;
+    color: var(--text-primary);
     font-size: 1rem;
     font-family: inherit;
     line-height: 1.5;
@@ -620,7 +709,7 @@ function irParaLogin() {
   }
 
   .input-senha::placeholder {
-    color: #999;
+    color: var(--text-tertiary);
   }
 
   .toggle-senha {
@@ -639,6 +728,7 @@ function irParaLogin() {
     box-sizing: border-box;
     position: absolute;
     margin-top: 0.3rem;
+    color: var(--text-secondary);
   }
 
   .toggle-senha:hover {
@@ -656,19 +746,19 @@ function irParaLogin() {
     width: 100%;
     padding: 0.9rem;
     margin-top: 0.5rem;
-    background: #4a73ff;
-    color: #fff;
+    background: var(--accent-primary);
+    color: white;
     border: none;
     border-radius: 10px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.3s ease;
   }
 
   .card button:hover,
   .card input[type='submit']:hover {
-    background: #3b5fe0;
+    background: var(--accent-hover);
     transform: translateY(-2px);
   }
 
@@ -687,20 +777,20 @@ function irParaLogin() {
   .switch {
     margin-top: 1rem;
     font-size: 0.9rem;
-    color: #555;
+    color: var(--text-secondary);
     text-align: center;
   }
 
   .switch a {
-    color: #4a73ff;
+    color: var(--accent-primary);
     cursor: pointer;
     text-decoration: none;
     margin-left: 0.3rem;
-    transition: 0.2s;
+    transition: color 0.3s ease;
   }
 
   .switch a:hover {
-    color: #3b5fe0;
+    color: var(--accent-hover);
     text-decoration: underline;
   }
 

@@ -1,126 +1,4 @@
-<!-- <script setup>
-</script>
-
-<template>
-  <footer>
-    <div class="footer-content">
-      <div class="footer-left">
-        <p>&copy; 2025 Direcionamento de Estudo. Todos os direitos reservados.</p>
-      </div>
-
-      <div class="footer-developers">
-        <div class="developer">
-          <a href="https://github.com/Mateus2411" target="_blank" class="developer-link">
-            <img src="/github-svgrepo-com.svg" alt="GitHub Logo" class="github-icon" />
-            <span>Mateus Henrique</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
-</template>
-
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
-footer {
-  width: 100%;
-  margin-top: 4rem;
-  background: #222222;
-  border-top: 1px solid #333;
-  padding: 2rem 0;
-}
-
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  gap: 1.5rem;
-}
-
-.footer-left p {
-  color: #e6e6e6;
-  font-size: 0.95rem;
-}
-
-.footer-developers {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.developer {
-  display: flex;
-  align-items: center;
-}
-
-.developer-link {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-
-  color: #f5f5f5;
-  font-size: 0.95rem;
-  font-weight: 500;
-
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-
-  background: rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-.developer-link:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
-  color: #4a73ff;
-}
-
-.github-icon {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1);
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.developer-link:hover .github-icon {
-  transform: scale(1.1);
-  filter: invert(47%) sepia(99%) saturate(2020%) hue-rotate(214deg) brightness(95%) contrast(101%);
-}
-
-/* Responsivo */
-@media (max-width: 700px) {
-  .footer-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .footer-left p {
-    font-size: 0.9rem;
-  }
-
-  .developer-link {
-    padding: 0.45rem 0.9rem;
-    font-size: 0.9rem;
-  }
-}
-</style> -->
 <script setup>
-// Podes adicionar lógica aqui se necessário (ex: data dinâmica)
 </script>
 
 <template>
@@ -171,16 +49,6 @@ footer {
               <span>Mateus</span>
             </a>
           </div>
-          <div class="creator-card">
-            <span class="role">Desenvolvedor ajudante</span>
-            <a href="https://github.com/Nicolas23264654" target="_blank" class="github-pill">
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                alt="GitHub"
-              />
-              <span>Black</span>
-            </a>
-          </div>
         </div>
       </div>
     </div>
@@ -188,17 +56,17 @@ footer {
 </template>
 
 <style scoped>
-/* Estilos em CSS Puro */
 .footer {
-  background-color: #0a192f; /* Azul marinho profundo */
-  color: #e6f1ff;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
   padding: 60px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-color);
   font-family:
     'Inter',
     system-ui,
     -apple-system,
     sans-serif;
+  transition: all 0.3s ease;
 }
 
 .footer-container {
@@ -218,15 +86,17 @@ footer {
 
 /* ESQUERDA */
 .brand-text {
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
   letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
 .copy-text {
   font-size: 0.85rem;
-  color: #8892b0;
+  color: var(--text-secondary);
+  opacity: 0.8;
 }
 
 /* CENTRO: Logo */
@@ -244,13 +114,13 @@ footer {
   justify-content: center;
   font-weight: 900;
   font-size: 1.5rem;
-  color: white;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
   transition: transform 0.3s ease;
-  .logo-img{
+  .logo-img {
     max-width: 200px;
     max-height: 200px;
     border-radius: 15px;
+    opacity: 0.95;
   }
 }
 
@@ -260,12 +130,14 @@ footer {
 
 /* DIREITA: Criadores */
 .section-title {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #64ffda;
-  margin-bottom: 20px;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+  margin-bottom: 18px;
   text-align: right;
+  font-weight: 600;
+  opacity: 0.9;
 }
 
 .creators-grid {
@@ -283,37 +155,57 @@ footer {
 
 .role {
   font-size: 0.75rem;
-  color: #8892b0;
+  color: var(--text-secondary);
   font-weight: 500;
+  opacity: 0.75;
 }
 
 .github-pill {
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
   padding: 8px 16px;
-  border-radius: 12px;
-  color: #ccd6f6;
+  border-radius: 10px;
+  color: var(--text-primary);
   text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.88rem;
+  font-weight: 500;
   transition: all 0.2s ease-in-out;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
   min-width: 120px;
+  opacity: 0.9;
 }
 
 .github-pill img {
   width: 18px;
   height: 18px;
   filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+
+/* Modo escuro: ícone branco */
+:root:not([data-theme='light']) .github-pill img {
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+
+/* Modo claro: ícone escuro suave */
+:root[data-theme='light'] .github-pill img {
+  filter: brightness(0) invert(0);
+  opacity: 0.6;
 }
 
 .github-pill:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: #64ffda;
-  color: #64ffda;
+  background: var(--bg-primary);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
   transform: translateX(-5px);
+  opacity: 1;
+}
+
+.github-pill:hover img {
+  opacity: 1;
 }
 
 /* RESPONSIVO */

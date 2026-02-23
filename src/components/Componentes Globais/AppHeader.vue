@@ -1,31 +1,64 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
-import { useAuth } from '@/composables/AuthUser'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useThemeStore } from '@/stores/theme'
+import { useNavigationStore } from '@/stores/navigation'
+import { useRouter } from 'vue-router'
 
-// #region Configs Menu
-// #region Header sumindo
+const router = useRouter()
+const authStore = useAuthStore()
+const themeStore = useThemeStore()
+const navStore = useNavigationStore()
+
+// State
+const menuAberto = ref(false)
+const headerVisible = ref(true)
+const lastScrollY = ref(0)
+
+// Funções
+function toggleMenu() {
+  menuAberto.value = !menuAberto.value
+}
+
+function closeMenu() {
+  menuAberto.value = false
+}
 
 function handleScroll() {
-  const percent = window.scrollY / (document.body.scrollHeight - window.innerHeight)
+  const currentScrollY = window.scrollY
+  const scrollPercent = currentScrollY / (document.body.scrollHeight - window.innerHeight)
 
-  if (percent > 0.05) {
-    // 0.05 = 5%
-    document.querySelector('header').classList.add('hidden')
+  // Esconde header se rolar mais de 5% para baixo
+  if (scrollPercent > 0.05 && currentScrollY > lastScrollY.value) {
+    headerVisible.value = false
   } else {
-    document.querySelector('header').classList.remove('hidden')
+    headerVisible.value = true
   }
+
+  lastScrollY.value = currentScrollY
 }
-// #endregion
-// #region Sair do Menu Lateral
+
 function handleKeydown(e) {
-  if (e.key === 'Escape') {
-    menuOpen.value = false
+  if (e.key === 'Escape' && menuAberto.value) {
+    closeMenu()
   }
 }
 
+async function handleLogout() {
+  try {
+    await authStore.logout()
+  } finally {
+    closeMenu()
+    router.push('/cadastrar')
+  }
+}
+
+// Lifecycle
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
+  window.addEventListener('scroll', handleScroll, { passive: true })
   document.addEventListener('keydown', handleKeydown)
+  // Carrega autenticação para atualizar as rotas
+  authStore.loadAuth().catch(() => {})
 })
 
 onBeforeUnmount(() => {
@@ -33,276 +66,525 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', handleKeydown)
 })
 
-const menuOpen = ref(false)
-watch(menuOpen, (open) => {
-  document.body.style.overflow = open ? 'hidden' : ''
-  document.documentElement.style.overflow = open ? 'hidden' : ''
-  document.body.style.touchAction = open ? 'none' : ''
-})
-// #endregion
-// #endregion
-// #region Gerador header
-
-const headerData = ref({
-  logo: {
-    src: '/if-logo-s-fundo.png',
-    alt: 'Logo IF',
-  },
-  menu: [
-    { label: 'Home', to: '/' },
-    { label: 'Cadastrar', to: '/cadastrar' },
-    { label: 'Developers', to: '/devs' },
-  ],
-})
-
-// #endregion
-
-//token
-const { logado, loadAuth } = useAuth()
-
-// #region Rotas a serem colocadas
-
-let newLinks = [{ label: 'Ias', to: '/ias' }, { label: 'Aprendizagem', to: '/trilhas'}]
-
-// #endregion
-
-// #region Validador de Token e Ativador de rotas protegidas
-
-async function applyLinks() {
-  try {
-    await loadAuth()
-    if (!logado.value) return
-
-    for (let item of newLinks) {
-      headerData.value.menu.push(item)
-    }
-  } catch {
-    // usuário não autenticado — não adiciona links
+// Watchers
+watch(menuAberto, (isOpen) => {
+  if (isOpen) {
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+    document.body.style.touchAction = 'none'
+  } else {
+    document.body.style.overflow = ''
+    document.documentElement.style.overflow = ''
+    document.body.style.touchAction = ''
   }
-}
-
-applyLinks()
-// #endregion
+})
 </script>
-<template>
-  <header>
-    <div class="img">
-      <img :src="headerData.logo.src" :alt="headerData.logo.alt" />
-    </div>
 
-    <div class="links" :class="{ open: menuOpen }">
+<template>
+  <header class="header" :class="{ hidden: !headerVisible }">
+    <button
+      class="hamburguer"
+      @click="toggleMenu"
+      aria-label="Abrir menu de navegação"
+      :aria-expanded="menuAberto"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <h1 class="titulo">Construindo o futuro juntos</h1>
+
+    <div class="header-actions">
       <button
-        class="menu-toggle"
-        type="button"
-        :aria-expanded="menuOpen"
-        aria-controls="menu"
-        aria-label="Abrir menu"
-        @click="menuOpen = !menuOpen"
+        class="theme-toggle"
+        @click="themeStore.toggleTheme"
+        :aria-label="themeStore.isDark ? 'Ativar modo claro' : 'Ativar modo escuro'"
+        :title="themeStore.isDark ? 'Modo claro' : 'Modo escuro'"
       >
-        <span></span><span></span><span></span>
+        <svg v-if="themeStore.isDark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
       </button>
 
-      <ul id="menu">
-        <li v-for="item in headerData.menu" :key="item.to">
-          <router-link :to="item.to" @click="menuOpen = false">
-            {{ item.label }}
-          </router-link>
-        </li>
-      </ul>
+      <router-link to="/perfil" class="usuario" aria-label="Ir para perfil">
+        <span class="nome">{{ authStore.username }}</span>
+        <img
+          :src="authStore.logado ? '/favicon.ico' : '/no-img.png'"
+          :alt="authStore.logado ? 'Avatar do usuário' : 'Avatar visitante'"
+          class="avatar"
+        />
+      </router-link>
     </div>
   </header>
-  <teleport to="body">
-    <div
-      class="menu-backdrop"
-      :class="{ show: menuOpen }"
-      v-show="menuOpen"
-      @click="menuOpen = false"
-    ></div>
-  </teleport>
+
+  <aside
+    class="menu-lateral"
+    :class="{ aberto: menuAberto }"
+    aria-label="Menu de navegação"
+    role="navigation"
+  >
+    <img src="/if-logo-s-fundo.png" alt="Logo IF" class="logo" />
+
+    <nav>
+      <ul class="rotas">
+        <li v-for="item in navStore.rotasMenu" :key="item.to">
+          <router-link :to="item.to" @click="closeMenu">{{ item.label }}</router-link>
+        </li>
+      </ul>
+
+      <div class="usuario-menu">
+        <router-link to="/perfil" class="usuario-link" aria-label="Ir para perfil" @click="closeMenu">
+          <span class="nome">{{ authStore.username }}</span>
+          <img
+            :src="authStore.logado ? '/favicon.ico' : '/no-img.png'"
+            :alt="authStore.logado ? 'Avatar do usuário' : 'Avatar visitante'"
+            class="avatar"
+          />
+        </router-link>
+
+        <!-- Botão de Tema na Sidebar (visível apenas em mobile) -->
+        <button
+          class="theme-toggle-sidebar"
+          @click="themeStore.toggleTheme"
+          :aria-label="themeStore.isDark ? 'Ativar modo claro' : 'Ativar modo escuro'"
+        >
+          <svg v-if="themeStore.isDark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <span>{{ themeStore.isDark ? 'Modo Claro' : 'Modo Escuro' }}</span>
+        </button>
+
+        <a
+          v-if="authStore.logado"
+          class="entrar sair"
+          href="#"
+          @click.prevent="handleLogout"
+          aria-label="Sair da conta"
+        >Sair</a>
+        <router-link
+          v-else
+          to="/cadastrar"
+          class="entrar"
+          aria-label="Fazer login"
+          @click="closeMenu"
+        >Entrar</router-link>
+      </div>
+    </nav>
+  </aside>
+
+  <div
+    v-if="menuAberto"
+    class="overlay"
+    @click="closeMenu"
+    aria-hidden="true"
+  />
 </template>
+
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family:
-    'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  text-decoration: none;
-  list-style: none;
-  scroll-behavior: smooth;
-}
-
-header {
+/* ========================================
+   HEADER PRINCIPAL
+   ======================================== */
+.header {
   position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  height: 6rem;
+  padding: 0 3rem;
 
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
 
-  width: 90%;
-  padding: 1.5vw 4vw;
+  background: rgba(41, 45, 52, 0.348);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-  background-color: #f8f9fa;
-  border-radius: 20px;
-
-  background:
-    linear-gradient(#9c9c9c, #707070) padding-box,
-    linear-gradient(90deg, #9c9c9c, #707070) border-box;
-
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-  z-index: 99999;
-  .img {
-    img {
-      width: 120px;
-    }
-  }
+  color: #fff;
+  transition: transform 0.3s ease;
 }
 
-header.hidden {
-  opacity: 0;
-  transform: translate(-50%, -40px);
-  pointer-events: none;
+.header.hidden {
+  transform: translateY(-100%);
 }
 
-header .links {
+/* ========================================
+   BOTÃO HAMBÚRGUER
+   ======================================== */
+.hamburguer {
+  width: 32px;
+  height: 24px;
+  padding: 0;
+
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-}
+  flex-direction: column;
+  justify-content: space-between;
 
-header .links ul {
-  display: flex;
-  gap: 4vw;
-  margin-right: 2vw;
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
-header .links ul li a {
-  font-size: large;
-  font-weight: bolder;
-  color: white;
+.hamburguer span {
+  width: 100%;
+  height: 3px;
+
+  background: white;
+  border-radius: 4px;
+  transition: 0.3s ease;
 }
 
-.router-link-exact-active {
-  background: rgba(0, 0, 0, 0.823);
-  padding: 1vw 1.2vw;
-  border-radius: 15px;
-  color: white !important;
+/* ========================================
+   TÍTULO
+   ======================================== */
+.titulo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
-.menu-toggle {
-  display: none;
+/* ========================================
+   AÇÕES DO HEADER (TEMA + USUÁRIO)
+   ======================================== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ========================================
+   BOTÃO DE TEMA
+   ======================================== */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(0, 0, 0, 0.6);
+
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
   color: white;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
 }
 
-.menu-toggle span {
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(20deg) scale(1.1);
+}
+
+.theme-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+/* ========================================
+   USUÁRIO (HEADER)
+   ======================================== */
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: inherit;
+
+  transition: opacity 0.2s ease;
+}
+
+.usuario:hover {
+  opacity: 0.8;
+}
+
+.usuario .nome {
+  line-height: 1.1;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  object-fit: cover;
+  background: #0b2d52;
+}
+
+/* ========================================
+   MENU LATERAL
+   ======================================== */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: -281px;
+  z-index: 200;
+
+  width: 280px;
+  height: 100vh;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  background: rgba(15, 35, 60, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+  overflow-y: auto;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-lateral.aberto {
+  left: 0;
+}
+
+.menu-lateral .logo {
+  width: 7rem;
+  height: auto;
+  margin: 1.5rem auto 2rem;
+
+  filter: drop-shadow(0 4px 12px rgba(29, 155, 240, 0.3));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.menu-lateral .logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 6px 16px rgba(29, 155, 240, 0.5));
+}
+
+.menu-lateral nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ========================================
+   ROTAS (MENU LATERAL)
+   ======================================== */
+.rotas {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rotas li {
   display: block;
-  width: 22px;
-  height: 2px;
-  background: #fff;
-  margin: 3px 0;
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
 }
 
-@media (max-width: 1000px) {
-  header {
-    padding: 12px 16px;
+.rotas a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+
+  font-size: 1rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  text-decoration: none;
+
+  background-color: transparent;
+  border-left: 3px solid transparent;
+
+  transition: all 0.2s ease;
+}
+
+.rotas a:hover {
+  background-color: rgba(29, 155, 240, 0.15);
+  border-left-color: #1d9bf0;
+  color: #f1f5f9;
+}
+
+.rotas a.router-link-active {
+  background-color: rgba(29, 155, 240, 0.2);
+  border-left-color: #1d9bf0;
+  color: #1d9bf0;
+  font-weight: 600;
+}
+
+/* ========================================
+   USUÁRIO (MENU LATERAL)
+   ======================================== */
+.usuario-menu {
+  margin-top: auto;
+  padding: 1.5rem 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+
+  background: rgba(10, 25, 47, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.usuario-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+
+  text-decoration: none;
+  color: white;
+
+  transition: opacity 0.2s ease;
+}
+
+.usuario-link:hover {
+  opacity: 0.8;
+}
+
+.usuario-link .nome {
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.usuario-menu .avatar {
+  width: 48px;
+  height: 48px;
+}
+
+.entrar {
+  padding: 0.6rem 1.2rem;
+
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: white;
+
+  background-color: transparent;
+  border-radius: 20px;
+
+  transition: background-color 0.2s ease;
+}
+
+.entrar:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.entrar.sair {
+  color: #ff6b6b;
+}
+
+.entrar.sair:hover {
+  background-color: rgba(255, 107, 107, 0.1);
+}
+
+/* ========================================
+   BOTÃO DE TEMA NA SIDEBAR
+   ======================================== */
+.theme-toggle-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  width: 100%;
+  padding: 0.75rem 1.2rem;
+  margin: 0.5rem 0;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: white;
+
+  background: rgba(29, 155, 240, 0.1);
+  border: 1px solid rgba(29, 155, 240, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-sidebar:hover {
+  background: rgba(29, 155, 240, 0.2);
+  border-color: rgba(29, 155, 240, 0.5);
+  transform: translateY(-2px);
+}
+
+.theme-toggle-sidebar svg {
+  flex-shrink: 0;
+}
+
+/* ========================================
+   OVERLAY
+   ======================================== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+@media (max-width: 650px) {
+  .theme-toggle {
+    display: none;
+  }
+}
+
+@media (min-width: 651px) {
+  .theme-toggle-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .titulo {
+    display: none;
+  }
+}
+
+@media (max-width: 300px) {
+  .usuario-menu {
+    gap: 0.3rem;
   }
 
-  header .links ul {
-    position: fixed;
-    top: -11%;
-    right: 0;
-    height: 100vh;
-    width: min(75vw, 320px);
-    background: rgba(0, 0, 0, 0.92);
-    backdrop-filter: saturate(120%) blur(2px);
-    box-shadow: -8px 0 35px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 5rem 1.5rem 2rem;
-    gap: 2rem;
-    margin-right: 0;
-    transform: translateX(120%);
-    transition: transform 0.3s ease;
-    cursor: default;
-    z-index: 100001;
-    overflow-y: auto;
+  .usuario-link .nome {
+    font-size: 1rem;
   }
 
-  header .links.open ul {
-    transform: translateX(20%);
-  }
-
-  .menu-toggle {
-    display: inline-flex;
-    margin-left: auto;
-  }
-
-  header .links ul li a {
-    font-size: 1.1rem;
-    color: #fff;
-    padding: 9px 10px;
-    border-radius: 10px;
-    transition: background 0.2s ease;
-    background: rgba(40, 40, 40, 0);
-  }
-
-  header .links ul li a:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-  }
-
-  .links.open .menu-toggle span:nth-child(1) {
-    transform: translateY(5px) rotate(45deg);
-  }
-
-  .links.open .menu-toggle span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .links.open .menu-toggle span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
-  }
-
-  .menu-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-
-    /* ocupa tudo EXCETO o menu */
-    width: calc(100vw - min(85vw, 290px));
-
-    background: rgba(63, 63, 63, 0.35);
-    backdrop-filter: blur(1px);
-    z-index: 100000;
-
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .menu-backdrop.show {
-    opacity: 1;
-    pointer-events: auto;
+  .entrar {
+    font-size: 1rem;
   }
 }
 </style>

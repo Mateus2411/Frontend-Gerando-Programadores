@@ -6,29 +6,32 @@ defineProps({
 
 const conteudoS4 = [
   {
-    titulo: "Criar programas simples",
-    descricao: "Aprender a escrever pequenos programas que resolvem problemas reais."
+    titulo: 'Criar programas simples',
+    descricao: 'Aprender a escrever pequenos programas que resolvem problemas reais.',
   },
   {
-    titulo: "Visualizar informações",
-    descricao: "Transformar dados em gráficos ou relatórios claros para entender resultados rapidamente."
+    titulo: 'Visualizar informações',
+    descricao:
+      'Transformar dados em gráficos ou relatórios claros para entender resultados rapidamente.',
   },
   {
-    titulo: "Resolver desafios práticos",
-    descricao: "Executar exercícios que mostram imediatamente se o código está correto e como melhorá-lo."
+    titulo: 'Resolver desafios práticos',
+    descricao:
+      'Executar exercícios que mostram imediatamente se o código está correto e como melhorá-lo.',
   },
   {
-    titulo: "Automatizar tarefas básicas",
-    descricao: "Criar scripts que ajudam a poupar tempo em tarefas repetitivas."
+    titulo: 'Automatizar tarefas básicas',
+    descricao: 'Criar scripts que ajudam a poupar tempo em tarefas repetitivas.',
   },
   {
-    titulo: "Trabalhar em equipe",
-    descricao: "Colaborar com colegas, trocar ideias e revisar códigos de forma construtiva."
+    titulo: 'Trabalhar em equipe',
+    descricao: 'Colaborar com colegas, trocar ideias e revisar códigos de forma construtiva.',
   },
   {
-    titulo: "Desenvolver raciocínio lógico",
-    descricao: "Aprender a pensar de forma estruturada para resolver problemas de maneira eficiente."
-  }
+    titulo: 'Desenvolver raciocínio lógico',
+    descricao:
+      'Aprender a pensar de forma estruturada para resolver problemas de maneira eficiente.',
+  },
 ]
 </script>
 
@@ -44,7 +47,8 @@ const conteudoS4 = [
   </section>
 </template>
 
-<style scoped>section {
+<style scoped>
+section {
   max-width: 1200px;
   margin: 5rem auto;
   padding: 2.5rem 1.5rem;
@@ -54,14 +58,15 @@ section h2 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2.2rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 section ul {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;        /* quebra de linha */
+  flex-wrap: wrap; /* quebra de linha */
   gap: 1.4rem;
   padding: 0;
   margin: 0;
@@ -70,17 +75,17 @@ section ul {
 /* -------- 3 por linha no DESKTOP -------- */
 section ul li {
   flex: 1 1 calc(33.333% - 1.4rem);
-  background: #ffffff;
+  background: var(--card-bg);
   padding: 1.7rem;
   border-radius: 15px;
-  border: 1px solid #e0e0e0;
-  color: #555;
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
   line-height: 1.7;
   font-size: 1rem;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px var(--shadow-color);
 }
 
 /* BARRA LATERAL */
@@ -101,7 +106,7 @@ section ul li:hover {
   transform: translateY(-4px);
   border-color: #4a73ff;
   box-shadow: 0 8px 25px rgba(74, 115, 255, 0.15);
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 section ul li:hover::before {
@@ -149,5 +154,4 @@ section ul li strong {
     font-size: 1.45rem;
   }
 }
-
 </style>

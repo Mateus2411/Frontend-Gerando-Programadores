@@ -25,7 +25,6 @@ const cards = [
   </section>
 </template>
 <style scoped>
-
 section.s2 {
   margin: 1.2rem 0;
 }
@@ -44,21 +43,25 @@ section.s2 {
 }
 
 .cards-container .card {
-  background: #ffffff;
+  background: var(--card-bg);
   padding: 1.2rem 1.4rem;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 10px var(--shadow-color);
   line-height: 1.45;
+  border: 1px solid var(--card-border);
+  transition: all 0.3s ease;
 }
 
 .cards-container .card h3 {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
-  color: #111;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 }
 
 .cards-container .card p {
-  color: #333;
+  color: var(--text-secondary);
   font-size: 0.95rem;
+  transition: color 0.3s ease;
 }
 </style>

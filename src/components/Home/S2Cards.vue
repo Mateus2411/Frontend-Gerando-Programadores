@@ -1,11 +1,10 @@
 <script setup>
-
 defineProps({
   titulo: String,
   descricao: String,
 })
 
-let Objetivos =[
+let Objetivos = [
   {
     id: 1,
     titulo: 'Aprender',
@@ -16,7 +15,7 @@ let Objetivos =[
     id: 2,
     titulo: 'Praticar',
     descricao:
-    'Muitas das coisas requerem pratica, e programação nao e diferente te forçando a praticar',
+      'Muitas das coisas requerem pratica, e programação nao e diferente te forçando a praticar',
   },
   {
     id: 3,
@@ -28,16 +27,13 @@ let Objetivos =[
     id: 4,
     titulo: 'Testar',
     descricao:
-    'Testar seus conhecimentos, nada melhor do que testar o que aprendeu para ver se realmente entendeu e esta apto a seguir em frente',
+      'Testar seus conhecimentos, nada melhor do que testar o que aprendeu para ver se realmente entendeu e esta apto a seguir em frente',
   },
 ]
-
 </script>
 <template>
   <section>
-    <h2>
-      Objetivos de aprendizagem:
-    </h2>
+    <h2>Objetivos de aprendizagem:</h2>
     <div class="cards-conteiner">
       <div v-for="card in Objetivos" :key="card.id" class="card">
         <div class="card-icon">{{ card.id }}</div>
@@ -53,8 +49,9 @@ section h2 {
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: var(--text-primary);
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 .cards-conteiner {
@@ -71,11 +68,11 @@ section h2 {
 }
 
 .card {
-  background: #ffffff;
+  background: var(--card-bg);
   padding: 2.5rem;
   border-radius: 18px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 35px var(--shadow-color);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -141,13 +138,15 @@ section h2 {
   margin-bottom: 1rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 }
 
 .card p {
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.7;
   font-size: 1rem;
+  transition: color 0.3s ease;
 }
 
 @keyframes fadeIn {
