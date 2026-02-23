@@ -117,7 +117,18 @@ watch(menuAberto, (isOpen) => {
         :aria-label="themeStore.isDark ? 'Ativar modo claro' : 'Ativar modo escuro'"
         :title="themeStore.isDark ? 'Modo claro' : 'Modo escuro'"
       >
-        <svg v-if="themeStore.isDark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          v-if="themeStore.isDark"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <circle cx="12" cy="12" r="5"></circle>
           <line x1="12" y1="1" x2="12" y2="3"></line>
           <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -128,7 +139,18 @@ watch(menuAberto, (isOpen) => {
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
         </svg>
-        <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>
@@ -160,7 +182,12 @@ watch(menuAberto, (isOpen) => {
       </ul>
 
       <div class="usuario-menu">
-        <router-link to="/perfil" class="usuario-link" aria-label="Ir para perfil" @click="closeMenu">
+        <router-link
+          to="/perfil"
+          class="usuario-link"
+          aria-label="Ir para perfil"
+          @click="closeMenu"
+        >
           <span class="nome">{{ authStore.username }}</span>
           <img
             :src="avatarUrl"
@@ -175,7 +202,18 @@ watch(menuAberto, (isOpen) => {
           @click="themeStore.toggleTheme"
           :aria-label="themeStore.isDark ? 'Ativar modo claro' : 'Ativar modo escuro'"
         >
-          <svg v-if="themeStore.isDark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            v-if="themeStore.isDark"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -186,7 +224,18 @@ watch(menuAberto, (isOpen) => {
             <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
           </svg>
-          <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            v-else
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
           <span>{{ themeStore.isDark ? 'Modo Claro' : 'Modo Escuro' }}</span>
@@ -198,24 +247,21 @@ watch(menuAberto, (isOpen) => {
           href="#"
           @click.prevent="handleLogout"
           aria-label="Sair da conta"
-        >Sair</a>
+          >Sair</a
+        >
         <router-link
           v-else
           to="/cadastrar"
           class="entrar"
           aria-label="Fazer login"
           @click="closeMenu"
-        >Entrar</router-link>
+          >Entrar</router-link
+        >
       </div>
     </nav>
   </aside>
 
-  <div
-    v-if="menuAberto"
-    class="overlay"
-    @click="closeMenu"
-    aria-hidden="true"
-  />
+  <div v-if="menuAberto" class="overlay" @click="closeMenu" aria-hidden="true" />
 </template>
 
 <style scoped>
@@ -383,6 +429,9 @@ watch(menuAberto, (isOpen) => {
 
   overflow-y: auto;
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Adiciona padding para evitar que conteúdo fique atrás da barra de navegação do celular */
+  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 .menu-lateral.aberto {
@@ -395,7 +444,9 @@ watch(menuAberto, (isOpen) => {
   margin: 1.5rem auto 2rem;
 
   filter: drop-shadow(0 4px 12px rgba(29, 155, 240, 0.3));
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
 }
 
 .menu-lateral .logo:hover {
@@ -461,6 +512,8 @@ watch(menuAberto, (isOpen) => {
 .usuario-menu {
   margin-top: auto;
   padding: 1.5rem 1rem;
+  /* Adiciona padding extra para evitar que fique atrás da barra de navegação */
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 2rem));
 
   display: flex;
   flex-direction: column;
