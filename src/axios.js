@@ -1,14 +1,14 @@
 import axios from 'axios'
 
-// const api = axios.create({
-//   baseURL: 'https://backend-gerando-programadores-1.onrender.com/api',
-//   withCredentials: true,
-// })
-
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://backend-gerando-programadores-1.onrender.com/api',
   withCredentials: true,
 })
+
+// const api = axios.create({
+//   baseURL: 'http://localhost:5000/api',
+//   withCredentials: true,
+// })
 
 // #region Erro Coffee
 
