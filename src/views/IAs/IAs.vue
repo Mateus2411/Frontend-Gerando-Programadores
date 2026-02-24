@@ -129,6 +129,10 @@ section.s1 a:hover {
   justify-content: space-around;
   transition: background-color 0.3s ease;
 }
+#escrita-animada {
+  max-width: 100%;
+  overflow: hidden;
+}
 #escrita-animada h2 {
   font-family: 'Open Sans', sans-serif;
   font-size: 2rem;
@@ -155,11 +159,20 @@ section.s1 a:hover {
   .s2 {
     flex-direction: column;
     text-align: center;
+    padding: 3vw 3vw;
+  }
+  #escrita-animada {
+    width: 100%;
+    max-width: 100%;
   }
   #escrita-animada h2 {
     margin-bottom: 2rem;
     margin-right: 0;
-    font-size: 5vw;
+    font-size: 1.5rem;
+    white-space: normal;
+    border-right: none;
+    width: 100%;
+    animation: none !important;
   }
 }
 
@@ -179,11 +192,17 @@ section.s1 a:hover {
   section.s1 div {
     margin-top: 8rem;
   }
+  section.s1 h1 {
+    font-size: 2.5rem;
+  }
+  section.s1 p {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 700px) {
   #escrita-animada h2 {
-    font-size: 5vw;
+    font-size: 1.3rem;
   }
 }
 
