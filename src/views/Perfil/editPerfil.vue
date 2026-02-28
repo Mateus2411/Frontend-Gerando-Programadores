@@ -267,19 +267,21 @@ const showConfirmPassword = ref(false)
 
 // Lista de avatares disponíveis
 const avataresMasculinos = [
-  { nome: 'Avatar 1', path: '/perfil_avatar/masculino/masc-1.avif' },
-  { nome: 'Avatar 2', path: '/perfil_avatar/masculino/masc-2.avif' },
-  { nome: 'Avatar 3', path: '/perfil_avatar/masculino/masc-3.jpg' },
+  { nome: 'Avatar 1', path: '/perfil_avatar/masculino/masc-1.png' },
+  { nome: 'Avatar 2', path: '/perfil_avatar/masculino/masc-2.png' },
+  { nome: 'Avatar 3', path: '/perfil_avatar/masculino/masc-3.png' },
   { nome: 'Avatar 4', path: '/perfil_avatar/masculino/masc-4.png' },
-  { nome: 'Avatar 5', path: '/perfil_avatar/masculino/masc-5.avif' },
+  { nome: 'Avatar 5', path: '/perfil_avatar/masculino/masc-5.png' },
   { nome: 'Avatar 6', path: '/perfil_avatar/masculino/masc-6.png' }
 ]
 
 const avataresFemininos = [
-  { nome: 'Avatar 1', path: '/perfil_avatar/feminino/fem-1.avif' },
-  { nome: 'Avatar 2', path: '/perfil_avatar/feminino/fem-2.jpg' },
-  { nome: 'Avatar 3', path: '/perfil_avatar/feminino/fem-3.jpg' },
-  { nome: 'Avatar 4', path: '/perfil_avatar/feminino/fem-4.avif' }
+  { nome: 'Avatar 1', path: '/perfil_avatar/feminino/fem-1.png' },
+  { nome: 'Avatar 2', path: '/perfil_avatar/feminino/fem-2.png' },
+  { nome: 'Avatar 3', path: '/perfil_avatar/feminino/fem-3.png' },
+  { nome: 'Avatar 4', path: '/perfil_avatar/feminino/fem-4.png' },
+  { nome: 'Avatar 5', path: '/perfil_avatar/feminino/fem-5.png' },
+  { nome: 'Avatar 6', path: '/perfil_avatar/feminino/fem-6.png' }
 ]
 
 const form = reactive({
