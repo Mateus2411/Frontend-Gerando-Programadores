@@ -156,9 +156,9 @@ main {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
   .s1 {
-    min-height: calc(100vh - 6rem);
+    min-height: calc(100vh);
     padding: 0 1.5rem;
-    margin-bottom: 0;
+    margin-bottom: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
