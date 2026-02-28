@@ -556,6 +556,7 @@ watch(menuAberto, (isOpen) => {
 
 .entrar {
   padding: 0.6rem 1.2rem;
+  margin-bottom: 4rem;
 
   font-size: 0.9rem;
   text-decoration: none;
