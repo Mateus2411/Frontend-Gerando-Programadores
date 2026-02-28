@@ -82,7 +82,7 @@ const router = createRouter({
       meta: {
         // hideHeader: true,
         // hideFooter: true,
-        // requiresAuth: true,
+        requiresAuth: true,
       },
     },
   ],
