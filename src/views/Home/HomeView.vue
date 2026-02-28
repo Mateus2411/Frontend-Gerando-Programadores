@@ -70,7 +70,6 @@ main {
 .hero-content {
   position: relative;
   max-width: 760px;
-  width: 100%;
   text-align: center;
   color: #fff;
   padding: 1rem;
