@@ -45,13 +45,11 @@ main {
 /* ---------------- HERO ---------------- */
 
 .s1 {
-  width: 100%;
   min-height: 95vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 2rem 5rem 2rem;
-
+  padding: 1.5rem 2rem 1.5rem 2rem;
   position: relative;
   overflow: hidden;
 
