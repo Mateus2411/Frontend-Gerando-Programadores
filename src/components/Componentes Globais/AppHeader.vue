@@ -276,7 +276,7 @@ watch(menuAberto, (isOpen) => {
   z-index: 100;
 
   height: 6rem;
-  padding: 0 3rem;
+  padding: 0 2rem;
 
   display: flex;
   align-items: center;
@@ -513,7 +513,7 @@ watch(menuAberto, (isOpen) => {
   margin-top: auto;
   padding: 1.5rem 1rem;
   /* Adiciona padding extra para evitar que fique atrás da barra de navegação */
-  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 2rem));
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 20px));
 
   display: flex;
   flex-direction: column;

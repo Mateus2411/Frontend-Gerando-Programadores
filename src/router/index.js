@@ -33,16 +33,16 @@ const router = createRouter({
           name: 'javascript',
           component: () => import('@/views/Trilhas/Cursos/JavaScript/HomeJS.vue'),
           meta: {
-            hideHeader: true,
+            // hideHeader: true,
             // hideFooter: true,
-            requiresAuth: true
+            // requiresAuth: true
           },
         },
       ],
       meta: {
         // hideHeader: true,
         // hideFooter: true,
-        requiresAuth: true
+        // requiresAuth: true
       },
     },
     // {

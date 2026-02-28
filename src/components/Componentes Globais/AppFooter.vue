@@ -209,11 +209,27 @@
 }
 
 /* RESPONSIVO */
-@media (max-width: 900px) {
+@media (max-width: 650px) {
+  .footer {
+    padding: 40px 20px;
+  }
+
   .footer-container {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 50px;
+    gap: 35px;
+  }
+
+  .copyright {
+    order: 2;
+  }
+
+  .branding {
+    order: 1;
+  }
+
+  .creators {
+    order: 3;
   }
 
   .section-title {
@@ -222,12 +238,103 @@
 
   .creator-card {
     justify-content: center;
-    flex-direction: column;
-    gap: 5px;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .github-pill {
+    min-width: 140px;
   }
 
   .github-pill:hover {
     transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 15px;
+  }
+
+  .footer-container {
+    gap: 30px;
+  }
+
+  .brand-text {
+    font-size: 1rem;
+  }
+
+  .copy-text {
+    font-size: 0.8rem;
+  }
+
+  .logo-placeholder {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logo-placeholder .logo-img {
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  .section-title {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+  }
+
+  .creators-grid {
+    gap: 10px;
+  }
+
+  .creator-card {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .role {
+    font-size: 0.7rem;
+  }
+
+  .github-pill {
+    min-width: 130px;
+    padding: 7px 14px;
+    font-size: 0.85rem;
+  }
+
+  .github-pill img {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer {
+    padding: 25px 12px;
+  }
+
+  .brand-text {
+    font-size: 0.95rem;
+  }
+
+  .copy-text {
+    font-size: 0.75rem;
+  }
+
+  .logo-placeholder {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-placeholder .logo-img {
+    max-width: 120px;
+    max-height: 120px;
+  }
+
+  .github-pill {
+    min-width: 120px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }
 </style>
