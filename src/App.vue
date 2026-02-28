@@ -12,11 +12,14 @@ onMounted(() => {
   authStore.loadAuth()
 })
 </script>
+
+
 <template>
   <app-header v-if="!$route.meta.hideHeader" />
   <router-view />
   <app-footer v-if="!$route.meta.hideFooter" />
 </template>
+
 
 <style>
 /* ========================================
@@ -40,6 +43,18 @@ onMounted(() => {
   --card-bg: #ffffff;
   --card-hover: #f7fafc;
   --card-border: rgba(0, 0, 0, 0.06);
+
+  /* Sidebar - Modo Claro */
+  --sidebar-bg: rgba(248, 250, 252, 0.98);
+  --sidebar-border: rgba(0, 0, 0, 0.08);
+  --sidebar-text: #334155;
+  --sidebar-text-hover: #1e293b;
+  --sidebar-hover: rgba(29, 155, 240, 0.06);
+  --sidebar-active: rgba(29, 155, 240, 0.1);
+  --sidebar-footer-bg: rgba(241, 245, 249, 0.8);
+  --sidebar-button-bg: rgba(29, 155, 240, 0.06);
+  --sidebar-button-border: rgba(29, 155, 240, 0.15);
+  --sidebar-button-hover: rgba(29, 155, 240, 0.12);
 }
 
 [data-theme='dark'] {
@@ -60,6 +75,18 @@ onMounted(() => {
   --card-bg: rgba(255, 255, 255, 0.05);
   --card-hover: rgba(29, 155, 240, 0.1);
   --card-border: rgba(255, 255, 255, 0.1);
+
+  /* Sidebar - Modo Escuro */
+  --sidebar-bg: rgba(15, 35, 60, 0.95);
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-text: #cbd5e1;
+  --sidebar-text-hover: #f1f5f9;
+  --sidebar-hover: rgba(29, 155, 240, 0.15);
+  --sidebar-active: rgba(29, 155, 240, 0.2);
+  --sidebar-footer-bg: rgba(10, 25, 47, 0.4);
+  --sidebar-button-bg: rgba(29, 155, 240, 0.1);
+  --sidebar-button-border: rgba(29, 155, 240, 0.3);
+  --sidebar-button-hover: rgba(29, 155, 240, 0.2);
 }
 
 /* ========================================

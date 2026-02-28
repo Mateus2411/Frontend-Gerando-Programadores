@@ -423,14 +423,14 @@ watch(menuAberto, (isOpen) => {
   display: flex;
   flex-direction: column;
 
-  background: rgba(15, 35, 60, 0.95);
+  background: var(--sidebar-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid var(--sidebar-border);
 
   overflow-y: auto;
   overflow-x: hidden;
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease;
 
   /* Adiciona padding para evitar que conteúdo fique atrás da barra de navegação do celular */
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -488,7 +488,7 @@ watch(menuAberto, (isOpen) => {
 
   font-size: 1rem;
   font-weight: 500;
-  color: #cbd5e1;
+  color: var(--sidebar-text);
   text-decoration: none;
 
   background-color: transparent;
@@ -498,15 +498,15 @@ watch(menuAberto, (isOpen) => {
 }
 
 .rotas a:hover {
-  background-color: rgba(29, 155, 240, 0.15);
-  border-left-color: #1d9bf0;
-  color: #f1f5f9;
+  background-color: var(--sidebar-hover);
+  border-left-color: var(--accent-primary);
+  color: var(--sidebar-text-hover);
 }
 
 .rotas a.router-link-active {
-  background-color: rgba(29, 155, 240, 0.2);
-  border-left-color: #1d9bf0;
-  color: #1d9bf0;
+  background-color: var(--sidebar-active);
+  border-left-color: var(--accent-primary);
+  color: var(--accent-primary);
   font-weight: 600;
 }
 
@@ -524,8 +524,9 @@ watch(menuAberto, (isOpen) => {
   align-items: center;
   gap: 0.8rem;
 
-  background: rgba(10, 25, 47, 0.4);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--sidebar-footer-bg);
+  border-top: 1px solid var(--sidebar-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .usuario-link {
@@ -535,9 +536,9 @@ watch(menuAberto, (isOpen) => {
   gap: 0.8rem;
 
   text-decoration: none;
-  color: white;
+  color: var(--sidebar-text);
 
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, color 0.3s ease;
 }
 
 .usuario-link:hover {
@@ -560,16 +561,16 @@ watch(menuAberto, (isOpen) => {
 
   font-size: 0.9rem;
   text-decoration: none;
-  color: white;
+  color: var(--sidebar-text);
 
   background-color: transparent;
   border-radius: 20px;
 
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.3s ease;
 }
 
 .entrar:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--sidebar-hover);
 }
 
 .entrar.sair {
@@ -595,10 +596,10 @@ watch(menuAberto, (isOpen) => {
 
   font-size: 0.95rem;
   font-weight: 500;
-  color: white;
+  color: var(--sidebar-text);
 
-  background: rgba(29, 155, 240, 0.1);
-  border: 1px solid rgba(29, 155, 240, 0.3);
+  background: var(--sidebar-button-bg);
+  border: 1px solid var(--sidebar-button-border);
   border-radius: 12px;
   cursor: pointer;
 
@@ -606,8 +607,8 @@ watch(menuAberto, (isOpen) => {
 }
 
 .theme-toggle-sidebar:hover {
-  background: rgba(29, 155, 240, 0.2);
-  border-color: rgba(29, 155, 240, 0.5);
+  background: var(--sidebar-button-hover);
+  border-color: var(--accent-primary);
   transform: translateY(-2px);
 }
 
