@@ -249,7 +249,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
@@ -264,6 +264,17 @@ const abaAtiva = ref('masculino')
 const showCurrentPassword = ref(false)
 const showNewPassword = ref(false)
 const showConfirmPassword = ref(false)
+
+// Desabilita scroll quando modal está aberto
+watch(mostrarModalAvatar, (isOpen) => {
+  if (isOpen) {
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+    document.documentElement.style.overflow = ''
+  }
+})
 
 // Lista de avatares disponíveis
 const avataresMasculinos = [
