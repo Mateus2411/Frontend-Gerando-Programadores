@@ -47,7 +47,7 @@ main {
 /* ---------------- HERO ---------------- */
 
 .s1 {
-  min-height: 95vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,7 +134,7 @@ main {
 /* ---------- TABLET ---------- */
 @media (max-width: 1080px) {
   .s1 {
-    min-height: 97vh;
+    min-height: 100vh;
     padding: 3rem 0rem;
   }
 
@@ -156,7 +156,7 @@ main {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
   .s1 {
-    min-height: 99vh;
+    min-height: 100vh;
     padding: 0 1.5rem;
     margin-bottom: 4rem;
     display: flex;
@@ -185,7 +185,7 @@ main {
 /* ---------- MOBILE PEQUENO ---------- */
 @media (max-width: 480px) {
   .s1 {
-    min-height: 96vh;
+    min-height: 100vh;
     padding: 0 1rem;
   }
 
