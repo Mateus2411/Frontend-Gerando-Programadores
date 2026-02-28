@@ -39,7 +39,9 @@ main {
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* ---------------- HERO ---------------- */
@@ -49,7 +51,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 1.5rem 2rem 1.5rem 2rem;
   position: relative;
   overflow: hidden;
 
@@ -74,10 +76,6 @@ main {
   color: #fff;
   padding: 1rem;
   animation: fadeIn 0.6s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .s1 h1 {
@@ -158,53 +156,47 @@ main {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
   .s1 {
-    min-height: 100vh;
-    height: 100vh;
+    min-height: calc(100vh - 6rem);
     padding: 0 1.5rem;
     margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .hero-content {
     max-width: 100%;
-    padding: 0 1rem;
-  }
-
-  .s1 h1 {
-    margin-bottom: 1.5rem;
-  }
-
-  .s1 p {
-    margin-bottom: 2rem;
+    margin: 0;
+    padding: 0;
   }
 
   .btn-start {
     padding: 0.85rem 1.8rem;
     font-size: 1rem;
   }
+  .hero-content h1 {
+    margin-inline: 12vw;
+  }
+  .hero-content p {
+    margin-inline: 12vw;
+  }
 }
 
 /* ---------- MOBILE PEQUENO ---------- */
 @media (max-width: 480px) {
   .s1 {
-    min-height: 100vh;
-    height: 100vh;
+    min-height: calc(100vh - 6rem);
     padding: 0 1rem;
-  }
-
-  .hero-content {
-    padding: 0 0.5rem;
   }
 
   .s1 h1 {
     font-size: 2rem;
     line-height: 1.25;
-    margin-bottom: 1.25rem;
   }
 
   .s1 p {
     font-size: 1.05rem;
     line-height: 1.6;
-    margin-bottom: 1.75rem;
   }
 
   .btn-start {
