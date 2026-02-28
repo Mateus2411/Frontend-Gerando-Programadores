@@ -132,9 +132,9 @@ main {
 /* ------------- MOBILE ------------- */
 
 /* ---------- TABLET ---------- */
-@media (max-width: 1024px) {
+@media (max-width: 1080px) {
   .s1 {
-    height: auto;
+    min-height: 97vh;
     padding: 3rem 0rem;
   }
 
@@ -156,7 +156,7 @@ main {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
   .s1 {
-    min-height: calc(100vh);
+    min-height: 99vh;
     padding: 0 1.5rem;
     margin-bottom: 4rem;
     display: flex;
