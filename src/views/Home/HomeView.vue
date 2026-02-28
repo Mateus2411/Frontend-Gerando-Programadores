@@ -185,7 +185,7 @@ main {
 /* ---------- MOBILE PEQUENO ---------- */
 @media (max-width: 480px) {
   .s1 {
-    min-height: calc(100vh - 6rem);
+    min-height: 99vh;
     padding: 0 1rem;
   }
 
