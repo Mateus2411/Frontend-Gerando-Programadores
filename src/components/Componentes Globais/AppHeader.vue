@@ -417,6 +417,7 @@ watch(menuAberto, (isOpen) => {
 
   width: 280px;
   height: 100vh;
+  min-height: 100vh;
   padding: 0;
 
   display: flex;
@@ -428,6 +429,7 @@ watch(menuAberto, (isOpen) => {
   border-right: 1px solid rgba(255, 255, 255, 0.1);
 
   overflow-y: auto;
+  overflow-x: hidden;
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Adiciona padding para evitar que conteúdo fique atrás da barra de navegação do celular */
@@ -458,6 +460,8 @@ watch(menuAberto, (isOpen) => {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 /* ========================================
