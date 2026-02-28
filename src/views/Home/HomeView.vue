@@ -49,7 +49,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem 2rem 1.5rem 2rem;
+  padding: 2rem;
   position: relative;
   overflow: hidden;
 
@@ -70,10 +70,15 @@ main {
 .hero-content {
   position: relative;
   max-width: 760px;
+  width: 100%;
   text-align: center;
   color: #fff;
   padding: 1rem;
   animation: fadeIn 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .s1 h1 {
@@ -154,42 +159,53 @@ main {
 /* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
   .s1 {
-    padding: 6rem 0rem;
-    text-align: center;
+    min-height: 100vh;
+    height: 100vh;
+    padding: 0 1.5rem;
+    margin-bottom: 0;
   }
 
   .hero-content {
     max-width: 100%;
-    margin: 0;
-    padding: 0;
+    padding: 0 1rem;
+  }
+
+  .s1 h1 {
+    margin-bottom: 1.5rem;
+  }
+
+  .s1 p {
+    margin-bottom: 2rem;
   }
 
   .btn-start {
     padding: 0.85rem 1.8rem;
     font-size: 1rem;
   }
-  .hero-content h1 {
-    margin-inline: 12vw;
-  }
-  .hero-content p {
-    margin-inline: 12vw;
-  }
 }
 
 /* ---------- MOBILE PEQUENO ---------- */
 @media (max-width: 480px) {
   .s1 {
-    padding: 5rem 0rem;
+    min-height: 100vh;
+    height: 100vh;
+    padding: 0 1rem;
+  }
+
+  .hero-content {
+    padding: 0 0.5rem;
   }
 
   .s1 h1 {
     font-size: 2rem;
     line-height: 1.25;
+    margin-bottom: 1.25rem;
   }
 
   .s1 p {
     font-size: 1.05rem;
     line-height: 1.6;
+    margin-bottom: 1.75rem;
   }
 
   .btn-start {
