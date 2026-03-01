@@ -430,7 +430,10 @@ watch(menuAberto, (isOpen) => {
 
   overflow-y: auto;
   overflow-x: hidden;
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 
   /* Adiciona padding para evitar que conteúdo fique atrás da barra de navegação do celular */
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -526,7 +529,9 @@ watch(menuAberto, (isOpen) => {
 
   background: var(--sidebar-footer-bg);
   border-top: 1px solid var(--sidebar-border);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .usuario-link {
@@ -538,7 +543,9 @@ watch(menuAberto, (isOpen) => {
   text-decoration: none;
   color: var(--sidebar-text);
 
-  transition: opacity 0.2s ease, color 0.3s ease;
+  transition:
+    opacity 0.2s ease,
+    color 0.3s ease;
 }
 
 .usuario-link:hover {
@@ -557,7 +564,6 @@ watch(menuAberto, (isOpen) => {
 
 .entrar {
   padding: 0.6rem 1.2rem;
-  margin-bottom: 4rem;
 
   font-size: 0.9rem;
   text-decoration: none;
@@ -566,7 +572,9 @@ watch(menuAberto, (isOpen) => {
   background-color: transparent;
   border-radius: 20px;
 
-  transition: background-color 0.2s ease, color 0.3s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.3s ease;
 }
 
 .entrar:hover {
@@ -659,6 +667,7 @@ watch(menuAberto, (isOpen) => {
 
   .entrar {
     font-size: 1rem;
+    margin-bottom: 4rem;
   }
 }
 </style>
