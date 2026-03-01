@@ -195,6 +195,12 @@ const notificationStore = useNotificationStore()
   }
 }
 
+/* Modo Escuro */
+:root[data-theme='dark'] .notification {
+  background: #112240;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
   .notification-container {

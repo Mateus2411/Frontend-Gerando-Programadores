@@ -74,7 +74,7 @@ onMounted(() => {
   --accent-primary: #1d9bf0;
   --accent-hover: #1a8cd8;
 
-  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-bg: #112240;
   --card-hover: rgba(29, 155, 240, 0.1);
   --card-border: rgba(255, 255, 255, 0.1);
 
