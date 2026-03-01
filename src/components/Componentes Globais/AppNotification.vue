@@ -72,6 +72,7 @@ const notificationStore = useNotificationStore()
   border-radius: 12px;
   box-shadow: 0 8px 24px var(--shadow-color);
   border-left: 4px solid;
+  border: 1px solid var(--border-color);
   pointer-events: auto;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -120,7 +121,7 @@ const notificationStore = useNotificationStore()
 
 .notification-close:hover {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--sidebar-hover);
 }
 
 /* Success */
