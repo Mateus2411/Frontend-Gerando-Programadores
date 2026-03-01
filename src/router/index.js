@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import api from '@/axios'
+import { useNotificationStore } from '@/stores/notification'
 
 // #region Rotas
 
@@ -100,7 +101,8 @@ router.beforeEach(async (to, from, next) => {
     await api.get('/auth/me')
     return next()
   } catch {
-    alert('Faça login/cadastro primeiramente')
+    const notificationStore = useNotificationStore()
+    notificationStore.warning('Faça login/cadastro primeiramente')
     return next('/cadastrar')
   }
 })

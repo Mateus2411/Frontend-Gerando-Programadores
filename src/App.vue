@@ -1,6 +1,7 @@
 <script setup>
 import AppFooter from './components/Componentes Globais/AppFooter.vue'
 import AppHeader from './components/Componentes Globais/AppHeader.vue'
+import AppNotification from './components/Componentes Globais/AppNotification.vue'
 import { onMounted } from 'vue'
 import { useAuthStore } from './stores/auth'
 import { useThemeStore } from './stores/theme'
@@ -18,6 +19,7 @@ onMounted(() => {
   <app-header v-if="!$route.meta.hideHeader" />
   <router-view />
   <app-footer v-if="!$route.meta.hideFooter" />
+  <app-notification />
 </template>
 
 

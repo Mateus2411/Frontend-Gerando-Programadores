@@ -252,9 +252,11 @@
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notification'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const notificationStore = useNotificationStore()
 
 const mostrarModalAvatar = ref(false)
 const previewAvatar = ref('/favicon.ico')
@@ -454,14 +456,15 @@ async function salvar() {
     }
 
     if (!usernameChanged && !bioChanged && !passwordChanged && !fotoChanged) {
-      alert('Nenhuma alteração foi feita')
+      notificationStore.info('Nenhuma alteração foi feita')
       return
     }
 
-    alert('Perfil atualizado com sucesso!')
+    notificationStore.success('Perfil atualizado com sucesso!')
     router.push('/perfil')
   } catch (err) {
     console.error('Erro ao salvar perfil:', err)
+    notificationStore.error(authStore.error || 'Erro ao atualizar perfil')
   }
 }
 

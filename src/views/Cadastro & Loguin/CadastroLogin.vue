@@ -148,9 +148,11 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useNotificationStore } from '@/stores/notification'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const notificationStore = useNotificationStore()
 
 const tela = ref('login')
 
@@ -275,7 +277,7 @@ async function cadastrar() {
   try {
     await authStore.register(nomeCadastro.value, emailCadastro.value, senhaCadastro.value)
 
-    alert('Cadastro realizado com sucesso!')
+    notificationStore.success('Cadastro realizado com sucesso!')
 
     nomeCadastro.value = ''
     emailCadastro.value = ''
@@ -283,6 +285,7 @@ async function cadastrar() {
     tela.value = 'login'
   } catch (error) {
     console.error('Erro ao cadastrar usuário:', error)
+    notificationStore.error(authStore.error || 'Erro ao cadastrar')
     erroEmail.value = authStore.error || 'Erro ao cadastrar'
   }
 }
@@ -308,7 +311,7 @@ async function login() {
   try {
     await authStore.login(emailLogin.value, senhaLogin.value)
 
-    alert('Logado com sucesso!')
+    notificationStore.success('Login realizado com sucesso!')
 
     emailLogin.value = ''
     senhaLogin.value = ''
@@ -317,6 +320,7 @@ async function login() {
     router.push('/')
   } catch (error) {
     console.error('Erro no login:', error)
+    notificationStore.error(authStore.error || 'Email ou senha incorretos')
     erroLoginSenha.value = authStore.error || 'Email ou senha incorretos'
   }
 }
