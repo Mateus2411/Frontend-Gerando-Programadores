@@ -15,6 +15,11 @@ const menuAberto = ref(false)
 const headerVisible = ref(true)
 const lastScrollY = ref(0)
 
+// Computed para a logo da sidebar baseado no tema
+const logoUrl = computed(() => {
+  return themeStore.isDark ? '/if-logo-s-fundo.png' : '/if-preto.png'
+})
+
 // Computed para o avatar do usuário
 const avatarUrl = computed(() => {
   if (authStore.userProfile?.foto) {
@@ -172,7 +177,7 @@ watch(menuAberto, (isOpen) => {
     aria-label="Menu de navegação"
     role="navigation"
   >
-    <img src="/if-logo-s-fundo.png" alt="Logo IF" class="logo" />
+    <img :src="logoUrl" alt="Logo IF" class="logo" />
 
     <nav>
       <ul class="rotas">
