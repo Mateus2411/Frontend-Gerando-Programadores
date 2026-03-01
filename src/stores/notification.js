@@ -5,7 +5,7 @@ export const useNotificationStore = defineStore('notification', () => {
   const notifications = ref([])
   let nextId = 0
 
-  function show(message, type = 'success', duration = 3000) {
+  function show(message, type = 'success', duration = 1500) {
     const id = nextId++
 
     notifications.value.push({
