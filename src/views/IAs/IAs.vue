@@ -73,9 +73,7 @@ section.s1 {
   margin-top: -5vw;
 
   /* imagem de fundo com overlay escuro e efeito cover */
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url(/image.png);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/image.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -144,7 +142,9 @@ section.s1 a:hover {
   white-space: nowrap;
   border-right: 2px solid var(--text-primary);
   width: 0;
-  transition: color 0.3s ease, border-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
 }
 /* RESPONSIVO */
 @media (max-width: 1260px) {

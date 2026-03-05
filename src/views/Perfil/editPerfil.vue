@@ -4,8 +4,16 @@
       <!-- Header -->
       <div class="header">
         <button class="btn-voltar" @click="voltar" aria-label="Voltar para perfil">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
           Voltar
         </button>
@@ -27,7 +35,15 @@
             <div class="avatar-preview" @click="mostrarModalAvatar = true">
               <img :src="previewAvatar" alt="Avatar" class="avatar" />
               <div class="avatar-overlay">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
               </div>
@@ -163,9 +179,7 @@
 
         <!-- Ações -->
         <div class="actions">
-          <button type="button" class="btn-cancel" @click="voltar">
-            Cancelar
-          </button>
+          <button type="button" class="btn-cancel" @click="voltar">Cancelar</button>
           <button type="submit" class="btn-save" :disabled="authStore.loading">
             Salvar Alterações
           </button>
@@ -181,8 +195,16 @@
         <div class="modal-header">
           <h2>Escolha seu Avatar</h2>
           <button class="btn-close" @click="mostrarModalAvatar = false">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 6L6 18M6 6l12 12"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
@@ -285,7 +307,7 @@ const avataresMasculinos = [
   { nome: 'Avatar 3', path: '/perfil_avatar/masculino/masc-3.png' },
   { nome: 'Avatar 4', path: '/perfil_avatar/masculino/masc-4.png' },
   { nome: 'Avatar 5', path: '/perfil_avatar/masculino/masc-5.png' },
-  { nome: 'Avatar 6', path: '/perfil_avatar/masculino/masc-6.png' }
+  { nome: 'Avatar 6', path: '/perfil_avatar/masculino/masc-6.png' },
 ]
 
 const avataresFemininos = [
@@ -294,7 +316,7 @@ const avataresFemininos = [
   { nome: 'Avatar 3', path: '/perfil_avatar/feminino/fem-3.png' },
   { nome: 'Avatar 4', path: '/perfil_avatar/feminino/fem-4.png' },
   { nome: 'Avatar 5', path: '/perfil_avatar/feminino/fem-5.png' },
-  { nome: 'Avatar 6', path: '/perfil_avatar/feminino/fem-6.png' }
+  { nome: 'Avatar 6', path: '/perfil_avatar/feminino/fem-6.png' },
 ]
 
 const form = reactive({
@@ -304,7 +326,7 @@ const form = reactive({
   currentPassword: '',
   newPassword: '',
   confirmPassword: '',
-  avatar: null
+  avatar: null,
 })
 
 const errors = reactive({
@@ -312,7 +334,7 @@ const errors = reactive({
   bio: '',
   currentPassword: '',
   newPassword: '',
-  confirmPassword: ''
+  confirmPassword: '',
 })
 
 function limparErros() {
@@ -334,7 +356,8 @@ function validarSenha(senha) {
 }
 
 function normalizarTexto(texto) {
-  return texto.toLowerCase()
+  return texto
+    .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '') // Remove acentos
     .replace(/[0-9]/g, '') // Remove números
@@ -350,15 +373,53 @@ function validar() {
 
   // Lista de palavrões (censurada para moderação)
   const palavroes = [
-    'porra', 'caralho', 'merda', 'puta', 'fdp', 'filhodaputa',
-    'buceta', 'cu', 'cuzao', 'puto', 'viado', 'bicha',
-    'arrombado', 'desgraca', 'cacete', 'carai', 'krl',
-    'pqp', 'vsf', 'vaisefoder', 'fodase',
-    'bosta', 'corno', 'otario', 'babaca',
-    'imbecil', 'idiota', 'burro', 'retardado', 'mongoloide',
-    'piranha', 'vagabunda', 'vadia', 'safada', 'pinto', 'pau',
-    'rola', 'penis', 'vagina', 'ppk', 'xoxota',
-    'punheta', 'broxa', 'brochar', 'foder', 'fuder', 'trepar'
+    'porra',
+    'caralho',
+    'merda',
+    'puta',
+    'fdp',
+    'filhodaputa',
+    'buceta',
+    'cu',
+    'cuzao',
+    'puto',
+    'viado',
+    'bicha',
+    'arrombado',
+    'desgraca',
+    'cacete',
+    'carai',
+    'krl',
+    'pqp',
+    'vsf',
+    'vaisefoder',
+    'fodase',
+    'bosta',
+    'corno',
+    'otario',
+    'babaca',
+    'imbecil',
+    'idiota',
+    'burro',
+    'retardado',
+    'mongoloide',
+    'piranha',
+    'vagabunda',
+    'vadia',
+    'safada',
+    'pinto',
+    'pau',
+    'rola',
+    'penis',
+    'vagina',
+    'ppk',
+    'xoxota',
+    'punheta',
+    'broxa',
+    'brochar',
+    'foder',
+    'fuder',
+    'trepar',
   ]
 
   // Valida username
@@ -382,7 +443,7 @@ function validar() {
         const usernameNormalizado = normalizarTexto(form.username)
 
         // Verifica se contém palavrão
-        const contemPalavrao = palavroes.some(palavrao => {
+        const contemPalavrao = palavroes.some((palavrao) => {
           const palavraoNormalizado = normalizarTexto(palavrao)
           return usernameNormalizado.includes(palavraoNormalizado)
         })
@@ -433,7 +494,8 @@ async function salvar() {
 
   try {
     const usernameChanged = form.username !== authStore.userProfile?.username
-    const bioChanged = form.bio !== (authStore.userProfile?.bio || authStore.userProfile?.biography || '')
+    const bioChanged =
+      form.bio !== (authStore.userProfile?.bio || authStore.userProfile?.biography || '')
     const passwordChanged = form.newPassword && form.currentPassword
     const fotoChanged = form.avatar && form.avatar !== authStore.userProfile?.foto
 
@@ -574,7 +636,9 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Form */
@@ -857,7 +921,6 @@ onMounted(() => {
     width: 100%;
   }
 }
-
 
 /* Modal de Avatar */
 .modal-overlay {

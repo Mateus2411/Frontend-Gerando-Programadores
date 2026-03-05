@@ -46,7 +46,7 @@ console.log(pilha);  // ["novo item", "outro item"]</code></pre>
 
 // ❌ Ruim - loop manual
 const copia = [];
-for (let i = 0; i < original.length; i++) {
+for (let i = 0; i &lt; original.length; i++) {
   copia[i] = original[i];
 }
 

@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { defineStore } from 'pinia'
 import { useAuthStore } from './auth'
 
@@ -29,19 +29,19 @@ export const useNavigationStore = defineStore('navigation', () => {
 
   // Verifica se uma rota específica está disponível
   function isRotaDisponivel(routeName) {
-    return rotasMenu.value.some(rota => rota.name === routeName)
+    return rotasMenu.value.some((rota) => rota.name === routeName)
   }
 
   // Adiciona uma rota dinâmica (se necessário no futuro)
   function adicionarRota(rota) {
-    if (!rotasPrivadas.find(r => r.name === rota.name)) {
+    if (!rotasPrivadas.find((r) => r.name === rota.name)) {
       rotasPrivadas.push(rota)
     }
   }
 
   // Remove uma rota dinâmica (se necessário no futuro)
   function removerRota(routeName) {
-    const index = rotasPrivadas.findIndex(r => r.name === routeName)
+    const index = rotasPrivadas.findIndex((r) => r.name === routeName)
     if (index !== -1) {
       rotasPrivadas.splice(index, 1)
     }

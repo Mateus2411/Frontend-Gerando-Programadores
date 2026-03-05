@@ -14,16 +14,10 @@ const topicMap = {
   funcoes: 'Funções',
   arrays: 'Arrays',
   objetos: 'Objetos',
-  'paginas-web-dinamicas-dom': 'Páginas Web Dinâmicas (DOM)',
-  'modelo-objeto-documento-dom-tree': 'Modelo de Objeto de Documento (DOM Tree)',
-  'eventos-javascript': 'Eventos JavaScript',
-  'sincronia-assincronia-promessas-async-await': 'Sincronia e Assincronia (Promessas, async-await)',
-  'classes-programacao-orientada-objetos': 'Classes e Programação Orientada a Objetos',
-  'modulos-reutilizacao-codigo': 'Módulos e Reutilização de Código',
-  'projetos-aplicacoes-interativas': 'Projetos e Aplicações Interativas',
 }
 
 const fileMap = {
+  base: 'baseAssunto',
   a: 'exemploA',
   b: 'exemploB',
   c: 'exemploC',
@@ -52,21 +46,6 @@ const trilhaJS = [
   { nome: 'Funções', slug: 'funcoes', nivel: 2 },
   { nome: 'Arrays', slug: 'arrays', nivel: 2 },
   { nome: 'Objetos', slug: 'objetos', nivel: 2 },
-  { nome: 'Páginas Web Dinâmicas (DOM)', slug: 'paginas-web-dinamicas-dom', nivel: 2 },
-  { nome: 'Eventos JavaScript', slug: 'eventos-javascript', nivel: 2 },
-
-  {
-    nome: 'Classes e Programação Orientada a Objetos',
-    slug: 'classes-programacao-orientada-objetos',
-    nivel: 3,
-  },
-  { nome: 'Módulos e Reutilização de Código', slug: 'modulos-reutilizacao-codigo', nivel: 3 },
-  {
-    nome: 'Sincronia e Assincronia (Promessas, async-await)',
-    slug: 'sincronia-assincronia-promessas-async-await',
-    nivel: 3,
-  },
-  { nome: 'Projetos e Aplicações Interativas', slug: 'projetos-aplicacoes-interativas', nivel: 3 },
 ]
 </script>
 
@@ -74,7 +53,7 @@ const trilhaJS = [
   <section v-if="!route.params.topic" class="trilha">
     <div class="header-trilha">
       <div class="icon-wrapper">
-        <span class="icon">{ JS }</span>
+        <p class="icon">{JS}</p>
       </div>
       <h1>Trilha JavaScript</h1>
       <p>Domine JavaScript do básico ao avançado</p>
@@ -96,7 +75,7 @@ const trilhaJS = [
             v-for="(modulo, i) in trilhaJS.filter((m) => m.nivel === 1)"
             :key="i"
             class="card nivel-1"
-            @click="router.push(`/trilhas/javascript/${modulo.slug}/a`)"
+            @click="router.push(`/trilhas/javascript/${modulo.slug}/base`)"
           >
             <div class="card-icon">
               <span>{{ i + 1 }}</span>
@@ -132,7 +111,7 @@ const trilhaJS = [
             v-for="(modulo, i) in trilhaJS.filter((m) => m.nivel === 2)"
             :key="i"
             class="card nivel-2"
-            @click="router.push(`/trilhas/javascript/${modulo.slug}/a`)"
+            @click="router.push(`/trilhas/javascript/${modulo.slug}/base`)"
           >
             <div class="card-icon nivel-2-icon">
               <span>{{ trilhaJS.filter((m) => m.nivel === 1).length + i + 1 }}</span>
@@ -140,44 +119,6 @@ const trilhaJS = [
             <div class="card-content">
               <h3>{{ modulo.nome }}</h3>
               <p class="card-desc">Expanda seus conhecimentos</p>
-            </div>
-            <div class="card-arrow">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M7.5 15L12.5 10L7.5 5"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <!-- Nível 3 -->
-      <div class="nivel-section">
-        <div class="nivel-header">
-          <span class="nivel-icon">⚡</span>
-          <h2>Avançado</h2>
-          <span class="nivel-tag nivel-3-tag">Expert</span>
-        </div>
-        <div class="modulos-grid">
-          <article
-            v-for="(modulo, i) in trilhaJS.filter((m) => m.nivel === 3)"
-            :key="i"
-            class="card nivel-3"
-            @click="router.push(`/trilhas/javascript/${modulo.slug}/a`)"
-          >
-            <div class="card-icon nivel-3-icon">
-              <span>{{
-                trilhaJS.filter((m) => m.nivel === 1 || m.nivel === 2).length + i + 1
-              }}</span>
-            </div>
-            <div class="card-content">
-              <h3>{{ modulo.nome }}</h3>
-              <p class="card-desc">Domine conceitos avançados</p>
             </div>
             <div class="card-arrow">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -205,7 +146,6 @@ const trilhaJS = [
   padding: 1rem 1.5rem 3rem;
 }
 
-/* ========== HEADER ========== */
 .header-trilha {
   text-align: center;
   margin-bottom: 3rem;
@@ -225,10 +165,12 @@ const trilhaJS = [
 }
 
 .icon {
-  font-size: 1.8rem;
+  text-align: center;
+  font-size: 2rem !important;
+  /* letter-spacing: 0.2rem; */
   font-weight: 800;
   color: white;
-  font-family: 'Courier New', monospace;
+  margin: 0 !important;
 }
 
 .header-trilha h1 {
@@ -265,7 +207,6 @@ const trilhaJS = [
   color: #667eea;
 }
 
-/* ========== NÍVEIS ========== */
 .niveis-container {
   display: flex;
   flex-direction: column;
@@ -312,19 +253,12 @@ const trilhaJS = [
   color: #fb923c;
 }
 
-.nivel-3-tag {
-  background: rgba(239, 68, 68, 0.15);
-  color: #ef4444;
-}
-
-/* ========== GRID ========== */
 .modulos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
 }
 
-/* ========== CARDS ========== */
 .card {
   position: relative;
   display: flex;
@@ -355,10 +289,6 @@ const trilhaJS = [
   background: linear-gradient(180deg, #fb923c, #f97316);
 }
 
-.card.nivel-3::before {
-  background: linear-gradient(180deg, #ef4444, #dc2626);
-}
-
 .card:hover::before {
   transform: scaleY(1);
 }
@@ -369,7 +299,6 @@ const trilhaJS = [
   box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
 }
 
-/* ========== CARD ICON ========== */
 .card-icon {
   flex-shrink: 0;
   width: 48px;
@@ -390,12 +319,6 @@ const trilhaJS = [
   box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
 }
 
-.nivel-3-icon {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-}
-
-/* ========== CARD CONTENT ========== */
 .card-content {
   flex: 1;
   min-width: 0;
@@ -417,7 +340,6 @@ const trilhaJS = [
   transition: color 0.3s ease;
 }
 
-/* ========== CARD ARROW ========== */
 .card-arrow {
   flex-shrink: 0;
   color: var(--text-tertiary);
@@ -429,7 +351,6 @@ const trilhaJS = [
   transform: translateX(4px);
 }
 
-/* ========== ANIMATIONS ========== */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -441,7 +362,6 @@ const trilhaJS = [
   }
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   .modulos-grid {
     grid-template-columns: 1fr;

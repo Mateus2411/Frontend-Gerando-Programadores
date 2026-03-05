@@ -22,7 +22,7 @@ const router = createRouter({
       path: '/ias',
       name: 'IAs',
       component: () => import('@/views/IAs/IAs.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/trilhas',
@@ -46,24 +46,24 @@ const router = createRouter({
         // requiresAuth: true
       },
     },
-    // {
-    //   path: '/testes',
-    //   name: 'testes',
-    //   component: () => import('@/views/AppTHeader.vue'),
-    //   meta: {
-    //     hideHeader: true,
-    //     hideFooter: true,
-    //     // requiresAuth: true
-    //   },
-    // },
+    {
+      path: '/testes',
+      name: 'AITeste',
+      component: () => import('@/components/Mini Mimo/AIBox/AIBox.vue'),
+      meta: {
+        // hideHeader: true,
+        // hideFooter: true,
+        // requiresAuth: true,
+      },
+    },
     {
       path: '/devs',
       name: 'Developers',
       component: () => import('@/views/Devs/DevsApp.vue'),
       meta: {
-      // hideHeader: true
-      // hideFooter: true,
-      requiresAuth: true
+        // hideHeader: true
+        // hideFooter: true,
+        requiresAuth: true,
       },
     },
     {

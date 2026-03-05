@@ -135,7 +135,6 @@
 
       <button type="submit">Entrar</button>
 
-
       <p class="switch">
         Ainda não tem conta?
         <a @click="tela = 'cadastro'">Cadastrar</a>
@@ -200,7 +199,8 @@ function validarSenha(senha) {
 }
 
 function normalizarTexto(texto) {
-  return texto.toLowerCase()
+  return texto
+    .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '') // Remove acentos
     .replace(/[0-9]/g, '') // Remove números
@@ -236,21 +236,59 @@ async function cadastrar() {
 
   // Validação de palavrões
   const palavroes = [
-    'porra', 'caralho', 'merda', 'puta', 'fdp', 'filhodaputa',
-    'buceta', 'cu', 'cuzao', 'puto', 'viado', 'bicha',
-    'arrombado', 'desgraca', 'cacete', 'carai', 'krl',
-    'pqp', 'vsf', 'vaisefoder', 'fodase',
-    'bosta', 'corno', 'otario', 'babaca',
-    'imbecil', 'idiota', 'burro', 'retardado', 'mongoloide',
-    'piranha', 'vagabunda', 'vadia', 'safada', 'pinto', 'pau',
-    'rola', 'penis', 'vagina', 'ppk', 'xoxota',
-    'punheta', 'broxa', 'brochar', 'foder', 'fuder', 'trepar'
+    'porra',
+    'caralho',
+    'merda',
+    'puta',
+    'fdp',
+    'filhodaputa',
+    'buceta',
+    'cu',
+    'cuzao',
+    'puto',
+    'viado',
+    'bicha',
+    'arrombado',
+    'desgraca',
+    'cacete',
+    'carai',
+    'krl',
+    'pqp',
+    'vsf',
+    'vaisefoder',
+    'fodase',
+    'bosta',
+    'corno',
+    'otario',
+    'babaca',
+    'imbecil',
+    'idiota',
+    'burro',
+    'retardado',
+    'mongoloide',
+    'piranha',
+    'vagabunda',
+    'vadia',
+    'safada',
+    'pinto',
+    'pau',
+    'rola',
+    'penis',
+    'vagina',
+    'ppk',
+    'xoxota',
+    'punheta',
+    'broxa',
+    'brochar',
+    'foder',
+    'fuder',
+    'trepar',
   ]
 
   // Normaliza o nome removendo números, espaços e acentos
   const nomeNormalizado = normalizarTexto(nomeCadastro.value)
 
-  const contemPalavrao = palavroes.some(palavrao => {
+  const contemPalavrao = palavroes.some((palavrao) => {
     const palavraoNormalizado = normalizarTexto(palavrao)
     return nomeNormalizado.includes(palavraoNormalizado)
   })
@@ -402,7 +440,9 @@ function irParaLogin() {
     height: 400px;
     overflow: hidden;
     border: 1px solid var(--card-border);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    transition:
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
   }
 
   /* LADO ESQUERDO - CADASTRO */
@@ -478,7 +518,9 @@ function irParaLogin() {
     outline: none;
     border-color: var(--accent-primary);
     background: var(--bg-primary);
-    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.1), 0 4px 8px var(--shadow-color);
+    box-shadow:
+      0 0 0 3px rgba(29, 155, 240, 0.1),
+      0 4px 8px var(--shadow-color);
     transform: translateY(-1px);
   }
 
@@ -650,7 +692,10 @@ function irParaLogin() {
     border: 1px solid var(--card-border);
     box-shadow: 0 8px 35px var(--shadow-color);
     animation: fadeIn 0.3s ease;
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .card h2 {
@@ -685,7 +730,9 @@ function irParaLogin() {
   .card input:focus {
     border-color: var(--accent-primary);
     background: var(--bg-primary);
-    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.1), 0 4px 8px var(--shadow-color);
+    box-shadow:
+      0 0 0 3px rgba(29, 155, 240, 0.1),
+      0 4px 8px var(--shadow-color);
     transform: translateY(-1px);
   }
 

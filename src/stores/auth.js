@@ -17,9 +17,11 @@ export const useAuthStore = defineStore('auth', () => {
   const currentUser = computed(() => userProfile.value)
   const username = computed(() => userProfile.value?.username || 'Visitante')
   const email = computed(() => userProfile.value?.email || '')
-  const bio = computed(() => userProfile.value?.biography || userProfile.value?.bio || 'Sem biografia')
+  const bio = computed(
+    () => userProfile.value?.biography || userProfile.value?.bio || 'Sem biografia',
+  )
   const createdAt = computed(() => userProfile.value?.created_at || '')
-  const cursosAtivos = computed(() => cursos.value.filter(c => c.status === 1))
+  const cursosAtivos = computed(() => cursos.value.filter((c) => c.status === 1))
   const totalCursos = computed(() => cursos.value.length)
 
   // Actions
@@ -113,7 +115,7 @@ export const useAuthStore = defineStore('auth', () => {
         if (!authRes) {
           // Endpoint /auth/me não disponível, usando dados do login
         }
-      } catch (loadErr) {
+      } catch {
         // Erro ao recarregar dados, mantendo dados do login
       }
 
@@ -180,7 +182,7 @@ export const useAuthStore = defineStore('auth', () => {
       const exportData = {
         exportDate: new Date().toISOString(),
         version: '1.0',
-        data: userData
+        data: userData,
       }
 
       const dataStr = JSON.stringify(exportData, null, 2)

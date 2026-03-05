@@ -3,10 +3,12 @@ import { defineStore } from 'pinia'
 
 export const useThemeStore = defineStore('theme', () => {
   // State - Inicializa com o valor do localStorage ou dark como padrão
-  const isDark = ref(localStorage.getItem('theme') === 'dark' || localStorage.getItem('theme') === null)
+  const isDark = ref(
+    localStorage.getItem('theme') === 'dark' || localStorage.getItem('theme') === null,
+  )
 
   // Getters
-  const currentTheme = () => isDark.value ? 'dark' : 'light'
+  const currentTheme = () => (isDark.value ? 'dark' : 'light')
 
   // Actions
   function toggleTheme() {
@@ -33,7 +35,7 @@ export const useThemeStore = defineStore('theme', () => {
       document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
       console.log('Tema alterado para:', dark ? 'dark' : 'light')
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   return {

@@ -1,15 +1,15 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import CursoCards from '@/components/Mini Mimo/home/cards trilha/CursosCards.vue'
-import perfilHome from '@/components/Mini Mimo/home/cards trilha/PerfilHome.vue';
+import perfilHome from '@/components/Mini Mimo/home/cards trilha/PerfilHome.vue'
 const route = useRoute()
 </script>
 
 <template>
   <main>
-      <perfilHome/>
-      <curso-cards v-if="route.path === '/trilhas'" />
-      <router-view v-else />
+    <perfilHome />
+    <curso-cards v-if="route.path === '/trilhas'" />
+    <router-view v-else />
   </main>
 </template>
 

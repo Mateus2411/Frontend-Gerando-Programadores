@@ -34,7 +34,7 @@ const user = computed(() => {
       created_at: profile.created_at || profile.createdAt || null,
       cursosConcluidos: 5,
       cursosEmAndamento: 3,
-      pontos: 1250
+      pontos: 1250,
     }
   }
 
@@ -46,7 +46,7 @@ const user = computed(() => {
     created_at: null,
     cursosConcluidos: 5,
     cursosEmAndamento: 3,
-    pontos: 1250
+    pontos: 1250,
   }
 })
 
@@ -95,11 +95,7 @@ onMounted(async () => {
         <!-- Header do Perfil -->
         <div class="perfil-header">
           <div class="avatar-wrapper">
-            <img
-              :src="avatarUrl"
-              alt="Avatar do usuário"
-              class="avatar"
-            />
+            <img :src="avatarUrl" alt="Avatar do usuário" class="avatar" />
           </div>
 
           <div class="perfil-info">
@@ -184,7 +180,9 @@ onMounted(async () => {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .error-message {

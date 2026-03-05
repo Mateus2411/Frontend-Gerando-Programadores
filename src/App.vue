@@ -11,9 +11,9 @@ const themeStore = useThemeStore()
 
 onMounted(() => {
   authStore.loadAuth()
+  themeStore.initTheme()
 })
 </script>
-
 
 <template>
   <app-header v-if="!$route.meta.hideHeader" />
@@ -21,7 +21,6 @@ onMounted(() => {
   <app-footer v-if="!$route.meta.hideFooter" />
   <app-notification />
 </template>
-
 
 <style>
 /* ========================================
@@ -201,7 +200,9 @@ body {
   line-height: 1;
   background: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 ol,

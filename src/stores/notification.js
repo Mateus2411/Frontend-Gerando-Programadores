@@ -12,7 +12,7 @@ export const useNotificationStore = defineStore('notification', () => {
       id,
       message,
       type, // 'success', 'error', 'info', 'warning'
-      duration
+      duration,
     })
 
     // Remove automaticamente após a duração
@@ -24,7 +24,7 @@ export const useNotificationStore = defineStore('notification', () => {
   }
 
   function remove(id) {
-    const index = notifications.value.findIndex(n => n.id === id)
+    const index = notifications.value.findIndex((n) => n.id === id)
     if (index > -1) {
       notifications.value.splice(index, 1)
     }
@@ -53,6 +53,6 @@ export const useNotificationStore = defineStore('notification', () => {
     success,
     error,
     info,
-    warning
+    warning,
   }
 })

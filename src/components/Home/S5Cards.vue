@@ -12,7 +12,8 @@ const mantrasComuns = [
   'A melhor feature é aquela que você não precisa implementar.',
 ]
 
-const mantraRara = '🎉 EASTER EGG! Parabéns, você encontrou a frase rara! <br> A verdade é: o dev também é usuário e quebra tudo igual. 🎉'
+const mantraRara =
+  '🎉 EASTER EGG! Parabéns, você encontrou a frase rara! <br> A verdade é: o dev também é usuário e quebra tudo igual. 🎉'
 
 // 1 em 20 chance de pegar a frase rara
 const chanceFraseRara = Math.random() < 0.005 // 0.5% = 1/200
