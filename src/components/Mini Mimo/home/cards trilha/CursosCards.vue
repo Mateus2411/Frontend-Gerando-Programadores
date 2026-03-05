@@ -2,51 +2,67 @@
 const cursos = [
     {
         nome: 'Python',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'Linguagem versátil para iniciantes e profissionais',
         grau: 1,
         imagem: '/img Curso/python.png',
+        status: 'desativado',
+        rota: '/trilhas/python',
     },
     {
         nome: 'SQL',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'Gerencie e consulte bancos de dados relacionais',
         grau: 1,
         imagem: '/img Curso/bdsql.png',
+        status: 'desativado',
+        rota: '/trilhas/sql',
     },
     {
         nome: 'HTML',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'Estruture páginas web com marcação semântica',
         grau: 1,
         imagem: '/img Curso/html5.png',
+        status: 'desativado',
+        rota: '/trilhas/html',
     },
     {
         nome: 'JavaScript',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'Adicione interatividade e dinamismo às páginas',
         grau: 1,
         imagem: '/img Curso/javascript.png',
+        status: 'ativo',
+        rota: '/trilhas/javascript',
     },
     {
         nome: 'Swift',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'Desenvolva apps nativos para iOS e macOS',
         grau: 1,
         imagem: '/img Curso/swift.png',
+        status: 'desativado',
+        rota: '/trilhas/swift',
     },
     {
         nome: 'CSS',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'Estilize e crie layouts responsivos modernos',
         grau: 1,
         imagem: '/img Curso/css3.png',
+        status: 'desativado',
+        rota: '/trilhas/css',
     },
     {
         nome: 'TypeScript',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'JavaScript com tipagem estática e segurança',
         grau: 2,
         imagem: '/img Curso/typescript.png',
+        status: 'desativado',
+        rota: '/trilhas/typescript',
     },
     {
         nome: 'React',
-        descricao: 'Neque porro quisquam est qui dolorem ipsum quia',
+        descricao: 'Construa interfaces de usuário componentizadas',
         grau: 2,
         imagem: '/img Curso/react.png',
+        status: 'desativado',
+        rota: '/trilhas/react',
     },
 ]
 </script>
@@ -59,12 +75,30 @@ const cursos = [
             <component
                 v-for="curso in cursos"
                 :key="curso.nome"
-                :is="curso.nome === 'JavaScript' ? 'router-link' : 'div'"
-                :to="curso.nome === 'JavaScript' ? '/trilhas/javascript' : null"
+                :is="curso.status === 'ativo' ? 'router-link' : 'div'"
+                :to="curso.status === 'ativo' ? curso.rota : null"
                 class="card-link"
             >
-                <div class="card">
+                <div class="card" :class="{ desativado: curso.status === 'desativado' }">
                     <span class="curso-label">Curso</span>
+
+                    <span v-if="curso.status === 'desativado'" class="status-badge">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                        </svg>
+                        Bloqueado
+                    </span>
 
                     <h3>{{ curso.nome }}</h3>
                     <p>{{ curso.descricao }}</p>
@@ -136,6 +170,19 @@ const cursos = [
     border-color: var(--accent-primary);
 }
 
+.card.desativado {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    pointer-events: none;
+}
+
+.card.desativado:hover {
+    transform: none;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border-color: transparent;
+}
+
 .curso-label {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -146,7 +193,32 @@ const cursos = [
     border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.status-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1.5px solid rgba(255, 107, 107, 0.4);
+    backdrop-filter: blur(4px);
+}
+
+.status-badge svg {
+    flex-shrink: 0;
 }
 
 .card h3 {
@@ -345,9 +417,5 @@ const cursos = [
 }
 </style>
 
-
-/* Modo escuro - logos pretos */
-:root[data-theme='dark'] .badge img {
-  filter: brightness(0) invert(0);
-  opacity: 0.9;
-}
+/* Modo escuro - logos pretos */ :root[data-theme='dark'] .badge img { filter: brightness(0)
+invert(0); opacity: 0.9; }
