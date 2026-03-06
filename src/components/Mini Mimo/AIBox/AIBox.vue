@@ -41,7 +41,8 @@ function detectarLinguagem(texto) {
 }
 
 // Prompt de sistema personalizado
-const promptSistema = `Você é um assistente de programação especializado em ensinar iniciantes de forma clara, didática e amigável.
+const promptSistema = `
+Você é um assistente de programação especializado em ensinar iniciantes de forma clara, didática e amigável.
 
 🎯 REGRAS FUNDAMENTAIS:
 1. Use linguagem simples e acessível - evite jargões técnicos desnecessários
@@ -104,7 +105,7 @@ Arrays são perfeitos quando você precisa guardar múltiplos valores relacionad
 **🚀 Próximo passo:** Aprenda sobre métodos de array como \`.map()\`, \`.filter()\` e \`.forEach()\` para manipular listas de forma poderosa!
 
 ⚠️ IMPORTANTE:
-- Se não souber a resposta, seja honesto e sugira onde pesquisar
+- Se não souber a resposta, seja honesto e sugira onde pesquisar como documentações
 - Não invente informações ou sintaxe incorreta
 - Adapte a complexidade ao nível da pergunta
 - Se a pergunta for muito ampla, peça esclarecimentos
@@ -116,7 +117,9 @@ Arrays são perfeitos quando você precisa guardar múltiplos valores relacionad
 - Use analogias do dia a dia quando possível
 - Celebre o progresso do aluno
 - Normalize erros como parte do aprendizado
-- Mantenha um tom positivo e motivador`
+- Mantenha um tom positivo e motivador
+
+`
 
 async function enviarMensagem() {
   if (!pergunta.value.trim()) return
@@ -169,28 +172,61 @@ function scrollToBottom() {
 function formatarMensagem(texto) {
   if (!texto) return ''
 
-  // Escapa HTML perigoso
-  let formatted = texto.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  let formatted = texto
 
-  // Formata blocos de código
+  // Primeiro, protege blocos de código substituindo por placeholders
+  const codigosBlocos = []
   formatted = formatted.replace(/```(\w+)?\n([\s\S]*?)```/g, (_match, lang, code) => {
-    return `<pre><code class="language-${lang || 'plaintext'}">${code.trim()}</code></pre>`
+    const placeholder = `___CODE_BLOCK_${codigosBlocos.length}___`
+    // Escapa HTML dentro do código
+    const escapedCode = code
+      .trim()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+    codigosBlocos.push(`<pre><code class="language-${lang || 'plaintext'}">${escapedCode}</code></pre>`)
+    return placeholder
   })
 
-  // Formata código inline
-  formatted = formatted.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+  // Protege código inline
+  const codigosInline = []
+  formatted = formatted.replace(/`([^`]+)`/g, (_match, code) => {
+    const placeholder = `___CODE_INLINE_${codigosInline.length}___`
+    const escapedCode = code
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+    codigosInline.push(`<code class="inline-code">${escapedCode}</code>`)
+    return placeholder
+  })
+
+  // Agora escapa HTML perigoso no texto restante
+  formatted = formatted
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
 
   // Formata negrito
   formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
 
-  // Formata itálico
-  formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+  // Formata itálico (evita conflito com negrito)
+  formatted = formatted.replace(/(?<!\*)\*(?!\*)([^*]+)\*(?!\*)/g, '<em>$1</em>')
 
-  // Formata links (se houver)
+  // Formata links
   formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
 
   // Formata quebras de linha
   formatted = formatted.replace(/\n/g, '<br>')
+
+  // Restaura blocos de código
+  codigosBlocos.forEach((codigo, index) => {
+    formatted = formatted.replace(`___CODE_BLOCK_${index}___`, codigo)
+  })
+
+  // Restaura código inline
+  codigosInline.forEach((codigo, index) => {
+    formatted = formatted.replace(`___CODE_INLINE_${index}___`, codigo)
+  })
 
   return formatted
 }
@@ -263,15 +299,18 @@ function formatarMensagem(texto) {
   flex-direction: column;
   height: 100%;
   background: var(--bg-primary);
+  overflow: hidden;
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-height: 0;
 }
 
 .empty-state {
@@ -356,6 +395,9 @@ function formatarMensagem(texto) {
   border-radius: 16px;
   line-height: 1.5;
   word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
   box-shadow: 0 2px 4px var(--shadow-color);
 }
 
@@ -366,11 +408,13 @@ function formatarMensagem(texto) {
   overflow-x: auto;
   margin: 0.5rem 0;
   border: 1px solid var(--border-color);
+  max-width: 100%;
 }
 
 .mensagem-texto :deep(code) {
   font-family: 'Courier New', 'Consolas', monospace;
   font-size: 0.9rem;
+  word-break: break-all;
 }
 
 .mensagem-texto :deep(.inline-code) {
