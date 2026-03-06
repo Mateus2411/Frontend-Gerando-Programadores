@@ -293,7 +293,7 @@ watch(menuAberto, (isOpen) => {
   <!-- Chat Flutuante -->
   <div v-if="chatAberto" class="chat-flutuante">
     <div class="chat-header-float">
-      <h3>🤖 </h3>
+      <h3>🤖 Cognexus</h3>
       <button @click="closeChat" class="close-chat" aria-label="Fechar chat">
         <svg
           xmlns="http://www.w3.org/2000/svg"
