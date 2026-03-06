@@ -56,6 +56,14 @@ ESTRUTURA:
 2. Exemplo de codigo comentado
 3. Dica importante
 
+VALIDAR CODIGO E ARRUMAR:
+1. Ajude o usuario com o codigo fornecido pelo mesmo e arrume
+2. Arrume o codigo por completo e termine com o codigo funcionando
+
+- Se nao tiver codigo do usuario, apenas responda com a explicacao
+- Se o codigo estiver errado, corrija e explique o erro
+- Se o codigo estiver certo, elogie e sugira melhorias
+
 Seja amigavel, paciente e incentivador!`
 
 async function enviarMensagem() {
@@ -121,7 +129,9 @@ function formatarMensagem(texto) {
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
-    codigosBlocos.push(`<pre><code class="language-${lang || 'plaintext'}">${escapedCode}</code></pre>`)
+    codigosBlocos.push(
+      `<pre><code class="language-${lang || 'plaintext'}">${escapedCode}</code></pre>`,
+    )
     return placeholder
   })
 
@@ -129,19 +139,13 @@ function formatarMensagem(texto) {
   const codigosInline = []
   formatted = formatted.replace(/`([^`]+)`/g, (_match, code) => {
     const placeholder = `___CODE_INLINE_${codigosInline.length}___`
-    const escapedCode = code
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
+    const escapedCode = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     codigosInline.push(`<code class="inline-code">${escapedCode}</code>`)
     return placeholder
   })
 
   // Agora escapa HTML perigoso no texto restante
-  formatted = formatted
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
+  formatted = formatted.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
   // Formata negrito
   formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
@@ -150,7 +154,10 @@ function formatarMensagem(texto) {
   formatted = formatted.replace(/(?<!\*)\*(?!\*)([^*]+)\*(?!\*)/g, '<em>$1</em>')
 
   // Formata links
-  formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+  formatted = formatted.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
+  )
 
   // Formata quebras de linha
   formatted = formatted.replace(/\n/g, '<br>')
