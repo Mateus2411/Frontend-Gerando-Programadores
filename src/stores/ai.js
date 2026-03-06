@@ -15,11 +15,11 @@ export const useAiStore = defineStore('ai', {
       this.resposta = ''
 
       try {
-        // API key: tenta pegar do ambiente (Vercel) ou do arquivo local
-        const apiKey = import.meta.env.VITE_AI_KEY_CHAT || (await import('@/config/apiKey').then(m => m.HUGGING_FACE_API_KEY).catch(() => null))
+        // API key da variável de ambiente
+        const apiKey = import.meta.env.VITE_AI_KEY_CHAT
 
         if (!apiKey) {
-          throw new Error('🔑 API key não configurada')
+          throw new Error('🔑 API key não configurada. Configure VITE_AI_KEY_CHAT no Vercel')
         }
 
         // Validação da pergunta
