@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { OpenAI } from 'openai'
-import { HUGGING_FACE_API_KEY } from '@/config/apiKey'
 
 export const useAiStore = defineStore('ai', {
   state: () => ({
@@ -16,8 +15,12 @@ export const useAiStore = defineStore('ai', {
       this.resposta = ''
 
       try {
-        // API key importada do arquivo de configuração
-        const apiKey = HUGGING_FACE_API_KEY
+        // API key: tenta pegar do ambiente (Vercel) ou do arquivo local
+        const apiKey = import.meta.env.VITE_AI_KEY_CHAT || (await import('@/config/apiKey').then(m => m.HUGGING_FACE_API_KEY).catch(() => null))
+
+        if (!apiKey) {
+          throw new Error('🔑 API key não configurada')
+        }
 
         // Validação da pergunta
         if (!pergunta || pergunta.trim().length === 0) {
