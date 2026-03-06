@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { OpenAI } from 'openai'
+import { HUGGING_FACE_API_KEY } from '@/config/apiKey'
 
 export const useAiStore = defineStore('ai', {
   state: () => ({
@@ -15,13 +16,8 @@ export const useAiStore = defineStore('ai', {
       this.resposta = ''
 
       try {
-        // Validação da API key
-        const apiKey = import.meta.env.VITE_AI_KEY_CHAT
-        if (!apiKey) {
-          throw new Error(
-            '🔑 API key não configurada. Adicione VITE_AI_KEY_CHAT no arquivo .env'
-          )
-        }
+        // API key importada do arquivo de configuração
+        const apiKey = HUGGING_FACE_API_KEY
 
         // Validação da pergunta
         if (!pergunta || pergunta.trim().length === 0) {

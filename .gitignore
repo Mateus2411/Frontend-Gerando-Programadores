@@ -38,3 +38,5 @@ __screenshots__/
 # cola & env
 cola.txt
 .env
+
+src/config/apiKey.js
