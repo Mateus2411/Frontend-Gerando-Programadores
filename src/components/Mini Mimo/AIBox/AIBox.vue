@@ -1,46 +1,563 @@
 <script setup>
 import { useAiStore } from '@/stores'
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 
 const ai = useAiStore()
 const pergunta = ref('')
-const contexto = ref('')
+const mensagens = ref([])
+const chatMessages = ref(null)
+const linguagem = ref('')
 
-async function testar() {
-  await ai.perguntar(pergunta.value, contexto.value)
+const keyWords = [
+  'javascript',
+  'python',
+  'sql',
+  'html',
+  'css',
+  'typescript',
+  'java',
+  'c++',
+  'c#',
+  'php',
+  'ruby',
+  'swift',
+  'go',
+  'rust',
+  'kotlin',
+  'react',
+  'vue',
+  'angular',
+]
+
+function detectarLinguagem(texto) {
+  const textoLower = texto.toLowerCase()
+  const linguaEncontrada = keyWords.find((keyword) => textoLower.includes(keyword))
+  if (linguaEncontrada) {
+    linguagem.value = linguaEncontrada.charAt(0).toUpperCase() + linguaEncontrada.slice(1)
+    console.log('Linguagem detectada:', linguagem.value)
+  } else {
+    linguagem.value = 'JavaScript'
+  }
+}
+
+// Prompt de sistema personalizado
+const promptSistema = `Você é um assistente de programação especializado em ensinar iniciantes de forma clara, didática e amigável.
+
+🎯 REGRAS FUNDAMENTAIS:
+1. Use linguagem simples e acessível - evite jargões técnicos desnecessários
+2. Sempre forneça exemplos práticos e funcionais que o aluno possa testar
+3. Explique o "porquê" das coisas, não apenas o "como" - contexto é essencial
+4. Seja paciente, amigável e incentivador - programação é desafiadora!
+5. Responda SEMPRE em português brasileiro claro e natural
+6. Use emojis para tornar a explicação mais visual e amigável 😊
+
+📝 FORMATO DE CÓDIGO:
+- Use blocos de código com sintaxe destacada (markdown com \`\`\`linguagem)
+- Adicione comentários explicativos em português em TODAS as linhas importantes
+- Mostre exemplos do mundo real que façam sentido para iniciantes
+- Compare boas práticas ✅ com más práticas ❌ quando relevante
+- Explique linha por linha quando o conceito for novo ou complexo
+- Mantenha exemplos curtos e focados (máximo 15 linhas por bloco)
+
+📚 ESTRUTURA DE RESPOSTA IDEAL:
+1. **Resposta direta** (2-3 frases): Vá direto ao ponto da pergunta
+2. **Exemplo prático** (código comentado): Mostre como funciona na prática
+3. **Explicação detalhada** (se necessário): Aprofunde conceitos importantes
+4. **Dica ou boa prática** 💡: Compartilhe conhecimento extra relevante
+5. **Próximos passos** (opcional): Sugira o que aprender em seguida
+
+💡 EXEMPLO DE RESPOSTA PERFEITA:
+
+**Pergunta:** Como criar um array em JavaScript?
+
+**Resposta:**
+Um array é como uma lista que guarda vários valores em uma única variável. Você cria usando colchetes [].
+
+\`\`\`javascript
+// ✅ Forma recomendada - clara e simples
+const frutas = ['maçã', 'banana', 'laranja'];
+
+// Acessar elementos pelo índice (começa em 0!)
+console.log(frutas[0]); // Resultado: 'maçã'
+console.log(frutas[1]); // Resultado: 'banana'
+
+// Adicionar novo item no final
+frutas.push('uva');
+console.log(frutas); // ['maçã', 'banana', 'laranja', 'uva']
+
+// Saber quantos itens tem
+console.log(frutas.length); // Resultado: 4
+
+// ❌ Evite - menos legível e pode causar confusão
+const numeros = new Array(1, 2, 3);
+\`\`\`
+
+**Por que usar arrays?**
+Arrays são perfeitos quando você precisa guardar múltiplos valores relacionados, como uma lista de produtos, nomes de usuários, ou notas de alunos. Eles facilitam muito trabalhar com coleções de dados!
+
+**💡 Dicas importantes:**
+- O índice sempre começa em 0, não em 1
+- Arrays em JavaScript são dinâmicos - você pode adicionar/remover itens a qualquer momento
+- Use \`const\` para declarar arrays - você ainda pode modificar o conteúdo
+- Para ver todos os itens, use \`console.log()\` ou um loop
+
+**🚀 Próximo passo:** Aprenda sobre métodos de array como \`.map()\`, \`.filter()\` e \`.forEach()\` para manipular listas de forma poderosa!
+
+⚠️ IMPORTANTE:
+- Se não souber a resposta, seja honesto e sugira onde pesquisar
+- Não invente informações ou sintaxe incorreta
+- Adapte a complexidade ao nível da pergunta
+- Se a pergunta for muito ampla, peça esclarecimentos
+- Incentive o aluno a testar o código e experimentar variações
+- Quando mencionar erros comuns, explique como evitá-los
+
+🎓 TOM DE VOZ:
+- Seja como um professor paciente e amigo
+- Use analogias do dia a dia quando possível
+- Celebre o progresso do aluno
+- Normalize erros como parte do aprendizado
+- Mantenha um tom positivo e motivador`
+
+async function enviarMensagem() {
+  if (!pergunta.value.trim()) return
+
+  // Adiciona mensagem do usuário
+  mensagens.value.push({
+    tipo: 'usuario',
+    texto: pergunta.value,
+    timestamp: new Date(),
+  })
+
+  const perguntaAtual = pergunta.value
+  pergunta.value = ''
+
+  // Scroll para o final
+  await nextTick()
+  scrollToBottom()
+
+  // Chama a IA com prompt personalizado
+  detectarLinguagem(perguntaAtual)
+  await ai.perguntar(perguntaAtual, promptSistema, linguagem.value)
+
+  // Adiciona resposta da IA
+  if (ai.resposta) {
+    mensagens.value.push({
+      tipo: 'ia',
+      texto: ai.resposta,
+      timestamp: new Date(),
+    })
+  }
+
+  if (ai.erro) {
+    mensagens.value.push({
+      tipo: 'erro',
+      texto: ai.erro,
+      timestamp: new Date(),
+    })
+  }
+
+  await nextTick()
+  scrollToBottom()
+}
+
+function scrollToBottom() {
+  if (chatMessages.value) {
+    chatMessages.value.scrollTop = chatMessages.value.scrollHeight
+  }
+}
+
+function formatarMensagem(texto) {
+  if (!texto) return ''
+
+  // Escapa HTML perigoso
+  let formatted = texto.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+  // Formata blocos de código
+  formatted = formatted.replace(/```(\w+)?\n([\s\S]*?)```/g, (_match, lang, code) => {
+    return `<pre><code class="language-${lang || 'plaintext'}">${code.trim()}</code></pre>`
+  })
+
+  // Formata código inline
+  formatted = formatted.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+
+  // Formata negrito
+  formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+
+  // Formata itálico
+  formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+
+  // Formata links (se houver)
+  formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+
+  // Formata quebras de linha
+  formatted = formatted.replace(/\n/g, '<br>')
+
+  return formatted
 }
 </script>
 
 <template>
-  <section>
-    <input v-model="pergunta" type="text" placeholder="Digite sua pergunta" />
-    <input v-model="contexto" type="text" placeholder="teste API" />
-    <button @click="testar">Testar</button>
+  <div class="chat-container-embedded">
+    <div class="chat-messages" ref="chatMessages">
+      <div v-if="mensagens.length === 0" class="empty-state">
+        <div class="empty-icon">💬</div>
+        <p>Comece uma conversa!</p>
+        <span>Faça uma pergunta sobre JavaScript</span>
+      </div>
 
-    <p v-if="ai.loading">Carregando...</p>
-    <p v-if="ai.erro">Erro: {{ ai.erro }}</p>
-    <pre v-if="ai.resposta">{{ ai.resposta }}</pre>
-  </section>
+      <div v-for="(msg, index) in mensagens" :key="index" :class="['mensagem', msg.tipo]">
+        <div class="mensagem-avatar">
+          {{ msg.tipo === 'usuario' ? '👤' : '🤖' }}
+        </div>
+        <div class="mensagem-conteudo">
+          <div class="mensagem-texto" v-html="formatarMensagem(msg.texto)"></div>
+          <div class="mensagem-hora">
+            {{ msg.timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) }}
+          </div>
+        </div>
+      </div>
+
+      <div v-if="ai.loading" class="mensagem ia typing">
+        <div class="mensagem-avatar">🤖</div>
+        <div class="mensagem-conteudo">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input
+        v-model="pergunta"
+        type="text"
+        placeholder="Digite sua mensagem..."
+        @keydown.enter="enviarMensagem"
+        :disabled="ai.loading"
+      />
+      <button @click="enviarMensagem" :disabled="ai.loading || !pergunta.trim()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-section {
-  margin-top: 5rem;
-  padding: 2rem;
+.chat-container-embedded {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-primary);
 }
 
-input {
-  padding: 0.5rem;
-  width: 300px;
-  margin-right: 1rem;
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-button {
-  padding: 0.5rem 1rem;
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary);
+  text-align: center;
 }
 
-pre {
-  margin-top: 1rem;
-  white-space: pre-wrap;
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state span {
+  font-size: 0.95rem;
+}
+
+.mensagem {
+  display: flex;
+  gap: 0.75rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mensagem.usuario {
+  flex-direction: row-reverse;
+}
+
+.mensagem-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+}
+
+.mensagem.usuario .mensagem-avatar {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.mensagem-conteudo {
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mensagem.usuario .mensagem-conteudo {
+  align-items: flex-end;
+}
+
+.mensagem-texto {
+  background: var(--card-bg);
+  color: var(--text-primary);
+  padding: 0.875rem 1.125rem;
+  border-radius: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.mensagem-texto :deep(pre) {
+  background: var(--bg-primary);
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+  border: 1px solid var(--border-color);
+}
+
+.mensagem-texto :deep(code) {
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 0.9rem;
+}
+
+.mensagem-texto :deep(.inline-code) {
+  background: var(--bg-secondary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--accent-primary);
+}
+
+.mensagem-texto :deep(strong) {
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.mensagem-texto :deep(em) {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.mensagem-texto :deep(a) {
+  color: var(--accent-primary);
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+.mensagem-texto :deep(a:hover) {
+  opacity: 0.8;
+}
+
+.mensagem.usuario .mensagem-texto :deep(a) {
+  color: white;
+  font-weight: 600;
+}
+
+.mensagem.usuario .mensagem-texto {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.mensagem.ia .mensagem-texto {
+  border-bottom-left-radius: 4px;
+}
+
+.mensagem.erro .mensagem-texto {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.mensagem-hora {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding: 0 0.5rem;
+}
+
+.typing-indicator {
+  background: var(--card-bg);
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  display: flex;
+  gap: 0.4rem;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  animation: typing 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+.chat-input {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--card-bg);
+  border-top: 2px solid var(--border-color);
+  box-shadow: 0 -2px 8px var(--shadow-color);
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 0.875rem 1.125rem;
+  border: 2px solid var(--border-color);
+  border-radius: 24px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.chat-input input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.chat-input input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.chat-input button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.chat-input button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.chat-input button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+/* Scrollbar customizada */
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+@media (max-width: 768px) {
+  .chat-messages {
+    padding: 1rem;
+  }
+
+  .mensagem-conteudo {
+    max-width: 85%;
+  }
+
+  .chat-input {
+    padding: 1rem;
+  }
+
+  .chat-input button {
+    width: 44px;
+    height: 44px;
+  }
 }
 </style>

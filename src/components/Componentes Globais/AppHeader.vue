@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import { useNavigationStore } from '@/stores/navigation'
 import { useRouter } from 'vue-router'
+import AIBox from '@/components/Mini Mimo/AIBox/AIBox.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -12,6 +13,7 @@ const navStore = useNavigationStore()
 
 // State
 const menuAberto = ref(false)
+const chatAberto = ref(false)
 const headerVisible = ref(true)
 const lastScrollY = ref(0)
 
@@ -40,8 +42,17 @@ function toggleMenu() {
   menuAberto.value = !menuAberto.value
 }
 
+function toggleChat() {
+  chatAberto.value = !chatAberto.value
+  console.log('Chat aberto:', chatAberto.value)
+}
+
 function closeMenu() {
   menuAberto.value = false
+}
+
+function closeChat() {
+  chatAberto.value = false
 }
 
 function handleScroll() {
@@ -59,8 +70,12 @@ function handleScroll() {
 }
 
 function handleKeydown(e) {
-  if (e.key === 'Escape' && menuAberto.value) {
-    closeMenu()
+  if (e.key === 'Escape') {
+    if (chatAberto.value) {
+      closeChat()
+    } else if (menuAberto.value) {
+      closeMenu()
+    }
   }
 }
 
@@ -159,7 +174,14 @@ watch(menuAberto, (isOpen) => {
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>
-
+      <button
+        class="AI"
+        @click="toggleChat"
+        aria-label="Abrir assistente IA"
+        :title="chatAberto ? 'Fechar chat' : 'Abrir chat IA'"
+      >
+        <img src="/brainAi.svg" alt="IA" />
+      </button>
       <router-link to="/perfil" class="usuario" aria-label="Ir para perfil">
         <span class="nome">{{ authStore.username }}</span>
         <img
@@ -267,6 +289,30 @@ watch(menuAberto, (isOpen) => {
   </aside>
 
   <div v-if="menuAberto" class="overlay" @click="closeMenu" aria-hidden="true" />
+
+  <!-- Chat Flutuante -->
+  <div v-if="chatAberto" class="chat-flutuante">
+    <div class="chat-header-float">
+      <h3>🤖 Assistente IA</h3>
+      <button @click="closeChat" class="close-chat" aria-label="Fechar chat">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <AIBox />
+  </div>
 </template>
 
 <style scoped>
@@ -377,6 +423,38 @@ watch(menuAberto, (isOpen) => {
 
 .theme-toggle svg {
   transition: transform 0.3s ease;
+}
+
+/* ========================================
+   BOTÃO AI
+   ======================================== */
+.AI {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.AI:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+.AI img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
 }
 
 /* ========================================
@@ -630,6 +708,43 @@ watch(menuAberto, (isOpen) => {
 }
 
 /* ========================================
+   BOTÃO AI NA SIDEBAR
+   ======================================== */
+.ai-toggle-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  width: 100%;
+  padding: 0.75rem 1.2rem;
+  margin: 0.5rem 0;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: white;
+
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.ai-toggle-sidebar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.ai-toggle-sidebar img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+  flex-shrink: 0;
+}
+
+/* ========================================
    OVERLAY
    ======================================== */
 .overlay {
@@ -641,16 +756,105 @@ watch(menuAberto, (isOpen) => {
 }
 
 /* ========================================
+   CHAT FLUTUANTE
+   ======================================== */
+.chat-flutuante {
+  position: fixed;
+  top: 6rem;
+  right: 1rem;
+  z-index: 9999;
+
+  width: 50%;
+  height: calc(100vh - 7rem);
+  max-height: 700px;
+
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header-float {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-header-float h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.close-chat {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.close-chat:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+/* Animação do chat */
+.slide-chat-enter-active,
+.slide-chat-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-chat-enter-from {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.slide-chat-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* ========================================
    RESPONSIVIDADE
    ======================================== */
-@media (max-width: 650px) {
-  .theme-toggle {
+@media (max-width: 750px) {
+  .theme-toggle,
+  .AI {
     display: none;
+  }
+
+  .chat-flutuante {
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
   }
 }
 
-@media (min-width: 651px) {
-  .theme-toggle-sidebar {
+@media (min-width: 751px) {
+  .theme-toggle-sidebar,
+  .ai-toggle-sidebar {
     display: none;
   }
 }

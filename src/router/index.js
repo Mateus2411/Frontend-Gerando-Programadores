@@ -47,16 +47,6 @@ const router = createRouter({
       },
     },
     {
-      path: '/testes',
-      name: 'AITeste',
-      component: () => import('@/components/Mini Mimo/AIBox/AIBox.vue'),
-      meta: {
-        // hideHeader: true,
-        // hideFooter: true,
-        // requiresAuth: true,
-      },
-    },
-    {
       path: '/devs',
       name: 'Developers',
       component: () => import('@/views/Devs/DevsApp.vue'),
