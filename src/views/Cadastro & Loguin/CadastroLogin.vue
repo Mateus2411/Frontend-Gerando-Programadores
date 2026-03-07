@@ -554,6 +554,13 @@ function irParaLogin() {
     height: 20px;
     opacity: 0.6;
     transition: opacity 0.2s ease;
+    filter: brightness(0) saturate(100%) invert(50%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .toggle-senha img {
+      filter: brightness(0) saturate(100%) invert(100%);
+    }
   }
 
   .toggle-senha:hover img {
@@ -806,6 +813,13 @@ function irParaLogin() {
     height: 22px;
     opacity: 0.6;
     transition: opacity 0.2s ease;
+    filter: brightness(0) saturate(100%) invert(50%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .toggle-senha img {
+      filter: brightness(0) saturate(100%) invert(100%);
+    }
   }
 
   .toggle-senha:hover {
