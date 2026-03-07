@@ -19,12 +19,18 @@ onMounted(() => {
 function carregarHistorico() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
+    console.log('🔍 Tentando carregar histórico...', stored ? 'Encontrado' : 'Não encontrado')
+
     if (stored) {
       const data = JSON.parse(stored)
       const now = new Date().getTime()
+      const tempoDecorrido = now - data.savedAt
+      const minutosDecorridos = Math.floor(tempoDecorrido / 60000)
+
+      console.log(`⏱️ Tempo decorrido: ${minutosDecorridos} minutos`)
 
       // Verifica se o histórico ainda é válido (menos de 10 minutos)
-      if (now - data.savedAt < EXPIRATION_TIME) {
+      if (tempoDecorrido < EXPIRATION_TIME) {
         // Reconstrói as mensagens com objetos Date
         mensagens.value = data.messages.map(msg => ({
           ...msg,
@@ -35,6 +41,8 @@ function carregarHistorico() {
         console.log('⏰ Histórico expirado, limpando...')
         localStorage.removeItem(STORAGE_KEY)
       }
+    } else {
+      console.log('📭 Nenhum histórico encontrado')
     }
   } catch (error) {
     console.error('❌ Erro ao carregar histórico:', error)
@@ -49,7 +57,7 @@ function salvarHistorico() {
       savedAt: new Date().getTime()
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-    console.log('💾 Histórico salvo')
+    console.log('💾 Histórico salvo:', mensagens.value.length, 'mensagens')
   } catch (error) {
     console.error('❌ Erro ao salvar histórico:', error)
   }
@@ -122,6 +130,8 @@ async function enviarMensagem() {
     texto: pergunta.value,
     timestamp: new Date(),
   })
+
+  console.log('📝 Mensagem do usuário adicionada. Total:', mensagens.value.length)
 
   const perguntaAtual = pergunta.value
   pergunta.value = ''
