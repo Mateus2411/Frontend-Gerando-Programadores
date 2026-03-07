@@ -206,7 +206,10 @@ async function enviarMensagem() {
 
 function scrollToBottom() {
   if (chatMessages.value) {
-    chatMessages.value.scrollTop = chatMessages.value.scrollHeight
+    chatMessages.value.scrollTo({
+      top: chatMessages.value.scrollHeight,
+      behavior: 'smooth'
+    })
   }
 }
 
