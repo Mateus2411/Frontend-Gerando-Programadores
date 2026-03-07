@@ -224,23 +224,6 @@ watch(menuAberto, (isOpen) => {
         </router-link>
 
         <!-- Botões de Tema e IA na Sidebar (visível apenas em mobile) -->
-
-        <a
-          v-if="authStore.logado"
-          class="entrar sair"
-          href="#"
-          @click.prevent="handleLogout"
-          aria-label="Sair da conta"
-          >Sair</a
-        >
-        <router-link
-          v-else
-          to="/cadastrar"
-          class="entrar"
-          aria-label="Fazer login"
-          @click="closeMenu"
-          >Entrar</router-link
-        >
         <div class="sidebar-actions">
           <button
             class="theme-toggle-sidebar"
@@ -295,6 +278,22 @@ watch(menuAberto, (isOpen) => {
             <span>Chat IA</span>
           </button>
         </div>
+        <a
+          v-if="authStore.logado"
+          class="entrar sair"
+          href="#"
+          @click.prevent="handleLogout"
+          aria-label="Sair da conta"
+          >Sair</a
+        >
+        <router-link
+          v-else
+          to="/cadastrar"
+          class="entrar"
+          aria-label="Fazer login"
+          @click="closeMenu"
+          >Entrar</router-link
+        >
       </div>
     </nav>
   </aside>
@@ -613,8 +612,7 @@ watch(menuAberto, (isOpen) => {
 .usuario-menu {
   margin-top: auto;
   padding: 1.5rem 1rem;
-  /* Adiciona padding extra para evitar que fique atrás da barra de navegação */
-  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 20px));
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 60px));
 
   display: flex;
   flex-direction: column;
