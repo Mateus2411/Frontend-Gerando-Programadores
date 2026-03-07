@@ -1,6 +1,6 @@
 <script setup>
 import { useAiStore } from '@/stores'
-import { ref, nextTick, onMounted, watch } from 'vue'
+import { ref, nextTick, watch } from 'vue'
 
 const ai = useAiStore()
 const pergunta = ref('')
@@ -25,12 +25,7 @@ watch(() => props.chatAberto, (novoValor) => {
     console.log('🔓 Chat aberto, carregando histórico...')
     carregarHistorico()
   }
-})
-
-// Carrega mensagens do localStorage ao montar
-onMounted(() => {
-  carregarHistorico()
-})
+}, { immediate: true })
 
 function carregarHistorico() {
   try {
