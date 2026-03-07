@@ -888,6 +888,10 @@ watch(menuAberto, (isOpen) => {
   .titulo {
     display: none;
   }
+  .entrar {
+    font-size: 1rem;
+    margin-bottom: 3rem;
+  }
 }
 
 @media (max-width: 300px) {
