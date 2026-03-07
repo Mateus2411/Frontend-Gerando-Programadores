@@ -1,12 +1,59 @@
 <script setup>
 import { useAiStore } from '@/stores'
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onMounted } from 'vue'
 
 const ai = useAiStore()
 const pergunta = ref('')
 const mensagens = ref([])
 const chatMessages = ref(null)
 const linguagem = ref('')
+
+const STORAGE_KEY = 'chat_history'
+const EXPIRATION_TIME = 10 * 60 * 1000 // 10 minutos em milissegundos
+
+// Carrega mensagens do localStorage ao montar
+onMounted(() => {
+  carregarHistorico()
+})
+
+function carregarHistorico() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      const data = JSON.parse(stored)
+      const now = new Date().getTime()
+
+      // Verifica se o histórico ainda é válido (menos de 10 minutos)
+      if (now - data.savedAt < EXPIRATION_TIME) {
+        // Reconstrói as mensagens com objetos Date
+        mensagens.value = data.messages.map(msg => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp)
+        }))
+        console.log('✅ Histórico carregado:', mensagens.value.length, 'mensagens')
+      } else {
+        console.log('⏰ Histórico expirado, limpando...')
+        localStorage.removeItem(STORAGE_KEY)
+      }
+    }
+  } catch (error) {
+    console.error('❌ Erro ao carregar histórico:', error)
+    localStorage.removeItem(STORAGE_KEY)
+  }
+}
+
+function salvarHistorico() {
+  try {
+    const data = {
+      messages: mensagens.value,
+      savedAt: new Date().getTime()
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    console.log('💾 Histórico salvo')
+  } catch (error) {
+    console.error('❌ Erro ao salvar histórico:', error)
+  }
+}
 
 const keyWords = [
   'javascript',
@@ -103,6 +150,9 @@ async function enviarMensagem() {
       timestamp: new Date(),
     })
   }
+
+  // Salva histórico após adicionar mensagens
+  salvarHistorico()
 
   await nextTick()
   scrollToBottom()
