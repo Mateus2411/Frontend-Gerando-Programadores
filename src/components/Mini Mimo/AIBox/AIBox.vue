@@ -1,6 +1,6 @@
 <script setup>
 import { useAiStore } from '@/stores'
-import { ref, nextTick, onMounted } from 'vue'
+import { ref, nextTick, onMounted, watch } from 'vue'
 
 const ai = useAiStore()
 const pergunta = ref('')
@@ -10,6 +10,22 @@ const linguagem = ref('')
 
 const STORAGE_KEY = 'chat_history'
 const EXPIRATION_TIME = 10 * 60 * 1000 // 10 minutos em milissegundos
+
+// Props para detectar quando o chat abre
+const props = defineProps({
+  chatAberto: {
+    type: Boolean,
+    default: false
+  }
+})
+
+// Carrega histórico quando o chat abre
+watch(() => props.chatAberto, (novoValor) => {
+  if (novoValor) {
+    console.log('🔓 Chat aberto, carregando histórico...')
+    carregarHistorico()
+  }
+})
 
 // Carrega mensagens do localStorage ao montar
 onMounted(() => {

@@ -321,7 +321,7 @@ watch(menuAberto, (isOpen) => {
         </svg>
       </button>
     </div>
-    <AIBox />
+    <AIBox :chatAberto="chatAberto" />
   </div>
 </template>
 
