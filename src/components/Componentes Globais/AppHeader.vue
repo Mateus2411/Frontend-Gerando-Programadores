@@ -223,60 +223,61 @@ watch(menuAberto, (isOpen) => {
           />
         </router-link>
 
-        <!-- Botão de Tema na Sidebar (visível apenas em mobile) -->
-        <button
-          class="theme-toggle-sidebar"
-          @click="themeStore.toggleTheme"
-          :aria-label="themeStore.isDark ? 'Ativar modo claro' : 'Ativar modo escuro'"
-        >
-          <svg
-            v-if="themeStore.isDark"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+        <!-- Botões de Tema e IA na Sidebar (visível apenas em mobile) -->
+        <div class="sidebar-actions">
+          <button
+            class="theme-toggle-sidebar"
+            @click="themeStore.toggleTheme"
+            :aria-label="themeStore.isDark ? 'Ativar modo claro' : 'Ativar modo escuro'"
           >
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg
-            v-else
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-          <span>{{ themeStore.isDark ? 'Modo Claro' : 'Modo Escuro' }}</span>
-        </button>
+            <svg
+              v-if="themeStore.isDark"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <span>{{ themeStore.isDark ? 'Modo Claro' : 'Modo Escuro' }}</span>
+          </button>
 
-        <!-- Botão de IA na Sidebar (visível apenas em mobile) -->
-        <button
-          class="ai-toggle-sidebar"
-          @click="toggleChat"
-          :aria-label="chatAberto ? 'Fechar chat IA' : 'Abrir chat IA'"
-        >
-          <img src="/brainAi.svg" alt="IA" />
-          <span>Chat IA</span>
-        </button>
+          <button
+            class="ai-toggle-sidebar"
+            @click="toggleChat"
+            :aria-label="chatAberto ? 'Fechar chat IA' : 'Abrir chat IA'"
+          >
+            <img src="/brainAi.svg" alt="IA" />
+            <span>Chat IA</span>
+          </button>
+        </div>
 
         <a
           v-if="authStore.logado"
@@ -683,6 +684,16 @@ watch(menuAberto, (isOpen) => {
 }
 
 /* ========================================
+   BOTÕES DE AÇÕES NA SIDEBAR (TEMA E IA)
+   ======================================== */
+.sidebar-actions {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0 0.5rem;
+}
+
+/* ========================================
    BOTÃO DE TEMA NA SIDEBAR
    ======================================== */
 .theme-toggle-sidebar {
@@ -691,9 +702,8 @@ watch(menuAberto, (isOpen) => {
   justify-content: center;
   gap: 0.5rem;
 
-  width: 100%;
-  padding: 0.75rem 1.2rem;
-  margin: 0.5rem 0;
+  flex: 1;
+  padding: 0.75rem 1rem;
 
   font-size: 0.95rem;
   font-weight: 500;
@@ -717,6 +727,10 @@ watch(menuAberto, (isOpen) => {
   flex-shrink: 0;
 }
 
+.theme-toggle-sidebar span {
+  display: none;
+}
+
 /* ========================================
    BOTÃO AI NA SIDEBAR
    ======================================== */
@@ -726,9 +740,8 @@ watch(menuAberto, (isOpen) => {
   justify-content: center;
   gap: 0.5rem;
 
-  width: 100%;
-  padding: 0.75rem 1.2rem;
-  margin: 0.5rem 0;
+  flex: 1;
+  padding: 0.75rem 1rem;
 
   font-size: 0.95rem;
   font-weight: 500;
@@ -745,6 +758,10 @@ watch(menuAberto, (isOpen) => {
 .ai-toggle-sidebar:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.ai-toggle-sidebar span {
+  display: none;
 }
 
 .ai-toggle-sidebar img {
