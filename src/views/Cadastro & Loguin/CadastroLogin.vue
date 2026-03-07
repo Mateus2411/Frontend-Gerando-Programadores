@@ -29,7 +29,8 @@
             class="input-senha"
           />
           <span class="toggle-senha" @click="toggleSenhaCadastro">
-            {{ mostrarSenhaCadastro ? '😎' : '👀' }}
+            <img v-if="mostrarSenhaCadastro" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+            <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
           </span>
         </div>
 
@@ -65,7 +66,8 @@
             class="input-senha"
           />
           <span class="toggle-senha" @click="toggleSenhaLogin">
-            {{ mostrarSenhaLogin ? '😎' : '👀' }}
+            <img v-if="mostrarSenhaLogin" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+            <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
           </span>
         </div>
 
@@ -100,7 +102,10 @@
           class="input-senha"
         />
         <div class="toggle-senha">
-          <span @click="toggleSenhaCadastro">{{ mostrarSenhaCadastro ? '😎' : '👀' }}</span>
+          <span @click="toggleSenhaCadastro">
+            <img v-if="mostrarSenhaCadastro" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+            <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
+          </span>
         </div>
       </div>
       <span class="erro">{{ erroSenha }}</span>
@@ -128,7 +133,8 @@
           class="input-senha"
         />
         <span class="toggle-senha" @click="toggleSenhaLogin">
-          {{ mostrarSenhaLogin ? '😎' : '👀' }}
+          <img v-if="mostrarSenhaLogin" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+          <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
         </span>
       </div>
       <span class="erro">{{ erroLoginSenha }}</span>
@@ -538,6 +544,20 @@ function irParaLogin() {
     top: 14px;
     cursor: pointer;
     color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toggle-senha img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  .toggle-senha:hover img {
+    opacity: 1;
   }
 
   button {
@@ -769,7 +789,6 @@ function irParaLogin() {
     justify-content: center;
     padding: 0.9rem 0.75rem;
     user-select: none;
-    font-size: 1.3rem;
     transition: all 0.2s ease;
     cursor: pointer;
     background: transparent;
@@ -782,9 +801,19 @@ function irParaLogin() {
     color: var(--text-secondary);
   }
 
+  .toggle-senha img {
+    width: 22px;
+    height: 22px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
   .toggle-senha:hover {
     transform: scale(1.1);
-    opacity: 0.8;
+  }
+
+  .toggle-senha:hover img {
+    opacity: 1;
   }
 
   .toggle-senha:active {
