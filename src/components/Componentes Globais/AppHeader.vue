@@ -908,4 +908,5 @@ watch(menuAberto, (isOpen) => {
     margin-bottom: 4rem;
   }
 }
+
 </style>

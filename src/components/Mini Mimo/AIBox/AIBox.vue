@@ -541,11 +541,17 @@ function formatarMensagem(texto) {
 
   .chat-input {
     padding: 1rem;
+    margin-bottom: 2rem;
   }
 
   .chat-input button {
     width: 44px;
     height: 44px;
+  }
+}
+@media (max-width: 480px) {
+  .chat-input{
+    margin-bottom: 4rem;
   }
 }
 </style>
