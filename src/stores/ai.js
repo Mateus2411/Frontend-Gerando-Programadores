@@ -19,7 +19,7 @@ export const useAiStore = defineStore('ai', {
         const apiKey = import.meta.env.VITE_AI_KEY_CHAT
 
         if (!apiKey) {
-          throw new Error('🔑 API key não configurada. Configure VITE_AI_KEY_CHAT no Vercel')
+          throw new Error('🔑 API key não configurada. Configure VITE_AI_KEY_CHAT')
         }
 
         // Validação da pergunta

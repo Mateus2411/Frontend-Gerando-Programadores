@@ -268,6 +268,16 @@ watch(menuAberto, (isOpen) => {
           <span>{{ themeStore.isDark ? 'Modo Claro' : 'Modo Escuro' }}</span>
         </button>
 
+        <!-- Botão de IA na Sidebar (visível apenas em mobile) -->
+        <button
+          class="ai-toggle-sidebar"
+          @click="toggleChat"
+          :aria-label="chatAberto ? 'Fechar chat IA' : 'Abrir chat IA'"
+        >
+          <img src="/brainAi.svg" alt="IA" />
+          <span>Chat IA</span>
+        </button>
+
         <a
           v-if="authStore.logado"
           class="entrar sair"
