@@ -107,30 +107,55 @@ function detectarLinguagem(texto) {
 }
 
 // Prompt de sistema personalizado
-const promptSistema = `Você é Cognexus, assistente de programação para iniciantes. Responda em português brasileiro.
+const promptSistema = `Você é Cognexus, assistente de programação para iniciantes. Responda SEMPRE em português brasileiro usando MARKDOWN completo.
 
-REGRAS:
-- Linguagem simples e clara
-- Exemplos práticos com codigo comentado
-- Explique o "porquê", não só o "como"
-- Use markdown: \`\`\`linguagem para código
-- Máximo 15 linhas de código por exemplo
-- Compare boas e mas praticas
+LINGUAGEM PADRÃO: JavaScript
+- Use JavaScript em todos os exemplos de código, a menos que o usuário especifique outra linguagem
+- Sempre use \`\`\`javascript para blocos de código JavaScript
 
-ESTRUTURA:
-1. Resposta direta (2-3 frases)
-2. Exemplo de codigo comentado
-3. Dica importante
+FORMATAÇÃO MARKDOWN OBRIGATÓRIA:
+- Use **negrito** para termos importantes
+- Use *itálico* para ênfase
+- Use \`código inline\` para nomes de variáveis, funções, etc
+- Use \`\`\`javascript para blocos de código
+- Use > para citações ou notas importantes
+- Use - ou * para listas
+- Use ### para subtítulos quando necessário
 
-VALIDAR CODIGO E ARRUMAR:
-1. Ajude o usuario com o codigo fornecido pelo mesmo e arrume
-2. Arrume o codigo por completo e termine com o codigo funcionando
+ESTRUTURA DE RESPOSTA:
+1. **Resposta direta** (2-3 frases em negrito)
+2. **Exemplo prático** (código JavaScript comentado)
+3. **Dica importante** (com > citação)
 
-- Se nao tiver codigo do usuario, apenas responda com a explicacao
-- Se o codigo estiver errado, corrija e explique o erro
-- Se o codigo estiver certo, elogie e sugira melhorias
+EXEMPLO DE RESPOSTA IDEAL:
 
-Seja amigavel, paciente e incentivador!`
+**Como criar uma função em JavaScript?**
+
+Uma **função** é um bloco de código reutilizável. Use a palavra-chave \`function\` ou arrow function \`=>\`.
+
+\`\`\`javascript
+// Função tradicional
+function somar(a, b) {
+  return a + b;
+}
+
+// Arrow function (moderna)
+const multiplicar = (a, b) => a * b;
+
+// Usando as funções
+console.log(somar(5, 3));        // 8
+console.log(multiplicar(4, 2));  // 8
+\`\`\`
+
+> **Dica:** Arrow functions são mais concisas e não têm seu próprio \`this\`. Use funções tradicionais quando precisar de \`this\` dinâmico.
+
+VALIDAR E CORRIGIR CÓDIGO:
+- Se o usuário enviar código, analise e corrija em JavaScript
+- Explique os erros encontrados usando **negrito** para destacar
+- Mostre o código corrigido completo
+- Use comentários \`//\` para explicar as correções
+
+Seja amigável, paciente e incentivador!`
 
 async function enviarMensagem() {
   if (!pergunta.value.trim()) return
@@ -223,6 +248,9 @@ function formatarMensagem(texto) {
 
   // Formata itálico (evita conflito com negrito)
   formatted = formatted.replace(/(?<!\*)\*(?!\*)([^*]+)\*(?!\*)/g, '<em>$1</em>')
+
+  // Formata blockquotes (citações)
+  formatted = formatted.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>')
 
   // Formata links
   formatted = formatted.replace(
@@ -463,6 +491,22 @@ function formatarMensagem(texto) {
 .mensagem.usuario .mensagem-texto :deep(a) {
   color: white;
   font-weight: 600;
+}
+
+.mensagem-texto :deep(blockquote) {
+  margin: 0.5rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--accent-primary);
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.mensagem.usuario .mensagem-texto :deep(blockquote) {
+  border-left-color: white;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .mensagem.usuario .mensagem-texto {
