@@ -69,11 +69,15 @@ console.log(resultado);  // 15</code></pre>
           <li>Apresentar o resultado na tela</li>
         </ol>
 
-        <pre><code>// Implementação em JavaScript:
-const num1 = Number(prompt("Digite o primeiro número:"));
-const num2 = Number(prompt("Digite o segundo número:"));
-const soma = num1 + num2;
-alert("A soma é: " + soma);</code></pre>
+        <pre><code>
+
+          // Implementação em JavaScript:
+
+          const num1 = Number(prompt("Digite o primeiro número:"));
+          const num2 = Number(prompt("Digite o segundo número:"));
+          const soma = num1 + num2;
+
+          alert("A soma é: " + soma);</code></pre>
       </div>
     </section>
 
@@ -103,6 +107,18 @@ alert("A soma é: " + soma);</code></pre>
   </div>
 </template>
 
+<script setup>
+import { onMounted, nextTick } from 'vue';
+
+onMounted(async () => {
+  await nextTick()
+  window.scrollTo({
+    top: 20,
+    behavior: "smooth"
+  })
+})
+
+</script>
 <style scoped>
 .lesson {
   max-width: 900px;

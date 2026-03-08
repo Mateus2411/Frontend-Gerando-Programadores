@@ -142,6 +142,17 @@ console.log("Olá, " + nome);</code></pre>
   </div>
 </template>
 
+<script setup>
+import { onMounted, nextTick } from 'vue';
+
+onMounted(async () => {
+  await nextTick()
+  window.scrollTo({
+    top: 10,
+    behavior: "smooth"
+  })
+})
+</script>
 <style scoped>
 .lesson {
   max-width: 900px;

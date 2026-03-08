@@ -167,9 +167,8 @@ const trilhaJS = [
 .icon {
   text-align: center;
   font-size: 2rem !important;
-  /* letter-spacing: 0.2rem; */
   font-weight: 800;
-  color: white;
+  color: white !important;
   margin: 0 !important;
 }
 
