@@ -11,10 +11,12 @@ const router = createRouter({
       return savedPosition
     }
 
-    if (to.path.includes('trilhas')) {
-      return { top: 20, behavior: 'smooth' }
+    // Se está dentro de um curso (ex: /trilhas/javascript), pula o header
+    if (to.path.includes('trilhas/')) {
+      return { top: 80, behavior: 'smooth' }
     }
 
+    // Página principal de trilhas ou outras rotas
     return { top: 0, behavior: 'smooth' }
   },
   routes: [
