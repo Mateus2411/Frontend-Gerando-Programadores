@@ -7,13 +7,14 @@ export const useNavigationStore = defineStore('navigation', () => {
   const rotasPublicas = [
     { label: 'Home', to: '/', name: 'home' },
     { label: 'Cadastrar', to: '/cadastrar', name: 'cadastrar' },
-    { label: 'Developers', to: '/devs', name: 'Developers' },
-    { label: 'Ias', to: '/ias', name: 'IAs' },
-    { label: 'Aprendizagem', to: '/trilhas', name: 'trilhas' },
   ]
 
   // Rotas privadas (apenas para usuários autenticados)
   const rotasPrivadas = [
+    { label: 'Developers', to: '/devs', name: 'Developers' },
+    { label: 'Ias', to: '/ias', name: 'IAs' },
+    { label: 'Aprendizagem', to: '/trilhas', name: 'trilhas' }, 
+    { label: 'Perfil', to: '/perfil', name: 'perfil' },
   ]
 
   // Getter que retorna as rotas baseado no estado de autenticação
