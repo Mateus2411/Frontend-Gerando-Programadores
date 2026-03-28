@@ -28,17 +28,6 @@
 
         <div class="creators-grid">
           <div class="creator-card">
-            <span class="role">UX/UI Design</span>
-            <a href="https://github.com/estela" target="_blank" class="github-pill">
-              <img
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                alt="GitHub"
-              />
-              <span>Estela</span>
-            </a>
-          </div>
-
-          <div class="creator-card">
             <span class="role">Desenvolvedor</span>
             <a href="https://github.com/Mateus2411" target="_blank" class="github-pill">
               <img
