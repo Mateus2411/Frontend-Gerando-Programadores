@@ -134,7 +134,7 @@ console.log("Olá, " + nome);</code></pre>
     </section>
 
     <div class="nav-buttons">
-      <button @click="$router.push('/trilhas/javascript')">← Voltar</button>
+      <button @click="$router.back()">← Voltar</button>
       <button @click="$router.push('/trilhas/javascript/variaveis-tipos-dados/a')" class="primary">
         Próximo →
       </button>
@@ -143,15 +143,13 @@ console.log("Olá, " + nome);</code></pre>
 </template>
 
 <script setup>
-import { onMounted, nextTick } from 'vue';
-
-onMounted(async () => {
-  await nextTick()
+function loadPage() {
   window.scrollTo({
-    top: 10,
-    behavior: "smooth"
+    top: 50,
+    behavior: 'smooth',
   })
-})
+}
+loadPage
 </script>
 <style scoped>
 .lesson {
