@@ -108,16 +108,15 @@ console.log(resultado);  // 15</code></pre>
 </template>
 
 <script setup>
-import { onMounted, nextTick } from 'vue';
+import { onMounted, nextTick } from 'vue'
 
 onMounted(async () => {
   await nextTick()
   window.scrollTo({
     top: 20,
-    behavior: "smooth"
+    behavior: 'smooth',
   })
 })
-
 </script>
 <style scoped>
 .lesson {
@@ -161,7 +160,7 @@ p {
 }
 
 .info-box {
-  background: rgba(102, 126, 234, 0.1);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.1) 100%);
   padding: 1.5rem;
   border-radius: 12px;
   border-left: 4px solid #667eea;
@@ -171,6 +170,7 @@ p {
 .info-box h3 {
   color: var(--text-primary);
   margin-bottom: 1rem;
+  font-size: 1.1rem;
 }
 
 .info-box ul {
@@ -180,26 +180,55 @@ p {
 
 .info-box li {
   color: var(--text-primary);
-  padding: 0.5rem 0;
+  padding: 0.6rem 0;
   font-size: 1.05rem;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.info-box li:last-child {
+  border-bottom: none;
 }
 
 .example {
-  background: var(--bg-secondary);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   padding: 1.5rem;
   border-radius: 12px;
   margin-top: 1rem;
+  border: 1px solid rgba(102, 126, 234, 0.2);
 }
 
 .example h4 {
-  color: var(--accent-primary);
+  color: #a8b2dc;
   margin-bottom: 1rem;
+  font-size: 1rem;
 }
 
 .example ol {
-  color: var(--text-primary);
+  color: #c9d1d9;
   line-height: 1.8;
   padding-left: 1.5rem;
+}
+
+.example ol li {
+  margin-bottom: 0.5rem;
+}
+
+pre {
+  overflow-x: auto;
+  white-space: pre;
+  word-break: normal;
+  background: #0d1117;
+  border-radius: 8px;
+  padding: 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  border: 1px solid #30363d;
+  margin-top: 1rem;
+}
+
+code {
+  font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+  color: #e6edf3;
 }
 
 .nav-buttons {
@@ -244,15 +273,55 @@ button.primary:hover {
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .intro {
+    font-size: 1rem;
   }
 
   section {
-    padding: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  pre {
+    font-size: 0.8rem;
+    padding: 1rem;
   }
 
   .nav-buttons {
     flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .nav-buttons button {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  .example {
+    padding: 1rem;
+  }
+
+  pre {
+    font-size: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 6px;
   }
 }
 </style>

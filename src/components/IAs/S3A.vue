@@ -140,47 +140,11 @@ const resumo_final = {
   </section>
 </template>
 <style scoped>
-/* ---------------------------------------------------- */
-/* AJUSTES PARA O EFEITO DE ZOOM */
-/* ---------------------------------------------------- */
-
-/* 1. Definir o item do educacao com z-index e transição */
-.educacao-card-item {
-  /* O seu estilo original para .educacao > div é aplicado aqui */
-  position: relative; /* Essencial para o z-index funcionar */
-  transition:
-    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* 2. Classe de zoom (aplicada via Vue) */
-.educacao-card-item.card-zoomed {
-  /* A chave: scale não altera o layout, e z-index coloca por cima */
-  transform: scale(1.05); /* Zoom de 5% */
-  z-index: 10; /* Fica por cima dos vizinhos */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Sombra para destacar a elevação */
-  border-color: var(--accent);
-}
-
-/* 3. Estilo para o texto extra que aparece */
-.extra-info {
-  margin-top: 1rem;
-  padding-top: 0.5rem;
-  border-top: 1px dashed rgba(52, 93, 255, 0.3);
-  color: var(--text-strong);
-  font-weight: 600;
-  text-align: center;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-
-/* Estilos existentes */
 section.s3 {
-  /* ... (seus estilos existentes) ... */
   --bg: var(--bg-primary);
   --card-bg: var(--card-bg);
-  --accent: #345dff;
-  --accent-2: #87a6ff;
+  --accent: var(--accent-primary);
+  --accent-2: var(--accent-hover);
   --text-strong: var(--text-primary);
   --text-muted: var(--text-secondary);
   --border: var(--card-border);
@@ -190,23 +154,20 @@ section.s3 {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(1.6rem, 3vw, 3.2rem);
-  /* width: 100%; */
   max-width: 1200px;
   margin-inline: auto;
   transition: background-color 0.3s ease;
 }
 
 .titulo {
+  font-family: var(--font-title);
   text-align: center;
   font-size: clamp(1.6rem, 3.5vw, 2.4rem);
   margin-bottom: clamp(1rem, 2vw, 2rem);
   font-weight: 800;
   letter-spacing: -0.5px;
   line-height: 1.15;
-  background: linear-gradient(90deg, #1b1f3b, #3b58ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--accent);
 }
 
 .educacao,
@@ -222,74 +183,86 @@ section.s3 {
   transition:
     transform 0.28s ease,
     box-shadow 0.28s ease,
-    border 0.28s ease,
     background 0.28s ease;
   grid-column: 1 / -1;
 }
 
-.educacao::before,
-.fontes::before,
-.finalizacao::before {
+.educacao::after,
+.fontes::after,
+.finalizacao::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 5px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  right: 0;
+  height: 3px;
   border-radius: 100px;
-  transition: width 0.35s ease;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--accent) 35%, transparent),
+    transparent
+  );
+  opacity: 0.85;
+  pointer-events: none;
 }
 
-.educacao:hover::before,
-.fontes:hover::before,
-.finalizacao:hover::before {
-  width: 100%;
+.educacao:hover,
+.fontes:hover,
+.finalizacao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--shadow);
 }
 
 .educacao h3,
 .fontes h3 {
+  font-family: var(--font-title);
   margin-bottom: 0.9rem;
   font-size: clamp(1.1rem, 1.8vw, 1.32rem);
   font-weight: 700;
-  color: #2d4aff;
+  color: var(--accent);
   letter-spacing: -0.3px;
 }
-/* —————————————— EDUCACAO —————————————— */
 
 .educacao {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
+
 .educacao h2 {
   align-items: center;
-  margin-top: 4rem;
 }
-/* cada bloco interno - RENOMEADO PARA educacao-card-item no template */
+
 .educacao-card-item {
   display: block;
   padding: 1rem 0;
-  border-bottom: 1px solid rgba(2, 6, 23, 0.06);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.25s ease;
 }
 
 .educacao-card-item:last-child {
   border-bottom: none;
 }
 
-/* títulos */
-.educacao h3 {
-  border-radius: 10px;
-  color: #2d4aff;
-  font-weight: 700;
-  display: inline-block;
+.educacao-card-item:hover {
+  background: var(--accent-soft);
+  border-radius: 12px;
+  padding: 1rem;
 }
 
-/* lista */
+.educacao-card-item.card-zoomed {
+  transform: scale(1.03);
+  z-index: 10;
+  box-shadow: 0 8px 25px var(--shadow);
+  border-radius: 12px;
+  padding: 1rem;
+  background: var(--accent-soft);
+}
+
 .educacao ul {
   margin: 0.4rem 0 0 1rem;
   padding: 0;
-  display: block;
 }
 
 .educacao li {
@@ -298,37 +271,14 @@ section.s3 {
 }
 
 .educacao li p {
+  font-family: var(--font-body);
   color: var(--text-strong);
   font-size: 1.05rem;
   line-height: 1.55rem;
 }
 
-/* —————————————— DESKTOP: fica horizontal —————————————— */
-@media (min-width: 900px) {
-  .educacao {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.6rem 2rem;
-  }
-
-  /* Aplica o estilo de card no grid */
-  .educacao-card-item {
-    border-bottom: none;
-    padding: 1rem;
-    border-radius: 14px;
-    background: rgba(52, 93, 255, 0.04);
-    transition: 0.25s ease;
-  }
-
-  /* Remove o hover que estava aqui e prioriza o .card-zoomed */
-  .educacao-card-item:hover {
-    background: rgba(52, 93, 255, 0.08); /* Mantém um leve efeito de hover de fundo */
-  }
-}
-
-/* O resto do seu CSS */
-
 #motivacional {
+  font-family: var(--font-body);
   margin-bottom: 1.6rem;
   font-size: clamp(1.05rem, 1.8vw, 1.22rem);
   line-height: 1.95rem;
@@ -337,16 +287,22 @@ section.s3 {
 }
 
 #fraseFinal {
-  background: rgba(74, 115, 255, 0.1);
+  background: var(--accent-soft);
   padding: clamp(1.1rem, 2.2vw, 1.5rem);
   border-radius: 18px;
+  font-family: var(--font-body);
   font-size: clamp(0.98rem, 1.6vw, 1.08rem);
   line-height: 1.6rem;
-  border-left: 6px solid var(--accent);
+  border-left: 4px solid var(--accent);
   color: var(--text-strong);
   text-align: center;
   font-weight: 500;
   transition: all 0.3s ease;
+}
+
+#fraseFinal:hover {
+  background: var(--accent-soft-hover);
+  transform: translateX(2px);
 }
 
 .finalizacao {
@@ -359,12 +315,37 @@ section.s3 {
   gap: 0.4rem 1rem;
   align-items: start;
   padding: clamp(0.6rem, 1.6vw, 0.9rem);
-  border: none;
   border-radius: 12px;
+  transition: background 0.25s ease;
+}
+
+.fontes > div:hover {
+  background: var(--accent-soft);
+}
+
+.fontes h3 {
+  font-family: var(--font-title);
+  color: var(--accent);
 }
 
 .fontes p {
+  font-family: var(--font-body);
   color: var(--text-muted);
+}
+
+@media (min-width: 900px) {
+  .educacao {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem 2rem;
+  }
+
+  .educacao-card-item {
+    padding: 1rem;
+    border-radius: 14px;
+    border-bottom: none;
+    background: var(--accent-soft);
+  }
 }
 
 @media (max-width: 768px) {
@@ -379,10 +360,7 @@ section.s3 {
   .finalizacao {
     padding: clamp(1.2rem, 4vw, 1.7rem) clamp(1rem, 3.5vw, 1.3rem);
   }
-}
-
-@media (min-width: 900px) {
-  section.s3 {
+  .fontes > div {
     grid-template-columns: 1fr;
   }
 }

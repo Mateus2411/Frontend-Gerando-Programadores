@@ -33,13 +33,7 @@ section.s2 {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: clamp(55%, 60%, 100%);
-}
-
-@media (min-width: 300px) {
-  .cards-container {
-    max-width: 100%;
-  }
+  max-width: 100%;
 }
 
 .cards-container .card {
@@ -52,16 +46,45 @@ section.s2 {
   transition: all 0.3s ease;
 }
 
+.cards-container .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--shadow-color);
+  border-color: color-mix(in srgb, var(--accent-primary) 45%, var(--card-border));
+}
+
 .cards-container .card h3 {
+  font-family: var(--font-title);
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+  font-weight: 600;
   color: var(--text-primary);
   transition: color 0.3s ease;
 }
 
+.cards-container .card:hover h3 {
+  color: var(--accent-primary);
+}
+
 .cards-container .card p {
+  font-family: var(--font-body);
   color: var(--text-secondary);
   font-size: 0.95rem;
   transition: color 0.3s ease;
+}
+
+.cards-container .card:hover p {
+  color: var(--text-primary);
+}
+
+@media (max-width: 620px) {
+  .cards-container .card {
+    padding: 1rem;
+  }
+  .cards-container .card h3 {
+    font-size: 1rem;
+  }
+  .cards-container .card p {
+    font-size: 0.9rem;
+  }
 }
 </style>

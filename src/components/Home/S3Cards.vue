@@ -74,7 +74,7 @@ section ul li p {
 
 :deep(p strong) {
   font-weight: 700;
-  color: #4a73ff;
+  color: var(--accent-primary);
 }
 /* ======================
    RESPONSIVIDADE REAL

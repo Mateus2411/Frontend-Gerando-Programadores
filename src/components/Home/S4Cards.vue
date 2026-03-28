@@ -96,16 +96,16 @@ section ul li::before {
   left: 0;
   width: 4px;
   height: 100%;
-  background: linear-gradient(180deg, #4a73ff 0%, #3b5fe0 100%);
+  background: linear-gradient(180deg, var(--accent-primary) 0%, var(--accent-hover) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 /* HOVER */
 section ul li:hover {
-  transform: translateY(-4px);
-  border-color: #4a73ff;
-  box-shadow: 0 8px 25px rgba(74, 115, 255, 0.15);
+  transform: translateY(-3px);
+  border-color: var(--accent-primary);
+  box-shadow: 0 6px 22px rgba(29, 155, 240, 0.1);
   color: var(--text-primary);
 }
 
@@ -115,7 +115,7 @@ section ul li:hover::before {
 
 section ul li strong {
   font-weight: 700;
-  color: #4a73ff;
+  color: var(--accent-primary);
   font-size: 1.05rem;
   margin-bottom: 0.5rem;
   display: block;

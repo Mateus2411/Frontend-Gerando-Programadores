@@ -1,12 +1,12 @@
 <template>
-  <main class="container" v-if="larguraAtual > 800">
-    <!-- CADASTRO -->
-    <form
-      class="card transicao"
-      :class="animCadastro"
-      v-show="mostrarCadastro"
-      @submit.prevent="cadastrar"
-    >
+  <main class="container auth-shell" v-if="larguraAtual >= 801">
+    <transition name="auth-fade" mode="out-in">
+      <!-- CADASTRO -->
+      <form
+        v-if="modo === 'cadastro'"
+        class="card"
+        @submit.prevent="cadastrar"
+      >
       <div class="lado-esquerdo">
         <h2 class="cad">Cadastro</h2>
         <img src="/if-logo-s-fundo.png" alt="" />
@@ -29,24 +29,34 @@
             class="input-senha"
           />
           <span class="toggle-senha" @click="toggleSenhaCadastro">
-            <img v-if="mostrarSenhaCadastro" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+            <img
+              v-if="mostrarSenhaCadastro"
+              src="/lock-password-unlocked-svgrepo-com.svg"
+              alt="Ocultar senha"
+            />
             <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
           </span>
         </div>
 
         <span class="erro">{{ erroSenha }}</span>
 
-        <button type="submit">Cadastrar</button>
+        <button type="submit" :disabled="processando">
+          {{ processando ? 'Aguarde...' : 'Cadastrar' }}
+        </button>
 
         <p class="switch">
           Já tem conta?
-          <a @click="irParaLogin()">Entrar</a>
+          <button type="button" class="switch-btn" @click="irParaLogin">Entrar</button>
         </p>
       </div>
     </form>
 
-    <!-- LOGIN -->
-    <form class="card transicao" :class="animLogin" v-show="mostrarLogin" @submit.prevent="login">
+      <!-- LOGIN -->
+      <form
+        v-else-if="modo === 'login'"
+        class="card"
+        @submit.prevent="login"
+      >
       <div class="lado-esquerdo-login">
         <h2 class="log">Login</h2>
         <img src="/if-logo-s-fundo.png" alt="" />
@@ -66,26 +76,32 @@
             class="input-senha"
           />
           <span class="toggle-senha" @click="toggleSenhaLogin">
-            <img v-if="mostrarSenhaLogin" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+            <img
+              v-if="mostrarSenhaLogin"
+              src="/lock-password-unlocked-svgrepo-com.svg"
+              alt="Ocultar senha"
+            />
             <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
           </span>
         </div>
 
         <span class="erro">{{ erroLoginSenha }}</span>
 
-        <button type="submit">Entrar</button>
+        <button type="submit" :disabled="processando">
+          {{ processando ? 'Aguarde...' : 'Entrar' }}
+        </button>
 
         <p class="switch">
           Ainda não tem conta?
-          <a @click="irParaCadastro()">Cadastrar</a>
+          <button type="button" class="switch-btn" @click="irParaCadastro">Cadastrar</button>
         </p>
       </div>
-    </form>
+      </form>
+    </transition>
   </main>
-  <main class="container ativo" v-else>
-    <div data-v-b2ae051a class="triangulo-direita"></div>
+  <main class="container auth-shell ativo" v-else>
     <!-- CADASTRO -->
-    <form class="card" v-show="tela === 'cadastro'" @submit.prevent="cadastrar">
+    <form class="card" v-if="modo === 'cadastro'" @submit.prevent="cadastrar">
       <h2 style="margin-bottom: 1.5rem">Cadastro</h2>
 
       <input v-model="nomeCadastro" placeholder="Nome" />
@@ -103,23 +119,29 @@
         />
         <div class="toggle-senha">
           <span @click="toggleSenhaCadastro">
-            <img v-if="mostrarSenhaCadastro" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+            <img
+              v-if="mostrarSenhaCadastro"
+              src="/lock-password-unlocked-svgrepo-com.svg"
+              alt="Ocultar senha"
+            />
             <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
           </span>
         </div>
       </div>
       <span class="erro">{{ erroSenha }}</span>
 
-      <button type="submit">Cadastrar</button>
+      <button type="submit" :disabled="processando">
+        {{ processando ? 'Aguarde...' : 'Cadastrar' }}
+      </button>
 
       <p class="switch">
         Já tem conta?
-        <a @click="tela = 'login'">Entrar</a>
+        <button type="button" class="switch-btn" @click="irParaLogin">Entrar</button>
       </p>
     </form>
 
     <!-- LOGIN -->
-    <form class="card" v-show="tela === 'login'" @submit.prevent="login">
+    <form class="card" v-else-if="modo === 'login'" @submit.prevent="login">
       <h2 style="margin-bottom: 1.1rem !important">Login</h2>
 
       <input v-model="emailLogin" placeholder="Email" />
@@ -133,24 +155,30 @@
           class="input-senha"
         />
         <span class="toggle-senha" @click="toggleSenhaLogin">
-          <img v-if="mostrarSenhaLogin" src="/lock-password-unlocked-svgrepo-com.svg" alt="Ocultar senha" />
+          <img
+            v-if="mostrarSenhaLogin"
+            src="/lock-password-unlocked-svgrepo-com.svg"
+            alt="Ocultar senha"
+          />
           <img v-else src="/lock-password-svgrepo-com.svg" alt="Mostrar senha" />
         </span>
       </div>
       <span class="erro">{{ erroLoginSenha }}</span>
 
-      <button type="submit">Entrar</button>
+      <button type="submit" :disabled="processando">
+        {{ processando ? 'Aguarde...' : 'Entrar' }}
+      </button>
 
       <p class="switch">
         Ainda não tem conta?
-        <a @click="tela = 'cadastro'">Cadastrar</a>
+        <button type="button" class="switch-btn" @click="irParaCadastro">Cadastrar</button>
       </p>
     </form>
   </main>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useNotificationStore } from '@/stores/notification'
@@ -159,13 +187,10 @@ const router = useRouter()
 const authStore = useAuthStore()
 const notificationStore = useNotificationStore()
 
-const tela = ref('login')
+/** Único estado para login vs cadastro (desktop e mobile) — evita dessincronia ao redimensionar */
+const modo = ref('login')
 
-const mostrarCadastro = ref(false)
-const mostrarLogin = ref(true)
-
-const animCadastro = ref('saindo')
-const animLogin = ref('entrando')
+const processando = ref(false)
 
 const nomeCadastro = ref('')
 const emailCadastro = ref('')
@@ -217,155 +242,169 @@ function normalizarTexto(texto) {
 
 // Cadastro
 async function cadastrar() {
-  erroNome.value = ''
-  erroEmail.value = ''
-  erroSenha.value = ''
-
-  // Validação de nome vazio
-  if (!nomeCadastro.value) {
-    erroNome.value = 'O nome não pode ser vazio'
-    return
-  }
-
-  // Validação de tamanho mínimo
-  if (nomeCadastro.value.length < 3) {
-    erroNome.value = 'O nome deve ter pelo menos 3 caracteres'
-    return
-  }
-
-  // Bloqueio de admin (easter egg)
-  const admBlock = ['admin', 'administrator', 'adm', 'careca']
-  if (admBlock.includes(nomeCadastro.value.toLowerCase())) {
-    erroNome.value = 'O careca é o único adm'
-    return
-  }
-
-  // Validação de palavrões
-  const palavroes = [
-    'porra',
-    'caralho',
-    'merda',
-    'puta',
-    'fdp',
-    'filhodaputa',
-    'buceta',
-    'cu',
-    'cuzao',
-    'puto',
-    'viado',
-    'bicha',
-    'arrombado',
-    'desgraca',
-    'cacete',
-    'carai',
-    'krl',
-    'pqp',
-    'vsf',
-    'vaisefoder',
-    'fodase',
-    'bosta',
-    'corno',
-    'otario',
-    'babaca',
-    'imbecil',
-    'idiota',
-    'burro',
-    'retardado',
-    'mongoloide',
-    'piranha',
-    'vagabunda',
-    'vadia',
-    'safada',
-    'pinto',
-    'pau',
-    'rola',
-    'penis',
-    'vagina',
-    'ppk',
-    'xoxota',
-    'punheta',
-    'broxa',
-    'brochar',
-    'foder',
-    'fuder',
-    'trepar',
-  ]
-
-  // Normaliza o nome removendo números, espaços e acentos
-  const nomeNormalizado = normalizarTexto(nomeCadastro.value)
-
-  const contemPalavrao = palavroes.some((palavrao) => {
-    const palavraoNormalizado = normalizarTexto(palavrao)
-    return nomeNormalizado.includes(palavraoNormalizado)
-  })
-
-  if (contemPalavrao) {
-    erroNome.value = 'Nome de usuário contém linguagem inapropriada'
-    return
-  }
-
-  // Validação de email
-  if (!emailCadastro.value || !ValidarEmail(emailCadastro.value)) {
-    erroEmail.value = 'Email inválido'
-    return
-  }
-
-  // Validação de senha
-  const erros = validarSenha(senhaCadastro.value)
-
-  if (erros.length > 0) {
-    erroSenha.value = erros.join(' • ')
-    return
-  }
+  if (processando.value) return
+  processando.value = true
 
   try {
-    await authStore.register(nomeCadastro.value, emailCadastro.value, senhaCadastro.value)
+    erroNome.value = ''
+    erroEmail.value = ''
+    erroSenha.value = ''
 
-    notificationStore.success('Cadastro realizado com sucesso!')
+    // Validação de nome vazio
+    if (!nomeCadastro.value) {
+      erroNome.value = 'O nome não pode ser vazio'
+      return
+    }
 
-    nomeCadastro.value = ''
-    emailCadastro.value = ''
-    senhaCadastro.value = ''
-    tela.value = 'login'
-  } catch (error) {
-    console.error('Erro ao cadastrar usuário:', error)
-    notificationStore.error(authStore.error || 'Erro ao cadastrar')
-    erroEmail.value = authStore.error || 'Erro ao cadastrar'
+    // Validação de tamanho mínimo
+    if (nomeCadastro.value.length < 3) {
+      erroNome.value = 'O nome deve ter pelo menos 3 caracteres'
+      return
+    }
+
+    // Bloqueio de admin (easter egg)
+    const admBlock = ['admin', 'administrator', 'adm', 'careca']
+    if (admBlock.includes(nomeCadastro.value.toLowerCase())) {
+      erroNome.value = 'O careca é o único adm'
+      return
+    }
+
+    // Validação de palavrões
+    const palavroes = [
+      'porra',
+      'caralho',
+      'merda',
+      'puta',
+      'fdp',
+      'filhodaputa',
+      'buceta',
+      'cu',
+      'cuzao',
+      'puto',
+      'viado',
+      'bicha',
+      'arrombado',
+      'desgraca',
+      'cacete',
+      'carai',
+      'krl',
+      'pqp',
+      'vsf',
+      'vaisefoder',
+      'fodase',
+      'bosta',
+      'corno',
+      'otario',
+      'babaca',
+      'imbecil',
+      'idiota',
+      'burro',
+      'retardado',
+      'mongoloide',
+      'piranha',
+      'vagabunda',
+      'vadia',
+      'safada',
+      'pinto',
+      'pau',
+      'rola',
+      'penis',
+      'vagina',
+      'ppk',
+      'xoxota',
+      'punheta',
+      'broxa',
+      'brochar',
+      'foder',
+      'fuder',
+      'trepar',
+    ]
+
+    // Normaliza o nome removendo números, espaços e acentos
+    const nomeNormalizado = normalizarTexto(nomeCadastro.value)
+
+    const contemPalavrao = palavroes.some((palavrao) => {
+      const palavraoNormalizado = normalizarTexto(palavrao)
+      return nomeNormalizado.includes(palavraoNormalizado)
+    })
+
+    if (contemPalavrao) {
+      erroNome.value = 'Nome de usuário contém linguagem inapropriada'
+      return
+    }
+
+    // Validação de email
+    if (!emailCadastro.value || !ValidarEmail(emailCadastro.value)) {
+      erroEmail.value = 'Email inválido'
+      return
+    }
+
+    // Validação de senha
+    const erros = validarSenha(senhaCadastro.value)
+
+    if (erros.length > 0) {
+      erroSenha.value = erros.join(' • ')
+      return
+    }
+
+    try {
+      await authStore.register(nomeCadastro.value, emailCadastro.value, senhaCadastro.value)
+
+      notificationStore.success('Cadastro realizado com sucesso!')
+
+      nomeCadastro.value = ''
+      emailCadastro.value = ''
+      senhaCadastro.value = ''
+      modo.value = 'login'
+    } catch (error) {
+      console.error('Erro ao cadastrar usuário:', error)
+      notificationStore.error(authStore.error || 'Erro ao cadastrar')
+      erroEmail.value = authStore.error || 'Erro ao cadastrar'
+    }
+  } finally {
+    processando.value = false
   }
 }
 
 // Login
 async function login() {
-  erroLoginEmail.value = ''
-  erroLoginSenha.value = ''
-
-  if (!emailLogin.value) {
-    erroLoginEmail.value = 'O email não pode ser vazio'
-    return
-  }
-  if (!ValidarEmail(emailLogin.value)) {
-    erroLoginEmail.value = 'Email inválido'
-    return
-  }
-  if (!senhaLogin.value) {
-    erroLoginSenha.value = 'A senha não pode ser vazia'
-    return
-  }
+  if (processando.value) return
+  processando.value = true
 
   try {
-    await authStore.login(emailLogin.value, senhaLogin.value)
+    erroLoginEmail.value = ''
+    erroLoginSenha.value = ''
 
-    notificationStore.success('Login realizado com sucesso!')
+    if (!emailLogin.value) {
+      erroLoginEmail.value = 'O email não pode ser vazio'
+      return
+    }
+    if (!ValidarEmail(emailLogin.value)) {
+      erroLoginEmail.value = 'Email inválido'
+      return
+    }
+    if (!senhaLogin.value) {
+      erroLoginSenha.value = 'A senha não pode ser vazia'
+      return
+    }
 
-    emailLogin.value = ''
-    senhaLogin.value = ''
+    try {
+      await authStore.login(emailLogin.value, senhaLogin.value)
 
-    // Redireciona para a home
-    router.push('/')
-  } catch (error) {
-    console.error('Erro no login:', error)
-    notificationStore.error(authStore.error || 'Email ou senha incorretos')
-    erroLoginSenha.value = authStore.error || 'Email ou senha incorretos'
+      notificationStore.success('Login realizado com sucesso!')
+
+      emailLogin.value = ''
+      senhaLogin.value = ''
+
+      // Redireciona para a home
+      router.push('/')
+    } catch (error) {
+      console.error('Erro no login:', error)
+      notificationStore.error(authStore.error || 'Email ou senha incorretos')
+      erroLoginSenha.value = authStore.error || 'Email ou senha incorretos'
+    }
+  } finally {
+    processando.value = false
   }
 }
 
@@ -392,71 +431,91 @@ onMounted(() => {
 // #region Animação Do Cadastro
 
 function irParaCadastro() {
-  animLogin.value = 'saindo'
-
-  setTimeout(() => {
-    mostrarLogin.value = false
-    mostrarCadastro.value = true
-    animCadastro.value = 'saindo'
-    requestAnimationFrame(() => {
-      animCadastro.value = 'entrando'
-    })
-  }, 500)
+  if (modo.value === 'cadastro') return
+  modo.value = 'cadastro'
 }
 
 function irParaLogin() {
-  animCadastro.value = 'saindo'
-
-  setTimeout(() => {
-    mostrarCadastro.value = false
-    mostrarLogin.value = true
-    animLogin.value = 'saindo'
-    requestAnimationFrame(() => {
-      animLogin.value = 'entrando'
-    })
-  }, 500)
+  if (modo.value === 'login') return
+  modo.value = 'login'
 }
 // #endregion
 </script>
 
 <style scoped>
+/*
+ * Visual fixo desta tela (referência): fundo navy, painel direito escuro,
+ * inputs escuros e texto claro — não usa o tema claro global do App.
+ */
+.auth-shell {
+  --auth-page: #0a1528;
+  --auth-panel: #0b1426;
+  --auth-input: #111c2a;
+  --auth-input-focus: #152438;
+  --auth-border: rgba(255, 255, 255, 0.12);
+  --auth-text: #e8edf4;
+  --auth-muted: #94a3b8;
+  --auth-link: #5eb8f7;
+  --auth-shadow: rgba(0, 0, 0, 0.45);
+}
+
+/* Link visual nos botões “Entrar / Cadastrar” (evita <a href="#"> quebrar em alguns browsers) */
+.auth-shell .switch .switch-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0.25rem;
+  font: inherit;
+  font-size: inherit;
+  color: var(--auth-link);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.auth-shell .switch .switch-btn:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
 @media (min-width: 801px) {
-  * {
+  .auth-shell * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family:
+      'IBM Plex Sans',
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
-  .container {
+  .auth-shell.container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: var(--bg-primary);
-    transition: background-color 0.3s ease;
+    min-height: 100vh;
+    background: var(--auth-page);
+    color: var(--auth-text);
   }
 
-  .card {
-    box-shadow: 0 5px 20px var(--shadow-color);
-    border-radius: 50px;
+  .auth-shell .card {
+    box-shadow: 0 16px 48px var(--auth-shadow);
+    border-radius: 32px;
     position: relative;
     display: flex;
     width: 800px;
     height: 400px;
     overflow: hidden;
-    border: 1px solid var(--card-border);
-    transition:
-      box-shadow 0.3s ease,
-      border-color 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   /* LADO ESQUERDO - CADASTRO */
-  .lado-esquerdo {
+  .auth-shell .lado-esquerdo {
     width: 45%;
     background: var(--accent-primary);
     padding: 3rem 3rem 3rem 4rem;
-    color: white;
+    color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -465,147 +524,138 @@ function irParaLogin() {
     z-index: 2;
   }
 
-  .lado-esquerdo img {
+  .auth-shell .lado-esquerdo img {
     margin-left: -4rem;
     width: 200px;
   }
 
-  .card .lado-esquerdo .cad {
-    color: white;
+  .auth-shell .card .lado-esquerdo .cad {
+    color: #fff;
     font-size: 3rem;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
-  /* TRIÂNGULO DIREITA (CADASTRO) */
-  .triangulo-direita {
+  .auth-shell .triangulo-direita {
     position: absolute;
     left: 19.98%;
     top: 0;
     width: 200px;
     height: 400px;
-    background: var(--card-bg);
+    background: var(--auth-panel);
     clip-path: polygon(100% 0, 0 100%, 100% 100%);
     z-index: 1;
-    transition: background-color 0.3s ease;
   }
 
-  /* LADO DIREITO - FORMULÁRIO */
-  .card .lado-direito {
+  .auth-shell .card .lado-direito {
     width: 55%;
-    background: var(--card-bg);
+    background: var(--auth-panel);
     padding: 2.5rem 3rem 2.5rem 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.65rem;
     justify-content: center;
     z-index: 2;
-    transition: background-color 0.3s ease;
   }
 
-  input {
-    padding: 0.8rem;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
+  .auth-shell input {
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--auth-border);
+    border-radius: 8px;
     width: 100%;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-size: 1rem;
+    background: var(--auth-input);
+    color: var(--auth-text);
+    font-size: 0.95rem;
     font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px var(--shadow-color);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
-  input::placeholder {
-    color: var(--text-tertiary);
+  .auth-shell input::placeholder {
+    color: var(--auth-muted);
     font-weight: 400;
   }
 
-  input:focus {
+  .auth-shell input:focus {
     outline: none;
-    border-color: var(--accent-primary);
-    background: var(--bg-primary);
-    box-shadow:
-      0 0 0 3px rgba(29, 155, 240, 0.1),
-      0 4px 8px var(--shadow-color);
-    transform: translateY(-1px);
+    border-color: rgba(29, 155, 240, 0.55);
+    background: var(--auth-input-focus);
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.15);
   }
 
-  .senha-container {
+  .auth-shell .senha-container {
     position: relative;
   }
 
-  .input-senha {
+  .auth-shell .input-senha {
     padding-right: 2.5rem;
   }
 
-  .toggle-senha {
+  .auth-shell .toggle-senha {
     position: absolute;
     right: 10px;
-    top: 14px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
-    color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .toggle-senha img {
+  .auth-shell .toggle-senha img {
     width: 20px;
     height: 20px;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
-    filter: var(--icon-filter, none);
-  }
-
-  /* Tema escuro */
-  :root[data-theme="dark"] .toggle-senha img {
+    opacity: 0.85;
     filter: brightness(0) saturate(100%) invert(100%);
   }
 
-  .toggle-senha:hover img {
+  .auth-shell .toggle-senha:hover img {
     opacity: 1;
   }
 
-  button {
+  .auth-shell button[type='submit'] {
     background-color: var(--accent-primary);
-    color: white;
-    padding: 0.8rem;
+    color: #fff;
+    padding: 0.75rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    transition: background-color 0.2s ease;
   }
 
-  button:hover {
+  .auth-shell button[type='submit']:hover {
     background-color: var(--accent-hover);
   }
 
-  .erro {
-    color: #ff4444;
+  .auth-shell button[type='submit']:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .auth-shell .erro {
+    color: #f87171;
     font-size: 0.8rem;
+    min-height: 1rem;
   }
 
-  .switch {
-    margin-top: 2rem;
+  .auth-shell .switch {
+    margin-top: 1.25rem;
     text-align: center;
-    color: var(--text-secondary);
-    & a {
-      color: var(--accent-primary);
-      font-weight: bold;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    & a:hover {
-      color: var(--accent-hover);
-    }
+    color: var(--auth-muted);
+    font-size: 0.9rem;
   }
 
-  /* LADO ESQUERDO - LOGIN */
-  .lado-esquerdo-login {
+  /* LOGIN — painel esquerdo */
+  .auth-shell .lado-esquerdo-login {
     width: 45%;
     background: var(--accent-primary);
     padding: 3rem 4rem 3rem 3rem;
-    color: white;
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: start;
@@ -614,285 +664,203 @@ function irParaLogin() {
     z-index: 2;
   }
 
-  .lado-esquerdo-login img {
+  .auth-shell .lado-esquerdo-login img {
     margin-left: -4rem !important;
     width: 200px !important;
   }
 
-  /* TRIÂNGULO ESQUERDA (LOGIN) */
-  .triangulo-esquerda {
+  .auth-shell .triangulo-esquerda {
     position: absolute;
     left: 20%;
     top: 0;
     width: 199.9px;
     height: 400px;
-    background: var(--card-bg);
+    background: var(--auth-panel);
     clip-path: polygon(100% 0, 100% 100%, 0 0%);
-    transform: translateX(0);
     z-index: 1;
-    transition: background-color 0.3s ease;
   }
 
-  .log {
-    font-weight: 600;
+  .auth-shell .log {
+    font-weight: 700;
   }
 
-  .lado-esquerdo-login h2 {
-    color: white;
+  .auth-shell .lado-esquerdo-login h2 {
+    color: #fff;
     font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
-  /* Transição suave */
-  .transicao {
+  .auth-fade-enter-active,
+  .auth-fade-leave-active {
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+
+  .auth-fade-enter-from {
     opacity: 0;
-    transform: translateY(40px);
-    transition:
-      opacity 0.5s ease,
-      transform 0.5s ease;
+    transform: translateY(-20px);
   }
 
-  /* Entrando (subindo e aparecendo) */
-  .entrando {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Saindo (descendo e sumindo) */
-  .saindo {
+  .auth-fade-leave-to {
     opacity: 0;
-    transform: translateY(40px);
-  }
-
-  /* ---------- ANIMAÇÃO ---------- */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    transform: translateY(20px);
   }
 }
+
 @media (max-width: 800px) {
-  * {
+  .auth-shell * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family:
+      'IBM Plex Sans',
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
-  img {
-    display: none;
-  }
-
-  .container {
+  .auth-shell.container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    margin: 0;
-    padding: 0;
-    transition: background-color 0.3s ease;
+    background: var(--auth-page);
+    color: var(--auth-text);
+    padding: 1.25rem;
   }
 
-  /* ---------- CARD DE CADASTRO E LOGIN ---------- */
-  .card {
+  .auth-shell .card {
     display: flex;
     flex-direction: column;
-    gap: 0;
-    justify-content: center;
-    align-items: center;
-    background: var(--card-bg);
-    padding: 2.7rem 3rem;
-    border-radius: 18px;
-    width: 380px;
-    border: 1px solid var(--card-border);
-    box-shadow: 0 8px 35px var(--shadow-color);
-    animation: fadeIn 0.3s ease;
-    transition:
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+    padding: 2.25rem 1.75rem;
+    border-radius: 24px;
+    background: var(--auth-panel);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 40px var(--auth-shadow);
+    animation: authFadeIn 0.35s ease;
   }
 
-  .card h2 {
+  .auth-shell .card h2 {
     text-align: center;
-    font-size: 1.8rem;
-    color: var(--text-primary);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--auth-text);
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
   }
 
-  /* ---------- INPUTS ---------- */
-  .card input {
+  .auth-shell .card input {
     width: 100%;
-    padding: 1rem 1rem;
+    padding: 0.85rem 1rem;
     border-radius: 10px;
     outline: none;
-    border: 2px solid var(--border-color);
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    border: 1px solid var(--auth-border);
+    background: var(--auth-input);
+    color: var(--auth-text);
     font-size: 1rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px var(--shadow-color);
+    margin-bottom: 0.75rem;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
-  .card input::placeholder {
-    color: var(--text-tertiary);
-    font-weight: 400;
+  .auth-shell .card input::placeholder {
+    color: var(--auth-muted);
   }
 
-  .card input:focus {
-    border-color: var(--accent-primary);
-    background: var(--bg-primary);
-    box-shadow:
-      0 0 0 3px rgba(29, 155, 240, 0.1),
-      0 4px 8px var(--shadow-color);
-    transform: translateY(-1px);
+  .auth-shell .card input:focus {
+    border-color: rgba(29, 155, 240, 0.55);
+    background: var(--auth-input-focus);
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.15);
   }
 
-  /* ---------- CONTAINER DE SENHA ---------- */
-  .senha-container {
+  .auth-shell .senha-container {
     width: 100%;
-    display: flex;
-    justify-content: end;
-    align-items: stretch;
     position: relative;
+    margin-bottom: 0.75rem;
   }
 
-  .input-senha {
-    flex: 1;
-    border: none;
-    background: transparent;
-    outline: none;
-    padding-right: 0.25rem;
-    color: var(--text-primary);
-    font-size: 1rem;
-    font-family: inherit;
-    line-height: 1.5;
-    box-sizing: border-box;
-    padding: 0px 100px 0px 0px;
+  .auth-shell .senha-container .input-senha {
+    margin-bottom: 0;
+    padding-right: 2.75rem;
   }
 
-  .input-senha::placeholder {
-    color: var(--text-tertiary);
-  }
-
-  .toggle-senha {
+  .auth-shell .toggle-senha {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.9rem 0.75rem;
-    user-select: none;
-    transition: all 0.2s ease;
     cursor: pointer;
     background: transparent;
     border: none;
-    line-height: 1;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    position: absolute;
-    margin-top: 0.3rem;
-    color: var(--text-secondary);
+    padding: 0;
   }
 
-  .toggle-senha img {
+  .auth-shell .toggle-senha img {
     width: 22px;
     height: 22px;
-    opacity: 0.6;
-    transition: opacity 0.2s ease;
-    filter: var(--icon-filter, none);
-  }
-
-  /* Tema escuro */
-  :root[data-theme="dark"] .toggle-senha img {
+    opacity: 0.85;
     filter: brightness(0) saturate(100%) invert(100%);
   }
 
-  .toggle-senha:hover {
-    transform: scale(1.1);
-  }
-
-  .toggle-senha:hover img {
-    opacity: 1;
-  }
-
-  .toggle-senha:active {
-    transform: scale(0.95);
-  }
-
-  /* ---------- BOTÃO ---------- */
-  .card button,
-  .card input[type='submit'] {
+  .auth-shell .card button[type='submit'],
+  .auth-shell .card input[type='submit'] {
     width: 100%;
     padding: 0.9rem;
-    margin-top: 0.5rem;
+    margin-top: 0.35rem;
     background: var(--accent-primary);
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 10px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.2s ease;
   }
 
-  .card button:hover,
-  .card input[type='submit']:hover {
+  .auth-shell .card button[type='submit']:hover,
+  .auth-shell .card input[type='submit']:hover {
     background: var(--accent-hover);
-    transform: translateY(-2px);
   }
 
-  /* ---------- MENSAGENS DE ERRO ---------- */
-  .erro {
-    color: #ff4444;
+  .auth-shell .card button[type='submit']:disabled,
+  .auth-shell .card input[type='submit']:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .auth-shell .erro {
+    color: #f87171;
     font-size: 0.85rem;
-    margin-top: -0.3rem;
-    margin-bottom: 0.8rem;
+    margin-top: -0.35rem;
+    margin-bottom: 0.5rem;
     width: 100%;
     text-align: left;
-    min-height: 1.2rem;
+    min-height: 1.1rem;
   }
 
-  /* ---------- SWITCH (ALTERAR ENTRE CADASTRO/LOGIN) ---------- */
-  .switch {
+  .auth-shell .switch {
     margin-top: 1rem;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--auth-muted);
     text-align: center;
   }
 
-  .switch a {
-    color: var(--accent-primary);
-    cursor: pointer;
-    text-decoration: none;
-    margin-left: 0.3rem;
-    transition: color 0.3s ease;
-  }
-
-  .switch a:hover {
-    color: var(--accent-hover);
-    text-decoration: underline;
-  }
-
-  /* ---------- ANIMAÇÃO ---------- */
-  @keyframes fadeIn {
+  @keyframes authFadeIn {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(12px);
     }
-
     to {
       opacity: 1;
       transform: translateY(0);

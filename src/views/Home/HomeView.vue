@@ -48,175 +48,166 @@ main {
 
 .s1 {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  padding: 1.5rem 2rem 1.5rem 2rem;
+  gap: 3rem;
   position: relative;
   overflow: hidden;
+  padding: 2rem;
 
-  background-image: url('https://media.istockphoto.com/id/1939609977/pt/foto/wooded-park.jpg?s=612x612&w=0&k=20&c=MgwZmKLzLovhZh-ekaP1iFIzJGiDfHUhrL7KZFpIlPs=');
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 5rem;
+  background-image:
+    radial-gradient(ellipse 75% 55% at 20% 25%, rgba(29, 155, 240, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 85% 75%, rgba(29, 155, 240, 0.05) 0%, transparent 50%);
+  background-color: var(--bg-primary);
 }
 
-.s1::before {
+.s1::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.627);
-  backdrop-filter: blur(1px);
+  top: 10%;
+  right: 5%;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle at 40% 40%, var(--accent-primary) 0%, transparent 62%);
+  opacity: 0.05;
+  pointer-events: none;
 }
 
 .hero-content {
   position: relative;
-  max-width: 760px;
-  text-align: center;
-  color: #fff;
-  padding: 1rem;
-  animation: fadeIn 0.6s ease;
+  max-width: 520px;
+  text-align: left;
+  padding: 1.5rem;
+  z-index: 1;
 }
 
-.s1 h1 {
+.hero-content h1 {
+  font-family: var(--font-title);
   font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1.15;
+  font-weight: 700;
+  line-height: 1.2;
   margin-bottom: 1.2rem;
-  color: #5a7bff;
-
-  max-width: 100%;
-  white-space: normal;
+  color: var(--accent-primary);
+  letter-spacing: -0.02em;
+  animation: fadeInUp 0.6s ease 0s forwards;
 }
 
-.s1 p {
-  font-size: clamp(1.3rem, 1.6vw, 1.5rem);
-  line-height: 1.7;
-  color: #eaeaea;
+.hero-content p {
+  font-family: var(--font-body);
+  font-size: clamp(1.15rem, 1.5vw, 1.4rem);
+  line-height: 1.65;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
+  animation: fadeInUp 0.6s ease 0.15s forwards;
 }
-
-/* ---------------- BOTÃO ---------------- */
 
 .btn-start {
   display: inline-block;
-  background: linear-gradient(135deg, #4a73ff, #3557de);
-  padding: 0.9rem 2.2rem;
-  border-radius: 12px;
+  padding: 0.85rem 2rem;
+  border-radius: 10px;
   color: #fff;
   font-weight: 600;
   text-decoration: none;
-  font-size: clamp(1rem, 1.2vw, 1.15rem);
-  transition: 0.3s ease;
-  box-shadow: 0 6px 18px rgba(74, 115, 255, 0.35);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  background: var(--accent-primary);
+  border: 1px solid transparent;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+  box-shadow: 0 4px 14px rgba(29, 155, 240, 0.22);
+  animation: fadeInUp 0.6s ease 0.3s forwards;
 }
 
 .btn-start:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(74, 115, 255, 0.5);
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(29, 155, 240, 0.28);
 }
 
-/* ------------- ANIMAÇÃO ------------- */
-@keyframes fadeIn {
+.btn-start:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* ------------- MOBILE ------------- */
-
-/* ---------- TABLET ---------- */
 @media (max-width: 1080px) {
   .s1 {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
     min-height: 100vh;
-    padding: 3rem 0rem;
+    padding: 3rem 1.5rem;
   }
 
   .hero-content {
     max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
   }
 
-  .s1 h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-right: 2rem;
-  }
-
-  .s1 p {
-    margin-right: 2rem;
-    font-size: 1.2rem;
+  .s1::after {
+    display: none;
   }
 }
 
-/* ---------- MOBILE ---------- */
 @media (max-width: 768px) {
   .s1 {
-    min-height: 100vh;
-    padding: 0 1.5rem;
-    margin-bottom: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 2rem 1.25rem;
+    margin-bottom: 2rem;
   }
 
-  .hero-content {
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
+  .hero-content h1 {
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+  }
+
+  .hero-content p {
+    font-size: clamp(1.05rem, 3.5vw, 1.25rem);
   }
 
   .btn-start {
-    padding: 0.85rem 1.8rem;
+    padding: 0.8rem 1.75rem;
     font-size: 1rem;
-  }
-  .hero-content h1 {
-    margin-inline: 12vw;
-  }
-  .hero-content p {
-    margin-inline: 12vw;
   }
 }
 
-/* ---------- MOBILE PEQUENO ---------- */
 @media (max-width: 480px) {
   .s1 {
-    min-height: 100vh;
-    padding: 0 1rem;
+    padding: 1.5rem 1rem;
   }
 
-  .s1 h1 {
-    font-size: 2rem;
+  .hero-content h1 {
+    font-size: 1.85rem;
     line-height: 1.25;
   }
 
-  .s1 p {
+  .hero-content p {
     font-size: 1.05rem;
     line-height: 1.6;
   }
-
-  .btn-start {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
 }
 
-/* ---------- TELAS GRANDES ---------- */
 @media (min-width: 1400px) {
   .hero-content {
-    max-width: 900px;
+    max-width: 560px;
   }
 
-  .s1 h1 {
-    font-size: 3.8rem;
+  .hero-content h1 {
+    font-size: 3.4rem;
   }
 
-  .s1 p {
-    font-size: 1.6rem;
+  .hero-content p {
+    font-size: 1.45rem;
   }
 }
 </style>

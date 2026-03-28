@@ -79,12 +79,12 @@ section p {
 
 section p strong {
   font-weight: 700;
-  color: #4a73ff;
+  color: var(--accent-primary);
 }
 
 section .developer-mantra {
-  background: linear-gradient(135deg, rgba(74, 115, 255, 0.08) 0%, rgba(248, 249, 250, 0.5) 100%);
-  border-left: 4px solid #4a73ff;
+  background: linear-gradient(135deg, var(--accent-soft) 0%, transparent 100%);
+  border-left: 4px solid var(--accent-primary);
   padding: 2rem;
   margin: 2rem auto 0;
   border-radius: 12px;
@@ -93,7 +93,7 @@ section .developer-mantra {
   color: var(--text-primary);
   max-width: 700px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(74, 115, 255, 0.1);
+  box-shadow: 0 2px 12px var(--shadow-color);
   transition: color 0.3s ease;
 }
 </style>

@@ -35,7 +35,7 @@ const router = createRouter({
       path: '/ias',
       name: 'IAs',
       component: () => import('@/views/IAs/IAs.vue'),
-      meta: { requiresAuth: true },
+      // meta: { requiresAuth: true },
     },
     {
       path: '/trilhas',
@@ -66,7 +66,7 @@ const router = createRouter({
       meta: {
         // hideHeader: true
         // hideFooter: true,
-        requiresAuth: true,
+        // requiresAuth: true,
       },
     },
     {
@@ -76,7 +76,7 @@ const router = createRouter({
       meta: {
         // hideHeader: true,
         // hideFooter: true,
-        requiresAuth: true,
+        // requiresAuth: true,
       },
     },
     {

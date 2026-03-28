@@ -24,34 +24,42 @@ onMounted(() => {
 
 <style>
 /* ========================================
-   VARIÁVEIS DE TEMA
-   ======================================== */
+    VARIÁVEIS DE TEMA
+    ======================================== */
 :root {
-  --bg-primary: #f5f7fa;
-  --bg-secondary: #e8ecf1;
-  --bg-tertiary: #dce1e8;
+  /* Fundos neutros levemente aquecidos — menos branco puro e menos contraste agressivo */
+  --bg-primary: #eceef2;
+  --bg-secondary: #e2e5eb;
+  --bg-tertiary: #d8dce4;
 
-  --text-primary: #2d3748;
-  --text-secondary: #718096;
-  --text-tertiary: #a0aec0;
+  --text-primary: #3d4a5c;
+  --text-secondary: #5c6b7e;
+  --text-tertiary: #8b97a8;
 
-  --border-color: #cbd5e0;
-  --shadow-color: rgba(0, 0, 0, 0.08);
+  --border-color: rgba(60, 72, 88, 0.12);
+  --shadow-color: rgba(45, 55, 72, 0.06);
 
   --accent-primary: #1d9bf0;
   --accent-hover: #1a8cd8;
+  --accent-soft: rgba(29, 155, 240, 0.07);
+  --accent-soft-hover: rgba(29, 155, 240, 0.11);
 
-  --card-bg: #ffffff;
-  --card-hover: #f7fafc;
-  --card-border: rgba(0, 0, 0, 0.06);
+  --card-bg: #f7f8fa;
+  --card-hover: #f0f2f5;
+  --card-border: rgba(60, 72, 88, 0.08);
+
+  /* Títulos com a mesma família do corpo — leitura confortável, sem “visual de IA sci-fi” */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-sans);
+  --font-title: var(--font-sans);
 
   /* Sidebar - Modo Claro */
   --sidebar-bg: rgba(248, 250, 252, 0.98);
   --sidebar-border: rgba(0, 0, 0, 0.08);
   --sidebar-text: #334155;
   --sidebar-text-hover: #1e293b;
-  --sidebar-hover: rgba(29, 155, 240, 0.06);
-  --sidebar-active: rgba(29, 155, 240, 0.1);
+  --sidebar-hover: var(--accent-soft);
+  --sidebar-active: var(--accent-soft-hover);
   --sidebar-footer-bg: rgba(241, 245, 249, 0.8);
   --sidebar-button-bg: rgba(29, 155, 240, 0.06);
   --sidebar-button-border: rgba(29, 155, 240, 0.15);
@@ -72,6 +80,8 @@ onMounted(() => {
 
   --accent-primary: #1d9bf0;
   --accent-hover: #1a8cd8;
+  --accent-soft: rgba(29, 155, 240, 0.12);
+  --accent-soft-hover: rgba(29, 155, 240, 0.18);
 
   --card-bg: #112240;
   --card-hover: rgba(29, 155, 240, 0.1);
@@ -197,12 +207,15 @@ section {
 }
 
 body {
-  line-height: 1;
+  line-height: 1.55;
   background: var(--bg-primary);
   color: var(--text-primary);
+  font-family: var(--font-body);
   transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+    background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s ease,
+    border-color 0.5s ease;
 }
 
 ol,

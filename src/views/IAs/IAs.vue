@@ -1,37 +1,7 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-
 import AppIAs from '@/components/IAs/CardsS2.vue'
 import AppEducaCard from '@/components/IAs/S3A.vue'
 import AppIasS4 from '@/components/IAs/IasCadsS4.vue'
-
-//  #region Maquina de escrita
-
-const title = ref(null)
-
-onMounted(() => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        title.value.style.animation = 'typing 3s steps(45) forwards, blink .7s infinite'
-        observer.unobserve(title.value)
-      }
-    })
-  })
-
-  observer.observe(title.value)
-
-  // Verifica interseções iniciais (caso o elemento já esteja visível)
-  const initialEntries = observer.takeRecords()
-  initialEntries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      title.value.style.animation = 'typing 3s steps(45) forwards, blink .7s infinite'
-      observer.unobserve(title.value)
-    }
-  })
-})
-
-// #endregion
 </script>
 
 <template>
@@ -49,8 +19,8 @@ onMounted(() => {
       </div>
     </section>
     <section class="s2">
-      <div id="escrita-animada">
-        <h2 ref="title">O que diferencia uma IA das outras?</h2>
+      <div class="s2-intro">
+        <h2>O que diferencia uma IA das outras?</h2>
       </div>
       <AppIAs />
     </section>
@@ -61,163 +31,145 @@ onMounted(() => {
 <style>
 main {
   background: var(--bg-primary);
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ========================================
+   HERO SECTION
+   ======================================== */
 section.s1 {
   display: flex;
   align-items: center;
+  justify-content: center;
   min-height: 85vh;
-  padding: 6.8vw 1.4vw;
-  gap: 3vw;
-  margin-top: -5vw;
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
 
-  /* imagem de fundo com overlay escuro e efeito cover */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/image.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #fff;
+  background-image:
+    radial-gradient(ellipse 70% 55% at 15% 85%, rgba(29, 155, 240, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 88% 18%, rgba(29, 155, 240, 0.04) 0%, transparent 50%);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 section.s1 > div {
-  flex: 1;
-  text-align: left;
-  max-width: 600px;
-  margin-top: 5rem;
+  position: relative;
+  max-width: 700px;
+  text-align: center;
+  z-index: 2;
 }
 
 section.s1 h1 {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-family: var(--font-title);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: 1.5rem;
   font-weight: 700;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+  color: var(--accent-primary);
+  animation: fadeInUp 0.8s ease 0.2s forwards;
+  opacity: 0;
+  letter-spacing: -0.02em;
 }
 
 section.s1 p {
-  margin-bottom: 1.5rem;
-  font-size: 1.25rem;
-  line-height: 1.6;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+  font-family: var(--font-body);
+  margin-bottom: 2rem;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.75;
+  color: var(--text-secondary);
+  animation: fadeInUp 0.8s ease 0.4s forwards;
+  opacity: 0;
 }
 
-section.s1 a {
-  background: #3d5afe;
-  color: white;
-  padding: 0.8rem 1.6rem;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  display: inline-block;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-section.s1 a:hover {
-  background: #2a3dbf;
-}
-
+/* ========================================
+   SECTION 2
+   ======================================== */
 .s2 {
   display: flex;
+  align-items: center;
   width: 100%;
-  padding: 3vw 5vw;
+  padding: 3rem 3rem;
   box-sizing: border-box;
   background: var(--bg-primary);
-  align-items: center;
-  justify-content: space-around;
-  transition: background-color 0.3s ease;
+  gap: 3rem;
+  position: relative;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-#escrita-animada {
-  max-width: 100%;
-  overflow: hidden;
+
+.s2-intro {
+  max-width: 500px;
+  position: relative;
+  flex-shrink: 0;
 }
-#escrita-animada h2 {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 2rem;
-  max-width: 100%;
-  font-weight: 500;
+
+.s2-intro h2 {
+  font-family: var(--font-title);
+  font-size: clamp(1.3rem, 2.5vw, 1.85rem);
+  font-weight: 700;
   color: var(--text-primary);
-  margin-right: 2rem;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid var(--text-primary);
-  width: 0;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
   transition:
-    color 0.3s ease,
-    border-color 0.3s ease;
+    color 0.5s ease,
+    border-color 0.5s ease;
 }
-/* RESPONSIVO */
-@media (max-width: 1260px) {
-  section.s1 {
-    padding: 12vw 1.4vw;
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-}
-@media (max-width: 1000px) {
-  section.s1 {
-    padding: 11vw 1.1vw;
-  }
-  .s2 {
-    flex-direction: column;
-    text-align: center;
-    padding: 3vw 3vw;
-  }
-  #escrita-animada {
-    width: 100%;
-    max-width: 100%;
-  }
-  #escrita-animada h2 {
-    margin-bottom: 2rem;
-    margin-right: 0;
-    font-size: 1.5rem;
-    white-space: normal;
-    border-right: none;
-    width: 100%;
-    animation: none !important;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 865px) {
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+@media (max-width: 1000px) {
   section.s1 {
-    padding: 11.2vw 1.4vw;
+    padding: 5rem 1.5rem;
+    min-height: 70vh;
+  }
+
+  .s2 {
+    flex-direction: column;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  .s2-intro {
+    max-width: 100%;
+    width: 100%;
   }
 }
 
 @media (max-width: 620px) {
   section.s1 {
-    flex-direction: column;
-    text-align: center;
-    margin-top: 0vw;
-    padding: 11.5vw 1.2vw;
+    padding: 4rem 1rem;
+    min-height: 60vh;
   }
-  section.s1 div {
-    margin-top: 8rem;
-  }
+
   section.s1 h1 {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
   }
+
   section.s1 p {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
-}
 
-@media (max-width: 700px) {
-  #escrita-animada h2 {
-    font-size: 1.3rem;
+  .s2 {
+    padding: 2rem 1rem;
   }
-}
 
-/* animação da escrita */
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-} /* cursor piscando */
-@keyframes blink {
-  50% {
-    border-color: transparent;
+  .s2-intro h2 {
+    font-size: 1.2rem;
   }
 }
 </style>

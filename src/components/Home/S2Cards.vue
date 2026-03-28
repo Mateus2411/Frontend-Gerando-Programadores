@@ -103,7 +103,7 @@ section h2 {
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, #4a73ff 0%, #3b5fe0 100%);
+  background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-hover) 100%);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -114,15 +114,15 @@ section h2 {
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  border-color: #4a73ff;
-  box-shadow: 0 12px 40px rgba(74, 115, 255, 0.2);
+  transform: translateY(-4px);
+  border-color: var(--accent-primary);
+  box-shadow: 0 10px 28px rgba(29, 155, 240, 0.12);
 }
 
 .card-icon {
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #4a73ff 0%, #3b5fe0 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-hover) 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -131,7 +131,7 @@ section h2 {
   font-weight: 700;
   color: #fff;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 15px rgba(74, 115, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(29, 155, 240, 0.22);
 }
 
 .card h3 {

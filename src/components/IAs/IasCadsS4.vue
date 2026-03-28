@@ -508,9 +508,6 @@ const mostrarDesc = ref(false)
   background: var(--bg-primary);
   border-radius: 20px;
   transition: background-color 0.3s ease;
-
-  /* ISOLA A GRID */
-  isolation: isolate;
 }
 
 /* ======================== BOTÃO ======================== */
@@ -532,23 +529,22 @@ const mostrarDesc = ref(false)
 
   cursor: pointer;
   user-select: none;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--text-primary);
   transition: color 0.3s ease;
 }
 
-/* esconde o checkbox original */
 .checkbox-ui input {
   display: none;
 }
 
-/* caixa customizada */
 .checkbox-ui .check {
   width: 18px;
   height: 18px;
   border-radius: 5px;
 
-  border: 2px solid #7b98ff;
+  border: 2px solid var(--accent-primary);
   background: var(--card-bg);
 
   display: grid;
@@ -560,12 +556,10 @@ const mostrarDesc = ref(false)
     box-shadow 0.2s ease;
 }
 
-/* efeito hover */
 .checkbox-ui:hover .check {
-  box-shadow: 0 0 0 4px rgba(123, 152, 255, 0.15);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-/* check interno */
 .checkbox-ui .check::after {
   content: '';
   width: 9px;
@@ -578,9 +572,8 @@ const mostrarDesc = ref(false)
   transition: transform 0.15s ease;
 }
 
-/* quando marcado */
 .checkbox-ui input:checked + .check {
-  background: linear-gradient(90deg, #3d5afe, #7b98ff);
+  background: var(--accent-primary);
   border-color: transparent;
 }
 
@@ -588,27 +581,31 @@ const mostrarDesc = ref(false)
   transform: scale(1);
 }
 
-/* texto */
 .checkbox-ui .label-text {
   line-height: 1.2;
 }
 
 .btn-container button {
+  font-family: var(--font-body);
   border: none;
-  padding: 0.9rem 1.6rem;
+  padding: 0.85rem 1.5rem;
   font-size: 1rem;
-  border-radius: 25px;
-  background: linear-gradient(90deg, #3d5afe, #7b98ff);
+  font-weight: 600;
+  border-radius: 10px;
+  background: var(--accent-primary);
   color: #fff;
   cursor: pointer;
+  letter-spacing: 0.02em;
   transition:
     transform 0.2s ease,
-    filter 0.2s ease;
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .btn-container button:hover {
-  transform: scale(1.05);
-  filter: brightness(1.08);
+  transform: translateY(-1px);
+  background: var(--accent-hover);
+  box-shadow: 0 6px 18px rgba(29, 155, 240, 0.22);
 }
 
 /* ======================== CARD ======================== */
@@ -618,7 +615,7 @@ const mostrarDesc = ref(false)
   border-radius: 18px;
 
   box-sizing: border-box;
-  border: 2px solid var(--card-border);
+  border: 1px solid var(--card-border);
 
   box-shadow: 0 6px 20px var(--shadow-color);
 
@@ -629,7 +626,6 @@ const mostrarDesc = ref(false)
   position: relative;
   overflow: visible;
 
-  /* 🔥 AQUI ESTÁ A CHAVE */
   transform: translateZ(0);
   transition:
     transform 0.25s cubic-bezier(0.2, 0.9, 0.2, 1),
@@ -641,8 +637,9 @@ const mostrarDesc = ref(false)
 }
 
 .item:not(.show-desc):hover {
-  transform: scale(1.08);
+  transform: translateY(-2px);
   z-index: 10;
+  border-color: var(--accent-primary);
 }
 
 /* ======================== CONTEÚDO ======================== */
@@ -654,14 +651,15 @@ const mostrarDesc = ref(false)
 
 /* ======================== LINK ======================== */
 .item a {
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-weight: 600;
   font-size: 1rem;
-  color: #1f3bff;
+  color: var(--accent-primary);
   text-decoration: none;
 }
 
 .item a:hover {
-  color: #0028e6;
+  color: var(--accent-hover);
 }
 
 /* ======================== DESCRIÇÃO ======================== */
@@ -686,6 +684,7 @@ const mostrarDesc = ref(false)
   border-radius: 10px;
 
   background: var(--bg-secondary);
+  font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--text-primary);
 
@@ -705,7 +704,6 @@ const mostrarDesc = ref(false)
   height: 10px;
   border-bottom: 3px solid transparent;
 
-  /* raio só embaixo, igual ao card */
   border-bottom-left-radius: 18px;
   border-bottom-right-radius: 18px;
 
@@ -714,24 +712,23 @@ const mostrarDesc = ref(false)
 }
 
 .item:not(.show-desc):hover::after {
-  border-bottom-color: #5b74ff;
+  border-bottom-color: var(--accent-primary);
 }
 
 /* ======================== MODO DESCRIÇÃO FIXA ======================== */
 .item.show-desc {
   box-shadow: 0 10px 28px var(--shadow-color);
+  border-color: var(--accent-primary);
 }
 
-/* descrição sempre visível */
 .item.show-desc .desc-wrap {
   opacity: 1;
   transform: none;
 }
 
-/* mantém efeito de hover */
 .item.show-desc:hover {
-  transform: scale(1.08);
-  box-shadow: 0 24px 50px var(--shadow-color);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--shadow-color);
 }
 
 /* ======================== RESPONSIVO ======================== */
@@ -740,30 +737,25 @@ const mostrarDesc = ref(false)
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 
-  /* card neutro */
   .item {
     transform: none !important;
     cursor: default;
     box-shadow: 0 10px 28px var(--shadow-color);
   }
 
-  /* mata hover */
   .item:hover {
     transform: none !important;
   }
 
-  /* descrição sempre visível */
   .desc-wrap {
     opacity: 1 !important;
     transform: none !important;
   }
 
-  /* remove qualquer linha azul */
   .item::after {
     border-bottom-color: transparent !important;
   }
 
-  /* some com o checkbox (não faz sentido no mobile) */
   .checkbox-ui {
     display: none;
   }
