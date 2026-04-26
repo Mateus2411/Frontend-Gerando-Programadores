@@ -31,6 +31,7 @@
     "sass": "^1.94.2",
     "sugarss": "^5.0.1",
     "vite": "^7.2.4",
+    "vite-plugin-pwa": "^1.2.0",
     "vite-plugin-vue-devtools": "^8.0.5"
   },
   "description": "This template should help get you started developing with Vue 3 in Vite.",
