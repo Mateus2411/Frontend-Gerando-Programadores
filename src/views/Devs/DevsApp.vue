@@ -196,7 +196,7 @@ const stacks = [
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 16%;
   filter: saturate(0.65) contrast(1.1) brightness(0.65);
 }
 
@@ -214,9 +214,11 @@ const stacks = [
 .dp-hero__content {
   position: relative;
   z-index: 2;
-  padding: 4rem 2rem 3rem;
+  padding: 6rem 2rem 3rem;
+  margin-top: 120px;
   max-width: 1400px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   animation: dp-fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
