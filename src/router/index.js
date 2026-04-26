@@ -35,7 +35,7 @@ const router = createRouter({
       path: '/ias',
       name: 'IAs',
       component: () => import('@/views/IAs/IAs.vue'),
-      // meta: { requiresAuth: true },
+      meta: { requiresAuth: true },
     },
     {
       path: '/trilhas',
@@ -47,16 +47,12 @@ const router = createRouter({
           name: 'javascript',
           component: () => import('@/views/Trilhas/Cursos/JavaScript/HomeJS.vue'),
           meta: {
-            // hideHeader: true,
-            // hideFooter: true,
-            // requiresAuth: true
+            requiresAuth: true
           },
         },
       ],
       meta: {
-        // hideHeader: true,
-        // hideFooter: true,
-        // requiresAuth: true
+        requiresAuth: true
       },
     },
     {
@@ -64,9 +60,7 @@ const router = createRouter({
       name: 'Developers',
       component: () => import('@/views/Devs/DevsApp.vue'),
       meta: {
-        // hideHeader: true
-        // hideFooter: true,
-        // requiresAuth: true,
+        requiresAuth: true
       },
     },
     {
@@ -74,9 +68,7 @@ const router = createRouter({
       name: 'perfil',
       component: () => import('@/views/Perfil/AppPerfil.vue'),
       meta: {
-        // hideHeader: true,
-        // hideFooter: true,
-        // requiresAuth: true,
+        requiresAuth: true,
       },
     },
     {
