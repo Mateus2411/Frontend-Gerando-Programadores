@@ -26,12 +26,6 @@ const creators = [
         <div class="footer-section copyright">
           <p class="brand-text">Direcionamento de Estudo</p>
           <p class="copy-text">
-            <span class="copy-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-            </span>
             <span>&copy; {{ currentYear }} • Todos os direitos reservados</span>
           </p>
           <p class="made-with">
