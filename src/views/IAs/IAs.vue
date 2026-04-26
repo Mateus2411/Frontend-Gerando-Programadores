@@ -1,7 +1,7 @@
 <script setup>
-import AppIAs from '@/components/IAs/CardsS2.vue'
-import AppEducaCard from '@/components/IAs/S3A.vue'
-import AppIasS4 from '@/components/IAs/IasCadsS4.vue'
+import IAsCards from '@/components/IAs/CardsS2.vue'
+import IAsEducaCard from '@/components/IAs/S3A.vue'
+import IAsS4 from '@/components/IAs/IasCadsS4.vue'
 </script>
 
 <template>
@@ -22,10 +22,10 @@ import AppIasS4 from '@/components/IAs/IasCadsS4.vue'
       <div class="s2-intro">
         <h2>O que diferencia uma IA das outras?</h2>
       </div>
-      <AppIAs />
+      <IAsCards />
     </section>
-    <AppEducaCard />
-    <AppIasS4 />
+    <IAsEducaCard />
+    <IAsS4 />
   </main>
 </template>
 <style>
