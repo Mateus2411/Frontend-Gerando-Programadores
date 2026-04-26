@@ -10,21 +10,19 @@
         utilizados pelo programa. Pense nelas como caixas etiquetadas onde você guarda informações.
       </p>
 
-      <div class="info-box">
-        <h3>Declarando Variáveis em JavaScript:</h3>
+      <InfoBox title="Declarando Variáveis em JavaScript:">
         <pre><code>let nome = "João";        // Variável que pode mudar
 const PI = 3.14;          // Constante (não muda)
 var idade = 25;           // Forma antiga (evite usar)</code></pre>
-      </div>
+      </InfoBox>
 
-      <div class="tip-box">
-        <h4>🎯 Boas Práticas:</h4>
+      <TipBox title="🎯 Boas Práticas:">
         <ul>
           <li><strong>Use const</strong> sempre que o valor não for mudar</li>
           <li><strong>Use let</strong> quando precisar reatribuir valores</li>
           <li><strong>Evite var</strong> - ele tem comportamento confuso com escopo</li>
         </ul>
-      </div>
+      </TipBox>
     </section>
 
     <section>
@@ -72,8 +70,7 @@ var idade = 25;           // Forma antiga (evite usar)</code></pre>
         </div>
       </div>
 
-      <div class="example">
-        <h4>📌 Exemplo Prático - Tipos Primitivos:</h4>
+      <ExampleBox title="📌 Exemplo Prático - Tipos Primitivos:">
         <pre><code>const idade = 25;
 let novaIdade = idade;
 novaIdade = 30;
@@ -82,7 +79,7 @@ console.log(idade);      // 25 (não mudou!)
 console.log(novaIdade);  // 30
 
 // Primitivos copiam o VALOR</code></pre>
-      </div>
+      </ExampleBox>
     </section>
 
     <section>
@@ -107,8 +104,7 @@ console.log(novaIdade);  // 30
         </div>
       </div>
 
-      <div class="example">
-        <h4>📌 Exemplo Prático - Tipos por Referência:</h4>
+      <ExampleBox title="📌 Exemplo Prático - Tipos por Referência:">
         <pre><code>const lista1 = [1, 2, 3];
 const lista2 = lista1;
 lista2[0] = 99;
@@ -117,39 +113,33 @@ console.log(lista1[0]);  // 99 (mudou!)
 console.log(lista2[0]);  // 99
 
 // Arrays copiam a REFERÊNCIA, não o valor!</code></pre>
-      </div>
+      </ExampleBox>
     </section>
 
     <section>
       <h2>📝 Entrada e Saída de Dados</h2>
-      <div class="example">
-        <h4>Saída (Exibir dados):</h4>
+      <ExampleBox title="Saída (Exibir dados):">
         <pre><code>console.log("Olá!");      // No console
 alert("Mensagem");        // Popup na tela</code></pre>
-
-        <h4>Entrada (Receber dados):</h4>
+      </ExampleBox>
+      <ExampleBox title="Entrada (Receber dados):">
         <pre><code>let nome = prompt("Digite seu nome:");
 console.log("Olá, " + nome);</code></pre>
-      </div>
+      </ExampleBox>
     </section>
 
-    <div class="nav-buttons">
-      <button @click="$router.back()">← Voltar</button>
-      <button @click="$router.push('/trilhas/javascript/variaveis-tipos-dados/a')" class="primary">
-        Próximo →
-      </button>
-    </div>
+    <NavButtons
+      @back="$router.back()"
+      @next="$router.push('/trilhas/javascript/variaveis-tipos-dados/a')"
+    />
   </div>
 </template>
 
 <script setup>
-function loadPage() {
-  window.scrollTo({
-    top: 50,
-    behavior: 'smooth',
-  })
-}
-loadPage
+import InfoBox from '@/components/Lesson/InfoBox.vue'
+import TipBox from '@/components/Lesson/TipBox.vue'
+import ExampleBox from '@/components/Lesson/ExampleBox.vue'
+import NavButtons from '@/components/Lesson/NavButtons.vue'
 </script>
 <style scoped>
 .lesson {

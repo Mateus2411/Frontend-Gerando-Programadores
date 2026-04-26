@@ -27,6 +27,11 @@ export const useThemeStore = defineStore('theme', () => {
     isDark.value = true
   }
 
+  function initTheme() {
+    // Garante que o tema seja aplicado ao iniciar
+    document.documentElement.setAttribute('data-theme', isDark.value ? 'dark' : 'light')
+  }
+
   // Salva no localStorage e aplica no documento
   watch(
     isDark,
@@ -48,5 +53,6 @@ export const useThemeStore = defineStore('theme', () => {
     setTheme,
     setLightTheme,
     setDarkTheme,
+    initTheme,
   }
 })

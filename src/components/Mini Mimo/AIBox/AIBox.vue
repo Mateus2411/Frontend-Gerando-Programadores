@@ -1,5 +1,5 @@
 <script setup>
-import { useAiStore } from '@/stores'
+import { useAiStore } from '@/stores/ai'
 import { ref, nextTick, watch } from 'vue'
 
 const ai = useAiStore()
