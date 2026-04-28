@@ -185,8 +185,8 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 6rem 2rem 4rem;
-  overflow: hidden;
+  padding: 3rem 2rem 4rem;
+  overflow: visible;
 }
 
 /* --- Atmospheric Background --- */
@@ -315,7 +315,7 @@ onMounted(() => {
 .code-keyword { color: #c792ea; }
 .code-var { color: #82aaff; }
 .code-op { color: #89ddff; }
-.code-bracket { color: #cocop; }
+.code-bracket { color: #c792ea; }
 .code-str { color: #c3e88d; }
 .code-punct { color: #89ddff; }
 .code-comment { color: #697098; font-style: italic; }
@@ -435,6 +435,7 @@ onMounted(() => {
 /* --- Hero Actions (CTAs) --- */
 .hero-actions {
   display: flex;
+  justify-content: center;
   align-items: stretch;
   gap: 1rem;
   width: 100%;
@@ -452,12 +453,12 @@ onMounted(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.9rem 2rem;
+  gap: 0.6rem;
+  padding: 1rem 4rem;
   background: var(--accent-primary);
   color: #fff;
   font-weight: 600;
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
   text-decoration: none;
   border-radius: 12px;
   border: 1px solid transparent;
@@ -499,12 +500,12 @@ onMounted(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.8rem;
+  gap: 0.6rem;
+  padding: 1rem 4rem;
   background: transparent;
   color: var(--accent-primary);
   font-weight: 600;
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
   text-decoration: none;
   border-radius: 12px;
   border: 1.5px solid rgba(29, 155, 240, 0.3);
@@ -524,20 +525,35 @@ onMounted(() => {
 
 /* --- Hero Stats --- */
 .hero-stats {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 1.4rem 2.5rem;
-  background: rgba(17, 34, 64, 0.4);
-  border: 1px solid rgba(29, 155, 240, 0.1);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  animation: heroStatsEntrance 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
-  margin-top: 0.5rem;
-  width: 100%;
-  max-width: fit-content;
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1.4rem 2.5rem;
+    background: rgba(17, 34, 64, 0.4);
+    border: 1px solid rgba(29, 155, 240, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: heroStatsEntrance 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
+    margin-top: 0.5rem;
+    width: 100%;
+    max-width: fit-content;
+    pointer-events: none;
+  }
+
+  .hero-stats > * {
+    pointer-events: auto;
+  }
+}
+
+.hero-stats > * {
+  pointer-events: auto;
 }
 
 @keyframes heroStatsEntrance {

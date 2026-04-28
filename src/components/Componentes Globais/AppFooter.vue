@@ -16,6 +16,7 @@ const creators = [
     <div class="footer-bg" aria-hidden="true">
       <div class="bg-glow bg-glow--left"></div>
       <div class="bg-glow bg-glow--right"></div>
+      <div class="bg-glow bg-glow--center"></div>
       <div class="bg-grid"></div>
     </div>
 
@@ -44,7 +45,7 @@ const creators = [
             <div class="logo-glow"></div>
             <div class="logo-placeholder">
               <img
-                src="/Gemini_Generated_Image_yhkozhyhkozhyhko-removebg-preview.png"
+                src="/codexdev_logo_redesign.svg"
                 alt="Logo Direcionamento de Estudo"
                 class="logo-img"
               />
@@ -125,6 +126,17 @@ const creators = [
   bottom: -50%;
   right: -5%;
   background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+}
+
+.bg-glow--center {
+  width: 400px;
+  height: 280px;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(29, 155, 240, 0.5) 0%, transparent 70%);
+  filter: blur(100px);
+  opacity: 0.8;
 }
 
 .bg-grid {
@@ -217,35 +229,32 @@ const creators = [
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.logo-glow {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
-  opacity: 0.15;
-  filter: blur(20px);
-  border-radius: 50%;
+  margin-bottom: 1rem;
 }
 
 .logo-placeholder {
-  width: 80px;
-  height: 80px;
+  width: 160px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 1;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  background: transparent;
+  border-radius: 50%;
 }
 
 .logo-img {
-  max-width: 220px;
-  max-height: 220px;
-  border-radius: 16px;
-  opacity: 0.95;
-  filter: drop-shadow(0 4px 12px rgba(29, 155, 240, 0.15));
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 25px rgba(29, 155, 240, 0.5)) brightness(0) invert(1);
+}
+
+/* Modo claro: mantém a cor original */
+:root[data-theme='light'] .logo-img {
+  filter: drop-shadow(0 0 25px rgba(29, 155, 240, 0.5));
 }
 
 .logo-placeholder:hover {
