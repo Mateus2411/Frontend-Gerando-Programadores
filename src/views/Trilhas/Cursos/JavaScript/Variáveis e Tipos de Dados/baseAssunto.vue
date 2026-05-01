@@ -129,8 +129,8 @@ console.log("Olá, " + nome);</code></pre>
     </section>
 
     <NavButtons
-      @back="$router.back()"
-      @next="$router.push('/trilhas/javascript/variaveis-tipos-dados/a')"
+      @back="$router.push('/trilhas/javascript/operadores-expressoes/base')"
+      @next="$router.push('/trilhas/javascript/strings/base')"
     />
   </div>
 </template>

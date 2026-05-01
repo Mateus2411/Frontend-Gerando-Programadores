@@ -173,8 +173,8 @@ console.log(formatarNome("joão", "santos"));
     </section>
 
     <div class="nav-buttons">
-      <button @click="$router.push('/trilhas/javascript/arrays/base')">← Anterior</button>
-      <button @click="$router.push('/trilhas/javascript/funcoes/base')" class="primary">
+      <button @click="$router.back()">← Anterior</button>
+      <button @click="$router.push('/trilhas/javascript/fluxo-controle-if/base')" class="primary">
         Próximo →
       </button>
     </div>

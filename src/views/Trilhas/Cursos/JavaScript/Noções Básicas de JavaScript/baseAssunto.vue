@@ -96,9 +96,9 @@ console.log(resultado);  // 15</code></pre>
     </section>
 
     <div class="nav-buttons">
-      <button @click="$router.push('/trilhas/javascript')">← Voltar</button>
-      <button
-        @click="$router.push('/trilhas/javascript/variaveis-tipos-dados/base')"
+      <button @click="$router.back()">← Anterior</button>
+      <button>
+        @click="$router.push('/trilhas/javascript/saida-dados/base')"
         class="primary"
       >
         Próximo →

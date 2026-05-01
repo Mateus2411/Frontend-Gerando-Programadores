@@ -141,9 +141,9 @@ console.log(carro.descrever());
     </section>
 
     <div class="nav-buttons">
-      <button @click="$router.push('/trilhas/javascript')">← Voltar</button>
-      <button @click="$router.push('/trilhas/javascript/arrays/base')" class="primary">
-        Próximo →
+      <button @click="$router.push('/trilhas/javascript/funcoes/base')">← Voltar</button>
+      <button @click="$router.push('/trilhas/')" class="primary">
+        Concluir →
       </button>
     </div>
   </div>

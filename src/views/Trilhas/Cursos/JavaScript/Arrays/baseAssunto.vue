@@ -146,14 +146,160 @@ console.log(resultado);  // [50, 60, 80]</code></pre>
       </div>
     </section>
 
-    <div class="nav-buttons">
-      <button @click="$router.push('/trilhas/javascript/objetos/base')">← Anterior</button>
-      <button @click="$router.push('/trilhas/javascript/funcoes/base')" class="primary">
-        Próximo →
-      </button>
-    </div>
+    <section>
+      <h2>🔧 Métodos de Modificação</h2>
+      <div class="methods-grid">
+        <div class="method-card">
+          <h4>push()</h4>
+          <p>Adiciona no final</p>
+          <pre><code>arr.push(item)</code></pre>
+        </div>
+        <div class="method-card">
+          <h4>pop()</h4>
+          <p>Remove do final</p>
+          <pre><code>arr.pop()</code></pre>
+        </div>
+        <div class="method-card">
+          <h4>shift()</h4>
+          <p>Remove do início</p>
+          <pre><code>arr.shift()</code></pre>
+        </div>
+        <div class="method-card">
+          <h4>unshift()</h4>
+          <p>Adiciona no início</p>
+          <pre><code>arr.unshift(item)</code></pre>
+        </div>
+      </div>
+      <ExampleBox title="📌 Exemplo - Pilha (LIFO):">
+        <pre><code>let pilha = [];
+pilha.push("A");  // ["A"]
+pilha.push("B");  // ["A", "B"]
+pilha.push("C");  // ["A", "B", "C"]
+console.log(pilha.pop());  // "C"
+console.log(pilha.pop());  // "B"</code></pre>
+      </ExampleBox>
+      <ExampleBox title="📌 Exemplo - Fila (FIFO):">
+        <pre><code>let fila = [];
+fila.push("Pessoa 1");  // ["Pessoa 1"]
+fila.push("Pessoa 2");  // ["Pessoa 1", "Pessoa 2"]
+console.log(fila.shift());  // "Pessoa 1"
+console.log(fila.shift());  // "Pessoa 2"</code></pre>
+      </ExampleBox>
+    </section>
+
+    <section>
+      <h2>✂️ splice() e slice()</h2>
+      <ExampleBox title="📌 splice() - Remover/Adicionar:">
+        <pre><code>let nums = [1, 2, 3, 4, 5];
+
+// Remover 2 elementos a partir do índice 1
+nums.splice(1, 2);
+console.log(nums);  // [1, 4, 5]
+
+// Inserir sem remover
+nums.splice(1, 0, "novo");
+console.log(nums);  // [1, "novo", 4, 5]</code></pre>
+      </ExampleBox>
+      <ExampleBox title="📌 slice() - Copiar parte:">
+        <pre><code>let letras = ["a", "b", "c", "d", "e"];
+
+// Do índice 1 ao 3 (não inclui o 3)
+console.log(letras.slice(1, 4));  // ["b", "c", "d"]
+
+// Sem segundo parâmetro = até o fim
+console.log(letras.slice(2));  // ["c", "d", "e"]</code></pre>
+      </ExampleBox>
+    </section>
+
+    <section>
+      <h2>🔍 Busca e Verificação</h2>
+      <ExampleBox title="📌 find() e findIndex():">
+        <pre><code>let numeros = [10, 25, 30, 45, 50];
+
+// find() - retorna o primeiro elemento
+let encontrado = numeros.find(n => n > 20);
+console.log(encontrado);  // 25
+
+// findIndex() - retorna o índice
+let indice = numeros.findIndex(n => n > 20);
+console.log(indice);  // 1</code></pre>
+      </ExampleBox>
+      <ExampleBox title="📌 includes() e indexOf():">
+        <pre><code>let frutas = ["maçã", "banana", "laranja"];
+
+// includes() - verifica se existe
+console.log(frutas.includes("banana"));  // true
+console.log(frutas.includes("uva"));       // false
+
+// indexOf() - retorna o índice (-1 se não encontrar)
+console.log(frutas.indexOf("banana"));   // 1
+console.log(frutas.indexOf("uva"));      // -1</code></pre>
+      </ExampleBox>
+    </section>
+
+    <section>
+      <h2>🔄 Ordenação</h2>
+      <ExampleBox title="📌 sort() - Ordenar:">
+        <pre><code>let numeros = [3, 1, 5, 2, 4];
+numeros.sort();
+console.log(numeros);  // [1, 2, 3, 4, 5]
+
+// Ordenar decrescente
+numeros.sort((a, b) => b - a);
+console.log(numeros);  // [5, 4, 3, 2, 1]</code></pre>
+      </ExampleBox>
+      <ExampleBox title="📌 reverse() - Inverter:">
+        <pre><code>let array = [1, 2, 3, 4, 5];
+array.reverse();
+console.log(array);  // [5, 4, 3, 2, 1]</code></pre>
+      </ExampleBox>
+    </section>
+
+    <section>
+      <h2>🔗 Juntar e Concatenar</h2>
+      <ExampleBox title="📌 join() - Array para String:">
+        <pre><code>let palavras = ["Olá", "Mundo", "!"];
+console.log(palavras.join(" "));  // "Olá Mundo !"
+console.log(palavras.join("-"));  // "Olá-Mundo-!"</code></pre>
+      </ExampleBox>
+      <ExampleBox title="📌 concat() - Juntar Arrays:">
+        <pre><code>let a = [1, 2];
+let b = [3, 4];
+let c = [5];
+
+let resultado = a.concat(b, c);
+console.log(resultado);  // [1, 2, 3, 4, 5]</code></pre>
+      </ExampleBox>
+    </section>
+
+    <section>
+      <h2>➗ Spread Operator</h2>
+      <ExampleBox title="📌 Spread em Arrays:">
+        <pre><code>let base = [1, 2, 3];
+let扩展 = [...base, 4, 5];
+console.log(扩展);  // [1, 2, 3, 4, 5]
+
+// Copiar array
+let copia = [...base];
+
+// Mesclar arrays
+let arr1 = [1, 2];
+let arr2 = [3, 4];
+let mesclado = [...arr1, ...arr2];</code></pre>
+      </ExampleBox>
+    </section>
+
+    <NavButtons
+      @back="$router.back()"
+      @next="$router.push('/trilhas/javascript/for-of/base')"
+    />
   </div>
 </template>
+
+<script setup>
+import ExampleBox from '@/components/Lesson/ExampleBox.vue'
+import NavButtons from '@/components/Lesson/NavButtons.vue'
+</script>
 
 <style scoped>
 .lesson {
@@ -206,6 +352,35 @@ p {
 .example h4 {
   color: var(--accent-primary);
   margin-bottom: 1rem;
+}
+
+.methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.method-card {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.method-card h4 {
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+}
+
+.method-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.method-card pre {
+  font-size: 0.8rem;
 }
 
 pre {
