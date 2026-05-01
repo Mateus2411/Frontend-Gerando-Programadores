@@ -43,3 +43,8 @@ cola.txt
 .env
 
 src/config/apiKey.js
+
+# MCP & temporários
+.mcp.json
+.playwright-mcp/
+temp-repo/
