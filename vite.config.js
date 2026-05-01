@@ -62,10 +62,10 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'if-logo-s-fundo.png', 'image.png', 'careca.jpg'],
       manifest: {
         name: 'Gerando Programadores',
-        short_name: 'Programadores',
+        short_name: 'GP Hub',
         description: 'Curso e portfólio de programação para novos desenvolvedores.',
-        theme_color: '#080f1c',
-        background_color: '#080f1c',
+        theme_color: '#181818',
+        background_color: '#181818',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '/',
@@ -73,6 +73,18 @@ export default defineConfig({
         lang: 'pt-BR',
         categories: ['education', 'games'],
         icons: [
+          {
+            src: '/if-logo-s-fundo.png',
+            sizes: '96x96',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/if-logo-s-fundo.png',
+            sizes: '144x144',
+            type: 'image/png',
+            purpose: 'any',
+          },
           {
             src: '/if-logo-s-fundo.png',
             sizes: '192x192',
@@ -87,7 +99,7 @@ export default defineConfig({
           },
           {
             src: '/if-logo-s-fundo.png',
-            sizes: '512x512',
+            sizes: '180x180',
             type: 'image/png',
             purpose: 'any',
           },

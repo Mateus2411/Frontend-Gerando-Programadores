@@ -2,6 +2,7 @@
 import AppFooter from './components/Componentes Globais/AppFooter.vue'
 import AppHeader from './components/Componentes Globais/AppHeader.vue'
 import AppNotification from './components/Componentes Globais/AppNotification.vue'
+import PwaInstallPrompt from './components/Componentes Globais/PwaInstallPrompt.vue'
 import { onMounted } from 'vue'
 import { useAuthStore } from './stores/auth'
 import { useThemeStore } from './stores/theme'
@@ -20,6 +21,7 @@ onMounted(() => {
   <router-view />
   <app-footer v-if="!$route.meta.hideFooter" />
   <app-notification />
+  <pwa-install-prompt />
 </template>
 
 <style>
@@ -52,6 +54,11 @@ onMounted(() => {
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   --font-body: var(--font-sans);
   --font-title: var(--font-sans);
+
+  /* Easing customizadas (Emil Kowalski) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
   /* Sidebar - Modo Claro */
   --sidebar-bg: rgba(248, 250, 252, 0.98);
@@ -211,6 +218,7 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body);
+  overflow-x: hidden; /* Previne overflow horizontal global */
   transition:
     background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
