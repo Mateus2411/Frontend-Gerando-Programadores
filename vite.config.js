@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -18,7 +17,7 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            urlPattern: ({ url }) => url.hostname === 'fonts.googleapis.com',
             handler: 'CacheFirst',
             options: {
               cacheName: 'google-fonts-cache',
@@ -32,7 +31,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            urlPattern: ({ url }) => url.hostname === 'fonts.gstatic.com',
             handler: 'CacheFirst',
             options: {
               cacheName: 'gstatic-fonts-cache',
@@ -43,18 +42,6 @@ export default defineConfig({
               cacheableResponse: {
                 statuses: [0, 200],
               },
-            },
-          },
-          {
-            urlPattern: /\/api\/.*/i,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'api-cache',
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24, // 1 day
-              },
-              networkTimeoutSeconds: 10,
             },
           },
         ],
@@ -110,15 +97,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^/api/, '/api'),
-      },
     },
   },
 })
