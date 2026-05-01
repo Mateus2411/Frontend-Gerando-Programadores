@@ -38,16 +38,32 @@ export const useAiStore = defineStore('ai', {
           }),
         })
 
-        if (!response.ok) {
-          const errorData = await response.json()
-          throw new Error(errorData.error || `Erro ${response.status}`)
+        console.log('📥 Resposta recebida:', response.status, response.statusText)
+
+        // Lê o texto da resposta (apenas uma vez!)
+        const responseText = await response.text()
+        console.log('📥 Texto da resposta:', responseText.substring(0, 200))
+
+        // Tenta fazer parse do JSON
+        let data
+        try {
+          data = JSON.parse(responseText)
+        } catch (e) {
+          console.error('❌ Erro ao fazer parse do JSON:', responseText)
+          throw new Error('Resposta inválida do servidor (não é JSON)')
         }
 
-        const data = await response.json()
+        // Verifica se há erro na resposta
+        if (!response.ok) {
+          throw new Error(data.error || `Erro ${response.status}`)
+        }
 
+        // Verifica se tem resposta da IA
         if (data.reply && data.reply.trim().length > 0) {
           this.resposta = data.reply.trim()
           console.log('✅ Resposta processada com sucesso')
+        } else if (data.error) {
+          throw new Error(data.error)
         } else {
           throw new Error('🤖 A IA retornou uma resposta vazia. Tente reformular sua pergunta.')
         }
