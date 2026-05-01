@@ -350,6 +350,7 @@ function usarSugestao(sugestao) {
 .chat-container-embedded {
   display: flex;
   flex-direction: column;
+  flex: 1;
   height: 100%;
   background: var(--bg-primary);
   overflow: hidden;

@@ -301,7 +301,7 @@ watch(menuAberto, (isOpen) => {
   <div v-if="menuAberto" class="overlay" @click="closeMenu" aria-hidden="true" />
 
   <!-- Chat Flutuante -->
-  <div v-if="chatAberto" class="chat-flutuante">
+  <div v-if="chatAberto" class="chat-flutuante" :class="{ 'header-hidden': !headerVisible }">
     <div class="chat-header-float">
       <h3>🤖 Cognexus</h3>
       <button @click="closeChat" class="close-chat" aria-label="Fechar chat">
@@ -781,8 +781,8 @@ watch(menuAberto, (isOpen) => {
 }
 
 /* ========================================
-   CHAT FLUTUANTE
-   ======================================== */
+    CHAT FLUTUANTE
+    ======================================== */
 .chat-flutuante {
   position: fixed;
   top: 6rem;
@@ -790,8 +790,8 @@ watch(menuAberto, (isOpen) => {
   z-index: 9999;
 
   width: clamp(320px, 70vw, 900px);
-  height: clamp(600px, 85vh, 90vh);
-  max-height: 90vh;
+  height: calc(100vh - 6rem);
+  max-height: calc(100vh - 6rem);
 
   background: var(--card-bg);
   border-radius: 20px;
@@ -800,6 +800,14 @@ watch(menuAberto, (isOpen) => {
 
   display: flex;
   flex-direction: column;
+
+  transition: top 0.3s ease, height 0.3s ease, max-height 0.3s ease;
+}
+
+.chat-flutuante.header-hidden {
+  top: 0;
+  height: 100vh;
+  max-height: 100vh;
 }
 
 .chat-header-float {

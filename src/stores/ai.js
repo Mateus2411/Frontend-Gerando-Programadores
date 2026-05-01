@@ -48,7 +48,7 @@ export const useAiStore = defineStore('ai', {
         let data
         try {
           data = JSON.parse(responseText)
-        } catch (e) {
+        } catch{
           console.error('❌ Erro ao fazer parse do JSON:', responseText)
           throw new Error('Resposta inválida do servidor (não é JSON)')
         }
