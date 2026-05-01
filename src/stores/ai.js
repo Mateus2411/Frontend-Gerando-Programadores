@@ -28,7 +28,7 @@ export const useAiStore = defineStore('ai', {
         }
 
         const client = new OpenAI({
-          baseURL: 'https://router.huggingface.co/v1',
+          baseURL: 'https://openrouter.ai/api/v1',
           apiKey: apiKey,
           dangerouslyAllowBrowser: true,
         })
@@ -53,16 +53,16 @@ export const useAiStore = defineStore('ai', {
         mensagens.push({ role: 'user', content: pergunta })
 
         console.log('📤 Enviando para API:', {
-          model: 'MiniMaxAI/MiniMax-M2.5:novita',
+          model: 'minimax/minimax-m2.5:free',
           linguagem: linguagemAtual,
           perguntaLength: pergunta.length,
         })
 
         const chatCompletion = await client.chat.completions.create({
-          model: 'MiniMaxAI/MiniMax-M2.5:novita',
+          model: 'minimax/minimax-m2.5:free',
           messages: mensagens,
           temperature: 0.7, // Criatividade moderada
-          max_tokens: 2500, // Aumentado para respostas mais completas
+          max_tokens: 1024, // Ajuste para limite do modelo gratuito
           top_p: 0.9, // Diversidade de resposta
           frequency_penalty: 0.3, // Reduz repetições
           presence_penalty: 0.2, // Incentiva novos tópicos
