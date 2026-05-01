@@ -1,0 +1,221 @@
+# Sessão de Desenvolvimento - 30/04/2026
+
+## Resumo da Sessão
+
+### Objetivo
+Melhorar a interface do chatbot de IA (Cognexus) no projeto "Frontend- Gerando- Programadores", incluindo a troca do provedor de LLM de Hugging Face para OpenRouter.
+
+---
+
+## Alterações Realizadas
+
+### 1. Troca de LLM - Hugging Face → OpenRouter
+
+**Arquivos modificados:**
+- `src/stores/ai.js`
+- `.env`
+
+**Mudanças:**
+- `baseURL`: `https://router.huggingface.ho/v1` → `https://openrouter.ai/api/v1`
+- `model`: `MiniMaxAI/MiniMax- M2.5:novita` → `minimax/ minimax-m2.5:free`
+- `max_tokens`: 25000 → 1024 (adequado para modelo gratuito)
+- `apiKey`: atualizada para key do OpenRouter
+
+### 2. Interface do Chat - Melhorias Visuais
+
+**Arquivo:** `src/components/Mini Mimo/AIBox/AIBox.vue`
+
+**Melhorias implementadas:**
+- Avatar de IA redesenhado (robo moderno com olhos e brilho)
+- Cores verdes para differentiate IA (#10b981)
+- Sugestões de perguntas em grid 2 colunas
+- Animações de float e pulse ring
+- Tamanhos aumentados para notebook (100px avatar, 1rem fonte)
+- Novo SVG do avatar com design limpo
+- Botão de limpar conversa
+- Loading spinner no botão enviar
+
+**Tamanho do Chat Flutuante:**
+- Desktop: `clamp(320px, 70vw, 900px)` de largura
+- Altura: `clamp(600px, 85vh, 90vh)`
+- Mobile: tela cheia (`100dvh`)
+
+### 3. CSS Corrigido
+
+**Problema resolvido:**
+- Erro de sintaxe CSS com chaves duplicadas fora do @media
+- CSS reorganizado dentro do bloco @media corretamente
+
+---
+
+## Comandos Úteis
+
+```bash
+# Build do projeto
+npm run build
+
+# Dev server
+npm run dev
+```
+
+---
+
+## Status do Projeto
+
+- Build: ✅ Passando sem erros
+- API Key OpenRouter: ✅ Configurada
+- Interface Chat: ✅ Melhorada
+- Modelo LLM: ✅ minimax/ minimax-m2.5:free
+
+---
+
+## Próximos Passos (Sugestões)
+
+1. Testar o chat com a nova API
+2. Adicionar mais sugestões de perguntas
+3. Implementar modo de streaming para respostas
+4. Adicionar indicador de typing mais elaborado
+5. Implementar copiar código com um clique
+
+---
+
+## Configuração Atual
+
+### API OpenRouter
+- **Provider:** OpenRouter
+- **Model:** minimax/ minimax-m2.5:free
+- **API Key:** sk-or-v1-a859ed7... (armazenada no .env)
+- **Endpoint:** https://openrouter.ai/api/v1
+
+### Store de IA (ai.js)
+```javascript
+- baseURL: 'https://openrouter.ai/api/v1'
+- model: 'minimax/ minimax-m2.5:free'
+- max_tokens: 1024
+- temperature: 0.7
+- top_p: 0.9
+```
+
+---
+
+## Sessão 2 - Limpeza de Código, PWA e Rotas Protegidas
+
+### Data: 30 de Abril de 2026 (continuação)
+
+### Objetivo
+Limpar código não utilizado, configurar PWA adequadamente e ativar proteção de rotas.
+
+---
+
+### Alterações Realizadas
+
+#### 1. Remoção de Arquivos Não Utilizados
+
+**Arquivos deletados:**
+- `src/components/Home/S2Cards.vue` - não usado
+- `src/components/Home/S3Cards.vue` - não usado
+- `src/components/Home/S4Cards.vue` - não usado
+- `src/components/Home/S5Cards.vue` - não usado
+- `src/components/Mini Mimo/cursos/JS/AssuntosCards.vue` - não usado
+- `src/components/Mini Mimo/home/cards trilha/TrilhasCards.vue` - não usado
+- `src/stores/index.js` - barrel file desnecessário
+
+#### 2. Remoção de Barrel Files
+
+**Arquivos deletados:**
+- `src/components/Lesson/index.js`
+- `src/components/Home/index.js`
+- `src/components/IAs/index.js`
+
+#### 3. Correções de Bugs
+
+**Arquivos modificados:**
+- `src/stores/theme.js` - adicionada função `initTheme()` faltando
+- `src/components/Mini Mimo/AIBox/AIBox.vue` - corrigido import de stores
+
+**Correções ESLint:**
+- `src/components/Lesson/ExampleBox.vue` - removido `slots` unused
+- `src/components/Lesson/InfoBox.vue` - removido `slots` unused
+- `src/components/Lesson/TipBox.vue` - removido `slots` unused
+- `src/components/Lesson/NavButtons.vue` - corrigido atributo deprecated `:is`
+- `src/views/Trilhas/Cursos/JavaScript/Funções/baseAssunto.vue` - removido imports não usados
+- `src/views/Trilhas/Cursos/JavaScript/Variáveis e Tipos de Dados/baseAssunto.vue` - removido `loadPage` não usado
+
+#### 4. Configuração PWA
+
+**Arquivo:** `vite.config.js`
+
+**Melhorias:**
+- Runtime caching para Google Fonts (CacheFirst, 1 ano)
+- Runtime caching para API (NetworkFirst, 1 dia)
+- Limite de arquivo aumentado para 5MB
+- Metadados do manifest (lang: pt-BR, scope, categories)
+- Ícones maskable para Android
+
+**Arquivo:** `index.html`
+
+**Melhorias:**
+- Título: "Gerando Programadores"
+- Lang: pt-BR
+- Theme-color: #080f1c
+- Apple mobile web app capable
+
+**Arquivo:** `src/main.js`
+
+**Melhorias:**
+- Registro do service worker (registerSW)
+
+#### 5. Rotas Protegidas
+
+**Arquivo:** `src/router/index.js`
+
+**Rotas protegidas (requiresAuth):**
+- `/ias` - requer autenticação
+- `/trilhas` - requer autenticação
+- `/devs` - requer autenticação
+- `/perfil` - requer autenticação
+- `/perfil/editar` - requer autenticação
+
+**Rotas públicas:**
+- `/` (home)
+- `/cadastrar`
+
+---
+
+### Commits Criados
+
+```
+delete: remove arquivos não utilizados e barrel files
+fix: corrige erros de código e runtime
+refactor: otimiza imports para importação direta
+feat: configura PWA com caching avançado
+feat: configura registro do service worker para PWA
+feat: atualiza AppFooter com design melhorado e adiciona criação de desenvolvedor ao DevsApp
+feat: configura PWA e metadata (title, theme-color, lang)
+feat: adiciona componentes Home (Objectives, Features, Learning, Mindset)
+fix: ativa proteção de rotas (requiresAuth)
+```
+
+---
+
+### Status do Projeto
+
+- Build: ✅ Passando sem erros
+- ESLint: ✅ Sem erros
+- PWA: ✅ Configurado com caching
+- Rotas: ✅ Protegidas
+- Limpeza: ✅ Código sem barrel files
+
+---
+
+### Lições Apresas
+
+1. Barrel files (index.js) podem causar problemas se importados incorretamente
+2. Sempre verificar imports diretos após remover barrel files
+3. PWA precisa de configuration adequada para imagens grandes
+4. Rotas protegidas devem ser explícitas com `requiresAuth`
+
+---
+
+Data: 30 de Abril de 2026
+Duração: ~1 hora
