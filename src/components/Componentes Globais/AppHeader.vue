@@ -786,16 +786,16 @@ watch(menuAberto, (isOpen) => {
 .chat-flutuante {
   position: fixed;
   top: 6rem;
-  right: 1rem;
+  right: 1.5rem;
   z-index: 9999;
 
-  width: 50%;
-  height: calc(100vh - 7rem);
-  max-height: 700px;
+  width: clamp(320px, 70vw, 900px);
+  height: clamp(600px, 85vh, 90vh);
+  max-height: 90vh;
 
   background: var(--card-bg);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 
   display: flex;
@@ -806,7 +806,7 @@ watch(menuAberto, (isOpen) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
@@ -814,13 +814,31 @@ watch(menuAberto, (isOpen) => {
 
 .chat-header-float h3 {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chat-header-float h3::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse-online 2s ease-in-out infinite;
+}
+
+@keyframes pulse-online {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
 }
 
 .close-chat {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   padding: 0;
 
   display: flex;
@@ -837,8 +855,13 @@ watch(menuAberto, (isOpen) => {
 }
 
 .close-chat:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.35);
   transform: rotate(90deg);
+}
+
+.close-chat svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* Animação do chat */
@@ -871,8 +894,8 @@ watch(menuAberto, (isOpen) => {
     right: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    max-height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
     border-radius: 0;
   }
 }
@@ -906,6 +929,16 @@ watch(menuAberto, (isOpen) => {
   .entrar {
     font-size: 1rem;
     margin-bottom: 4rem;
+  }
+}
+
+/* ========================================
+   CHAT RESPONSIVO ADICIONAL
+   ======================================== */
+@media (min-width: 1200px) {
+  .chat-flutuante {
+    right: 2rem;
+    width: clamp(400px, 60vw, 1000px);
   }
 }
 

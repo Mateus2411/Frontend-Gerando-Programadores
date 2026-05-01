@@ -1,499 +1,473 @@
 <script setup>
-import { computed } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-
-const authStore = useAuthStore()
-
-// Computed para o avatar do usuário
-const avatarUrl = computed(() => {
-    if (authStore.userProfile?.foto) {
-        const fotoNome = authStore.userProfile.foto
-
-        if (fotoNome.startsWith('masc-')) {
-            return `/perfil_avatar/masculino/${fotoNome}`
-        } else if (fotoNome.startsWith('fem-')) {
-            return `/perfil_avatar/feminino/${fotoNome}`
-        }
-    }
-
-    return '/favicon.ico'
-})
+import { onMounted } from 'vue'
 
 // Cursos ativos fictícios (depois você pode puxar do backend)
 const cursosAtivos = [
-    {
-        nome: 'JavaScript',
-        progresso: 65,
-        imagem: '/img Curso/javascript.png',
-        cor: '#f7df1e',
-    },
-    {
-        nome: 'Python',
-        progresso: 40,
-        imagem: '/img Curso/python.png',
-        cor: '#3776ab',
-    },
-    {
-        nome: 'HTML',
-        progresso: 85,
-        imagem: '/img Curso/html5.png',
-        cor: '#e34f26',
-    },
+  {
+    nome: 'JavaScript',
+    progresso: 65,
+    imagem: '/img Curso/javascript.png',
+    cor: '#f7df1e',
+    rota: '/trilhas/javascript',
+  },
+  {
+    nome: 'Python',
+    progresso: 40,
+    imagem: '/img Curso/python.png',
+    cor: '#3776ab',
+    rota: '/trilhas/python',
+  },
+  {
+    nome: 'HTML',
+    progresso: 85,
+    imagem: '/img Curso/html5.png',
+    cor: '#e34f26',
+    rota: '/trilhas/html',
+  },
 ]
+
+// Animação de entrada
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible')
+        }
+      })
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  )
+
+  document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el))
+})
 </script>
 
 <template>
-    <section class="perfil-container">
-        <h1 class="titulo">Meu Perfil</h1>
+  <section class="cursos-andamento-container" data-animate>
+    <div class="section-header">
+      <span class="section-badge">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="10,8 16,12 10,16" fill="currentColor" />
+        </svg>
+        Cursos em Andamento
+      </span>
+      <h2 class="section-title">Continuar Estudando</h2>
+      <p class="section-description">
+        Retome de onde parou. Seu progresso está salvo.
+      </p>
+    </div>
 
-        <div class="perfil-card">
-            <div class="perfil-header">
-                <div class="avatar-wrapper">
-                    <img :src="avatarUrl" alt="Foto de perfil" class="avatar" />
-                    <div class="status-badge"></div>
-                </div>
-                <div class="perfil-info">
-                    <h2 class="nome">{{ authStore.username }}</h2>
-                    <p class="email">{{ authStore.email }}</p>
-                    <div class="stats">
-                        <div class="stat">
-                            <span class="stat-number">{{ cursosAtivos.length }}</span>
-                            <span class="stat-label">Cursando</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">12</span>
-                            <span class="stat-label">Concluídos</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">850</span>
-                            <span class="stat-label">Pontos</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Cursos Ativos -->
-            <div class="cursos-section">
-                <h3 class="secao-titulo">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    >
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                    </svg>
-                    Cursando Agora
-                </h3>
-
-                <div class="cursos-grid">
-                    <div v-for="curso in cursosAtivos" :key="curso.nome" class="curso-card">
-                        <div class="curso-header">
-                            <div class="curso-badge" :style="{ background: curso.cor }">
-                                <img :src="curso.imagem" :alt="curso.nome" />
-                            </div>
-                            <div class="curso-info">
-                                <h4>{{ curso.nome }}</h4>
-                                <p>{{ curso.progresso }}% completo</p>
-                            </div>
-                        </div>
-
-                        <div class="progresso-container">
-                            <div class="progresso-bar">
-                                <div
-                                    class="progresso-fill"
-                                    :style="{ width: curso.progresso + '%', background: curso.cor }"
-                                ></div>
-                            </div>
-                        </div>
-
-                        <button class="btn-continuar">
-                            Continuar
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    <div class="cursos-list">
+      <router-link
+        v-for="curso in cursosAtivos"
+        :key="curso.nome"
+        :to="curso.rota"
+        class="curso-card"
+        :aria-label="`Continuar curso de ${curso.nome}`"
+        data-animate
+      >
+        <div class="curso-header">
+          <div class="curso-badge" :style="{ background: curso.cor }">
+            <img :src="curso.imagem" :alt="`Logo do curso de ${curso.nome}`" />
+          </div>
+          <div class="curso-info">
+            <h3>{{ curso.nome }}</h3>
+            <p>{{ curso.progresso }}% completo</p>
+          </div>
+          <div class="curso-action">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
         </div>
-    </section>
+
+        <div class="progresso-container">
+          <div class="progresso-bar">
+            <div
+              class="progresso-fill"
+              :style="{ width: curso.progresso + '%', background: curso.cor }"
+            ></div>
+          </div>
+          <span class="progresso-texto">{{ curso.progresso }}%</span>
+        </div>
+      </router-link>
+    </div>
+  </section>
 </template>
 
 <style scoped>
-.perfil-container {
-    padding: 1.5rem;
-    margin-top: 6rem;
-    background: var(--bg-primary);
-    min-height: auto;
-    transition: background-color 0.3s ease;
+/* ========================================
+   VARIÁVEIS LOCAIS
+   ======================================== */
+.cursos-andamento-container {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --animation-duration: 0.8s;
+
+  padding: 0;
+  background: transparent;
+  min-height: auto;
 }
 
-.titulo {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--accent-primary);
-    margin-bottom: 1.5rem;
-    transition: color 0.3s ease;
+/* ========================================
+   SEÇÃO HEADER
+   ======================================== */
+.section-header {
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--animation-duration) var(--ease-out),
+    transform var(--animation-duration) var(--ease-out);
 }
 
-.perfil-card {
-    background: var(--card-bg);
-    border-radius: 24px;
-    padding: 1.75rem;
-    box-shadow: 0 4px 20px var(--shadow-color);
-    transition:
-        background-color 0.3s ease,
-        box-shadow 0.3s ease;
+.section-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Header do Perfil */
-.perfil-header {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--border-color);
-    margin-bottom: 1.5rem;
-    transition: border-color 0.3s ease;
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  background: rgba(29, 155, 240, 0.08);
+  border: 1px solid rgba(29, 155, 240, 0.2);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--accent-primary);
+  margin-bottom: 1.25rem;
 }
 
-.avatar-wrapper {
-    position: relative;
+.section-title {
+  font-family: var(--font-title);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem 0;
+  text-wrap: balance;
 }
 
-.avatar {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--accent-primary);
-    box-shadow: 0 4px 12px rgba(45, 28, 212, 0.2);
-    transition: border-color 0.3s ease;
+.section-description {
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0;
+  text-wrap: pretty;
 }
 
-.status-badge {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 20px;
-    height: 20px;
-    background: #4caf50;
-    border: 3px solid white;
-    border-radius: 50%;
+/* ========================================
+   LISTA DE CURSOS (FLEXBOX RESPONSIVO)
+   ======================================== */
+.cursos-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  overflow: hidden; /* Sem scroll horizontal */
 }
 
-.perfil-info {
-    flex: 1;
-}
-
-.nome {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0 0 0.25rem 0;
-    transition: color 0.3s ease;
-}
-
-.email {
-    color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin: 0 0 1rem 0;
-    transition: color 0.3s ease;
-}
-
-.stats {
-    display: flex;
-    gap: 2rem;
-}
-
-.stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
-}
-
-.stat-number {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--accent-primary);
-    transition: color 0.3s ease;
-}
-
-.stat-label {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-top: 0.25rem;
-    transition: color 0.3s ease;
-}
-
-/* Seção de Cursos */
-.cursos-section {
-    margin-top: 1.5rem;
-}
-
-.secao-titulo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 1.25rem;
-    transition: color 0.3s ease;
-}
-
-.secao-titulo svg {
-    color: var(--accent-primary);
-    transition: color 0.3s ease;
-}
-
-.cursos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.25rem;
-    max-height: 450px;
-    overflow-y: auto;
-    padding-right: 0.5rem;
-}
-
-/* Scrollbar customizada */
-.cursos-grid::-webkit-scrollbar {
-    width: 6px;
-}
-
-.cursos-grid::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
-    border-radius: 10px;
-}
-
-.cursos-grid::-webkit-scrollbar-thumb {
-    background: var(--accent-primary);
-    border-radius: 10px;
-}
-
+/* ========================================
+   CARD DE CURSO (LINK)
+   ======================================== */
 .curso-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 16px;
-    padding: 1.5rem;
-    color: white;
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
+  /* Dimensões flexíveis */
+  flex: 1 1 280px; /* grow, shrink, basis */
+  max-width: 340px; /* Largura máxima */
+  
+  /* Estilo visual */
+  display: block;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 160ms var(--ease-out),
+    box-shadow 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease;
+  box-shadow: 0 4px 12px rgba(45, 55, 72, 0.06);
+  border: 1.5px solid var(--card-border);
+  overflow: hidden;
+  position: relative;
+  
+  /* Animação de entrada */
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--animation-duration) var(--ease-out) 0.2s,
+    transform 160ms var(--ease-out),
+    box-shadow 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.curso-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .curso-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(29, 155, 240, 0.12);
+  border-color: rgba(29, 155, 240, 0.3);
+  background: var(--card-hover);
 }
 
+.curso-card:active {
+  transform: scale(0.97);
+}
+
+.curso-card:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+}
+
+/* ========================================
+   HEADER DO CARD
+   ======================================== */
 .curso-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .curso-badge {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 0.4rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0.35rem;
+  transition: transform 200ms var(--ease-out);
+}
+
+.curso-card:hover .curso-badge {
+  transform: scale(1.05);
 }
 
 .curso-badge img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: brightness(0) invert(1);
-    opacity: 0.95;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
 }
 
-.curso-info h4 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin: 0 0 0.25rem 0;
+.curso-info {
+  flex: 1;
+}
+
+.curso-info h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem 0;
+  color: var(--text-primary);
+  text-wrap: balance;
 }
 
 .curso-info p {
-    font-size: 0.85rem;
-    opacity: 0.9;
-    margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin: 0;
+  color: var(--text-secondary);
 }
 
+.curso-action {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-primary);
+  transition:
+    background 200ms ease,
+    transform 200ms var(--ease-out);
+}
+
+.curso-card:hover .curso-action {
+  background: var(--accent-primary);
+  color: white;
+  transform: translateX(3px);
+}
+
+/* ========================================
+   BARRA DE PROGRESSO
+   ======================================== */
 .progresso-container {
-    margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 .progresso-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    overflow: hidden;
+  flex: 1;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .progresso-fill {
-    height: 100%;
-    border-radius: 10px;
-    transition: width 0.5s ease;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-.btn-continuar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    color: white;
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.progresso-texto {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+  text-align: right;
 }
 
-.btn-continuar:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateX(5px);
+/* ========================================
+   MODO ESCURO - LOGOS
+   ======================================== */
+:root[data-theme='dark'] .curso-badge img {
+  filter: brightness(0) invert(0);
+  opacity: 0.9;
 }
 
-/* Responsivo */
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .section-header,
+  .curso-card {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .curso-card:hover {
+    transform: none;
+  }
+
+  .curso-card:active {
+    transform: none;
+  }
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
 @media (max-width: 768px) {
-    .perfil-container {
-        padding: 1.5rem;
-    }
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
 
-    .titulo {
-        font-size: 2rem;
-    }
+  .section-title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+  }
 
-    .perfil-card {
-        padding: 1.5rem;
-    }
+  .cursos-list {
+    gap: 0.75rem;
+  }
 
-    .perfil-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-    }
+  .curso-card {
+    min-width: 260px;
+    max-width: 300px;
+    padding: 1rem;
+  }
 
-    .avatar {
-        width: 80px;
-        height: 80px;
-    }
+  .curso-badge {
+    width: 40px;
+    height: 40px;
+    padding: 0.3rem;
+  }
 
-    .nome {
-        font-size: 1.5rem;
-    }
-
-    .stats {
-        justify-content: center;
-        gap: 1rem;
-    }
-
-    .stat {
-        padding: 0.5rem 1rem;
-    }
-
-    .stat-number {
-        font-size: 1.25rem;
-    }
-
-    .cursos-grid {
-        grid-template-columns: 1fr;
-        max-height: 400px;
-    }
+  .curso-info h3 {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .perfil-container {
-        padding: 1rem;
-    }
+  .section-header {
+    margin-bottom: 1.25rem;
+  }
 
-    .titulo {
-        font-size: 1.75rem;
-        margin-bottom: 1.5rem;
-    }
+  .section-badge {
+    font-size: 0.7rem;
+    padding: 0.45rem 1rem;
+  }
 
-    .perfil-card {
-        padding: 1.25rem;
-        border-radius: 16px;
-    }
+  .section-title {
+    font-size: 1.35rem;
+  }
 
-    .avatar {
-        width: 70px;
-        height: 70px;
-    }
+  .cursos-list {
+    gap: 0.5rem;
+  }
 
-    .nome {
-        font-size: 1.3rem;
-    }
+  .curso-card {
+    min-width: 240px;
+    max-width: 280px;
+    padding: 0.75rem;
+  }
 
-    .email {
-        font-size: 0.85rem;
-    }
+  .curso-header {
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
 
-    .stats {
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
+  .curso-badge {
+    width: 36px;
+    height: 36px;
+  }
 
-    .stat {
-        flex: 1;
-        min-width: 80px;
-    }
+  .curso-info h3 {
+    font-size: 0.9rem;
+  }
 
-    .secao-titulo {
-        font-size: 1.2rem;
-    }
+  .curso-action {
+    width: 32px;
+    height: 32px;
+  }
 
-    .curso-card {
-        padding: 1.25rem;
-    }
-
-    .curso-badge {
-        width: 45px;
-        height: 45px;
-    }
-
-    .curso-badge img {
-        width: 30px;
-        height: 30px;
-    }
-
-    .curso-info h4 {
-        font-size: 1.1rem;
-    }
-}
-
-/* Modo escuro - logos pretos */
-:root[data-theme='dark'] .curso-badge img {
-    filter: brightness(0) invert(0);
-    opacity: 0.9;
+  .curso-action svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 </style>
