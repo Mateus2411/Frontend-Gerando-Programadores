@@ -785,13 +785,13 @@ watch(menuAberto, (isOpen) => {
     ======================================== */
 .chat-flutuante {
   position: fixed;
-  top: 6rem;
-  right: 1.5rem;
+  top: calc(6rem + 4px);
+  right: 0;
   z-index: 9999;
 
   width: clamp(320px, 70vw, 900px);
-  height: calc(100vh - 6rem);
-  max-height: calc(100vh - 6rem);
+  height: calc(100vh - 6rem - 4px);
+  max-height: calc(100vh - 6rem - 4px);
 
   background: var(--card-bg);
   border-radius: 20px;
@@ -945,7 +945,7 @@ watch(menuAberto, (isOpen) => {
    ======================================== */
 @media (min-width: 1200px) {
   .chat-flutuante {
-    right: 2rem;
+    right: 0;
     width: clamp(400px, 60vw, 1000px);
   }
 }
